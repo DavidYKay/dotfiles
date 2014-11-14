@@ -1,0 +1,22 @@
+snippet class "java class" !b
+public class ${1:...} {
+
+}
+endsnippet
+
+snippet activity "android activity" !b
+public class ${1:...} extends Activity {
+
+  @Override
+  public void onCreate(Bundle icicle) {
+    super.onCreate(icicle);
+    setContentView(${2:R.layout.main});
+
+  }
+
+}
+endsnippet
+
+snippet wow
+${1:Text}`!p res = (75-2*len(t[1]))*' '+t[1].upper()` 
+endsnippet

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ls -A | grep "^\." > list
+for i in `cat list`; 
+do ln -s "`pwd`/$i" ~/; 
+done
+rm list

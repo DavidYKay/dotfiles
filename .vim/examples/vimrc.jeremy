@@ -1,0 +1,648 @@
+" Filename:      vimrc
+" Description:   Vim configuration file
+" Maintainer:    Jeremy Cantrell <jmcantrell@gmail.com>
+" Last Modified: Wed 2009-04-22 23:31:00 (-0400)
+
+
+" Misc --------------------------------------------------------------------{{{1
+
+filetype plugin indent on
+
+set cpoptions+=>  " Items in register separated by newline
+set history=1000  " Size of command/search history
+set hidden        " Allow changing buffers without saving
+
+
+
+" Files, Backup -----------------------------------------------------------{{{1
+
+set viminfo='1000,<1000,s100,h
+"           |     |     |    |
+"           |     |     |    +-- Don't restore hlsearch on startup
+"           |     |     +------- Exclude registers greater than N Kb
+"           |     +------------- Keep N lines for each register
+"           +------------------- Keep marks for N files
+
+set modeline modelines=5  " Use modelines within first/last 5 lines
+
+" Enable file backups, and use first directory available
+set backup backupdir=~/tmp/vim//,~/tmp//,.//,/var/tmp//,/tmp//
+
+" For any given OS, prefer its native fileformat for new files
+if has("unix")
+    set fileformats=unix,dos,mac
+elseif has("win32") || has("win64")
+    set fileformats=dos,unix,mac
+elseif has("mac")
+    set fileformats=mac,unix,dos
+endif
+
+
+
+" Text-Formatting, Identing, Tabbing --------------------------------------{{{1
+
+set autoindent     " Use indent from previous line
+set smarttab       " Smart handling of the tab key
+set expandtab      " Use spaces for tabs
+set shiftround     " Round indent to multiple of shiftwidth
+set shiftwidth=4   " Number of spaces for each indent
+set softtabstop=4  " Number of spaces for tab key
+
+set formatoptions-=t  " Don't auto-wrap text
+set formatoptions+=corqn
+"                  |||||
+"                  ||||+-- Recognize numbered lists
+"                  |||+--- Allow formatting of comments with 'gq'
+"                  ||+---- Insert comment leader after <Enter>
+"                  |+----- Insert comment leader after o/O
+"                  +------ Auto-wrap comments
+
+set backspace=indent,eol,start  " Allow backspacing over these
+
+set wrap       " Display long lines as wrapped
+set linebreak  " Break lines at a sensible place
+
+set foldmethod=marker
+
+" Use better looking listchars if they are supported
+if has("multi_byte")
+    set listchars=tab:»\ ,extends:›,precedes:‹,trail:·,nbsp:✂,eol:$
+else
+    set listchars=tab:>\ ,extends:>,precedes:<,trail:-,nbsp:%,eol:$
+endif
+
+let &sbr = nr2char(8618).' '  " Show ↪ at the beginning of wrapped lines
+
+
+
+" Searching, Substituting -------------------------------------------------{{{1
+
+set incsearch    " Show search matches as you type
+set ignorecase   " Ignore case when searching
+set smartcase    " Override 'ignorecase' when needed
+set hlsearch     " Highlight search results
+set showmatch    " Show matching bracket
+set matchtime=2  " (for only .2 seconds)
+
+
+
+" Menus, Completion -------------------------------------------------------{{{1
+
+set infercase  " Try to adjust insert completions for case
+set completeopt=longest,menu,menuone
+"               |       |    |
+"               |       |    +-- Show popup even with one match
+"               |       +------- Use popup menu with completions
+"               +--------------- Insert longest completion match
+
+set wildmenu  " Enable wildmenu for completion
+set wildmode=longest:full,list:full
+"            |            |
+"            |            +-- List matches, complete first match
+"            +--------------- Complete longest prefix, use wildmenu
+
+
+
+" Windows, Tabs -----------------------------------------------------------{{{1
+
+set mouse=a           " Enable the mouse for all modes
+set mousehide         " Hide mouse while typing
+set mousemodel=popup  " Use popup menu for right mouse button
+
+set splitright  " When splitting vertically, split to the right
+set splitbelow  " When splitting horizontally, split below
+
+set scrolloff=5      " Lines visible above/below cursor when scrolling
+set sidescrolloff=5  " Lines visible to the left/right of cursor when scrolling
+
+set tabpagemax=128  " Maximum number of tabs open
+
+
+
+" Display, Messages, Terminal ---------------------------------------------{{{1
+
+set numberwidth=1     " Make line number column as narrow as possible
+set lazyredraw        " Don't redraw while executing macros
+set ttyfast           " Indicates a fast terminal connection
+set noerrorbells      " Error bells are annoying
+set title             " Set descriptive window/terminal title
+set report=0          " Always report the number of lines changed
+set display=lastline  " Show as much of the last line as possible
+
+set printoptions=paper:letter
+
+set shortmess=aTItoO
+"             ||||||
+"             |||||+- Message for reading file overwrites previous
+"             ||||+-- Don't prompt to overwrite file
+"             |||+--- Truncate file at start if too long
+"             ||+---- Disable intro message
+"             |+----- Truncate messages in the middle if too long
+"             +------ Shortcut for various status line options
+
+
+
+" Statusline, Messages ----------------------------------------------------{{{1
+
+set showcmd       " Display the command in the last line
+set showmode      " Display the current mode in the last line
+set ruler         " Display info on current position
+set laststatus=2  " Always show status line
+
+set statusline=%!GetStatusLine()  " Set statusline from a function
+
+
+
+" Functions ---------------------------------------------------------------{{{1
+
+" Removes carriage returns (\r) from current buffer
+function! RemoveCR()
+    let old_line = line('.')
+    execute ":%s/\r//g"
+    execute ':' . old_line
+endfunction
+
+" Make sure paste mode is on before pasting
+function! SmartPaste()
+    set paste
+    normal! p`[=`]
+    set nopaste
+endfunction
+
+" Find other occurrences of a word under the cursor
+function! ChooseOccurrences()
+    if len(expand('<cword>')) == 0
+        return
+    endif
+    normal! [I
+    let nr=input("Which one: ")
+    if len(nr) == 0
+        return
+    endif
+    execute "normal! ".nr."[\t"
+endfunction
+
+" Edit vim config files (if they exist)
+function! EditConfig()
+    for config in ['$MYGVIMRC', '$MYVIMRC']
+        if exists(config)
+            execute 'edit '.config
+        endif
+    endfor
+endfunction
+
+" Display a warning message
+function! WarningMsg(message)
+    echohl WarningMsg
+    echo a:message
+    echohl None
+endfunction
+
+" Display an error message
+function! ErrorMsg(message)
+    echohl ErrorMsg
+    echo a:message
+    echohl None
+endfunction
+
+" Places the cursor at the last position for a file
+function! JumpToLastPosition()
+    if line("'\"") > 0 && line("'\"") <= line("$")
+        normal! g`"
+    endif
+endfunction
+
+" Returns text that is selected visually
+function! GetVisual() range
+    let reg_save = getreg('"')
+    let regtype_save = getregtype('"')
+    let cb_save = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', reg_save, regtype_save)
+    let &clipboard = cb_save
+    return selection
+endfunction
+
+" Opens the file selected or under the cursor in the appropriate viewer
+function! OpenLocation(location)
+    if len(a:location) == 0
+        let location = GetVisual()
+    else
+        let location = expand(a:location)
+    endif
+    call system(g:open_location_cmd.' "'.location.'"')
+    redraw!
+endfunction
+
+" Returns the indent level of the current line
+function! GetIndent()
+    return indent('.')/&sw
+endfunction
+
+" Grep file under the current working directory
+function! GrepUnder(query)
+    execute "vimgrep ".expand(a:query)."j **"
+    cwindow
+endfunction
+
+" Returns the string used for the status line
+function! GetStatusLine()
+    let line = ''
+    let line .= '%5*[%n]%* '       " Buffer number
+    let line .= '%<%4*%f%*'        " Filename
+    let line .= '%7*%4m%*'         " Modified flag
+    let line .= '%3*%5r%*'         " Readonly flag
+    let line .= '%3*%10w%* '       " Preview flag
+    let line .= '%9*[%{&ff}]%* '   " File format
+    let line .= "%9*[%{(&fenc!=''?&fenc:&enc)}]%* " " File encoding
+    let line .= '%6*%y%* '         " File type
+    let line .= '%='               " Left/right separator
+    let line .= '%1*[%o] '         " Byte number
+    let line .= '+%{GetIndent()} ' " Indent level
+    let line .= '%l,%c%V/%L%* '    " Position line,column/total
+    let line .= '%3*%P%*'          " Percentage through file
+    return line
+endfunction
+
+" Trim character under cursor, if it matches a pattern
+function! EatChar(pat)
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat) ? '' : c
+endfunction
+
+" Replace tabs with spaces in a string, preserving alignment
+function! Retab(string)
+    let rv = ''
+    let i = 0
+    for char in split(a:string, '\zs')
+        if char == '\t'
+            let rv .= repeat(' ', &ts - i)
+            let i = 0
+        else
+            let rv .= char
+            let i = (i + 1) % &ts
+        endif
+    endfor
+    return rv
+endfunction
+
+" Right align text to the right of the cursor
+function! AlignRight(...)
+    if getline('.') =~ '^\s*$'
+        call setline('.', '')
+    else
+        let line = Retab(getline('.'))
+
+        let prefix = matchstr(line, '.*\%' . virtcol('.') . 'v')
+        let suffix = matchstr(line, '\%' . virtcol('.') . 'v.*')
+
+        let prefix = substitute(prefix, '\s*$', '', '')
+        let suffix = substitute(suffix, '^\s*', '', '')
+
+        let len  = len(substitute(prefix, '.', 'x', 'g'))
+        let len += len(substitute(suffix, '.', 'x', 'g'))
+
+        let width  = (a:0 == 1 ? a:1 : (&tw <= 0 ? 80 : &tw))
+
+        let spaces = width - len
+
+        call setline('.', prefix . repeat(' ', spaces) . suffix)
+    endif
+endfunction
+
+function! CloseIfOnlyWindow(force)
+    " Performing :bd in a tab page will close the tab page, similar to
+    " performing :bd in a split window
+    if winnr('$') == 1 && (!exists('*tabpagenr') || tabpagenr('$') == 1)
+        if a:force
+            bd!
+        else
+            bd
+        endif
+    else
+        if bufnr('#') == -1
+            enew
+        else
+            if buflisted(bufnr('#'))
+                b #
+            else
+                let bufnum = bufnr('$')
+                while (bufnum == bufnr('%')) || ((bufnum > 0) && !buflisted(bufnum))
+                    let bufnum = bufnum-1
+                endwhile
+ 
+                if (bufnum == 0)
+                    enew
+                else
+                    exec "b " . bufnum
+                endif
+            endif
+        endif
+        if a:force
+            bd! #
+        else
+            bd #
+        endif
+    endif
+endfunction
+
+function! VSetSearch()
+    let temp = @@
+    norm! gvy
+    let @/ = '\<'.substitute(escape(@@, '\'), '\n', '\\n', 'g').'\>'
+    let @@ = temp
+endfunction
+
+function! <sid>DiffPreview()
+    tab split
+    let ft=&ft
+    diffthis
+    vsplit
+    enew
+    set buftype=nofile
+    silent read #
+    silent 1 delete
+    let &ft=ft
+    diffthis
+    wincmd l
+endfunction
+
+
+
+" Commands ----------------------------------------------------------------{{{1
+
+command! -range -nargs=? OpenLocation :call OpenLocation(<q-args>)
+command! -bar -nargs=? GrepUnder :call GrepUnder(<q-args>)
+command! -bar ChooseOccurrences :call ChooseOccurrences()
+command! -bar EditConfig :call EditConfig()
+command! -bar RemoveCR :call RemoveCR()
+command! -bar SmartPaste :call SmartPaste()
+command! -bar ErrorMsg :call ErrorMsg(<q-args>)
+command! -bar WarningMsg :call WarningMsg(<q-args>)
+command! -bar -nargs=0 Squeeze g/^\s*$/,/\S/-j
+command! -nargs=? AlignRight :call AlignRight(<f-args>)
+
+
+
+" Mappings ----------------------------------------------------------------{{{1
+
+" Find all occurrences of the word under the cursor
+nmap <silent> <leader>F :ChooseOccurrences<cr>
+
+" Change to directory of file
+nmap <silent> <leader>cd :cd%:h<cr>
+
+" Get the name of the unicode character under the cursor
+nmap <silent> <leader>u :UnicodeName<cr>
+
+" Maximize current window (width and height)
+nmap <silent> <leader>mw <c-w>_<c-w><bar>
+
+" Tapping <c-w> goes to prev window, not next
+nnoremap <silent> <c-w><c-w> :winc p<cr>
+" Map old behavior to <c-w><c-e>
+nnoremap <silent> <c-w><c-e> :winc w<cr>
+
+" Close tab and hide any contained buffers
+nmap <leader>tc :tabclose<cr>
+
+" Close current buffer without changing window layout
+nmap <leader>bd :call CloseIfOnlyWindow(0)<cr>
+" Force close even if there are unsaved changes
+nmap <leader>bD :call CloseIfOnlyWindow(1)<cr>
+
+" Toggle various options, then report their state
+nmap <silent> <leader>cc :set cursorcolumn! cursorcolumn?<cr>
+nmap <silent> <leader>cl :set cursorline!   cursorline?<cr>
+nmap <silent> <leader>hl :set hlsearch!     hlsearch?<cr>
+nmap <silent> <leader>nu :set number!       number?<cr>
+nmap <silent> <leader>lc :set list!         list?<cr>
+nmap <silent> <leader>lw :set wrap!         wrap?<cr>
+
+" Remove carriage returns (\r)
+nmap <silent> <leader>cr :RemoveCR<cr>
+
+" Enable paste mode when pasting
+nmap <silent> <leader>p :SmartPaste<cr>
+
+" Edit vim config files (vimrc/gvimrc)
+nmap <silent> <leader>v :EditConfig<cr>
+
+" Toggle window layout (vertical<=>horizontal)
+nmap <silent> <leader>wl :TWL<cr>
+
+" Toggle various plugins
+nmap <silent> <leader>e  :NERDTreeToggle<cr>
+nmap <silent> <leader>tl :TlistToggle<cr>
+nmap <silent> <leader>tw :ToggleWord<cr>
+
+" Quickfix navigation
+nmap gN :cnext<cr>
+nmap gP :cprev<cr>
+
+" Buffer navigation
+nmap gn :bnext<cr>
+nmap gp :bprev<cr>
+
+" Up/Down navigates buffers
+nmap <silent> <up>   :bp<cr>
+nmap <silent> <down> :bn<cr>
+
+" Create a new empty tab
+nmap <silent> <leader>tn :tabnew<cr>
+
+" Left/Right navigates tabs
+nmap <silent> <left>  gT
+nmap <silent> <right> gt
+
+" Toggle fold under cursor
+nnoremap <space> za
+
+" Create fold from visually selected text
+vnoremap <space> zf
+
+" Remove duplicate blank lines
+nnoremap <leader>sq :Squeeze<cr>
+
+" Text alignment
+nnoremap <silent> <leader>al :left<cr>
+nnoremap <silent> <leader>ac :center<cr>
+nnoremap <silent> <leader>ar :right<cr>
+nnoremap <silent> <leader>rr :AlignRight<cr>
+
+" Pressing a visual mode key while in visual mode changes mode
+vmap <c-v> <esc>`<<c-v>`>
+vmap V     <esc>`<V`>
+vmap v     <esc>`<v`>
+
+" Redraw screen and remove search highlights
+nnoremap <silent> <c-l> :nohl<cr><c-l>
+
+" Open path in appropriate application
+nmap <silent> gb :OpenLocation <cfile><cr>
+vmap <silent> gb :OpenLocation<cr>
+
+" Slightly more familiar indenting
+vnoremap <tab>   >gv
+vnoremap <s-tab> <gv
+
+" Yank to end of line
+nnoremap Y y$
+
+" Paragraph formatting
+nnoremap Q gqap
+vnoremap Q gq
+
+" Fuzzyfinder mappings
+nmap <silent> <leader>fb :FuzzyFinderBuffer<cr>
+nmap <silent> <leader>ff :FuzzyFinderFile<cr>
+nmap <silent> <leader>fd :FuzzyFinderDir<cr>
+nmap <silent> <leader>ft :FuzzyFinderTag<cr>
+
+nmap <leader>dp :call <sid>DiffPreview()<cr>
+
+" Fix commas without a following space unless they're in strings
+nmap <silent> <leader>x, :silent! %s/\(\(^\([^"']*\(["'][^"']*["']\)\)*[^"']*\)\@<=\)\+,\ze\S/& /g<cr>
+
+" Fix ( foo ) to (foo)
+nmap <silent> <leader>x( :silent! %s/(\s\+/(/g<cr>
+nmap <silent> <leader>x) :silent! %s/\s\+)/)/g<cr>
+
+" Fix ; with leading spaces
+nmap <silent> <leader>x; :silent! %s/\s\+;/;/g<cr>
+ 
+" Fix , with leading spaces
+nmap <silent> <leader>xx, :silent! %s/\s\+,/,/g<cr>
+
+" Find lines longer than 80 characters
+nmap <leader>f8 /^.\{-}\zs.\%>81v<cr>
+
+" Find two spaces after a period -- we don't fix because we could be wrong
+nmap <Leader>f. /\. \w/s+1<CR>
+ 
+" Find things like "why ?" and "now !". No need for that idiotic space.
+nmap <Leader>f! /\w \(?\\|!\)=\@!/s+1<CR>
+ 
+" Find multiple newlines together
+nmap <Leader>fN /^\(^}\n\)\@<!\n\n<CR>
+
+" Search visual selections
+vnoremap * :<c-u>call VSetSearch()<cr>//<cr>
+vnoremap # :<c-u>call VSetSearch()<cr>??<cr>
+
+" Start substitution with word under cursor
+nmap <leader>z :%s/\<<c-r><c-w>\>/
+vmap <leader>z :<c-u>%s/\<<c-r>*\>/
+
+" Start grep with word under cursor
+nmap <leader>G :GrepUnder /<c-r><c-w>/g
+vmap <leader>G :<c-u>GrepUnder /<c-r>*/g
+
+" Start ack with word under cursor
+nmap <leader>A :Ack -a <c-r><c-w>
+vmap <leader>A :<c-u>Ack -a <c-r>*
+
+" Completion shortcuts
+inoremap <c-n>     <c-x><c-n>
+inoremap <c-f>     <c-x><c-f>
+inoremap <c-space> <c-x><c-o>
+
+" More common keys for popup menu
+inoremap <expr> <esc>      pumvisible() ? "\<c-e>" : "\<esc>"
+inoremap <expr> <cr>       pumvisible() ? "\<c-y>" : "\<cr>"
+inoremap <expr> <down>     pumvisible() ? "\<c-n>" : "\<down>"
+inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
+inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
+inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>"   : "\<pageup>"
+
+" Pressing return selects the menu choice
+inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
+
+
+
+" Plugin Settings ---------------------------------------------------------{{{1
+
+let timestamp_format = '%a %Y-%m-%d %H:%M:%S (%z)'
+
+" ToHTML settings
+let html_use_css = 1
+let html_use_encoding = 'utf-8'
+
+let autodate_keyword_pre = 'Last Modified: '
+let autodate_keyword_post = '$'
+let autodate_format = timestamp_format
+let autodate_lines = 10
+
+let NERDSpaceDelims = 1
+let NERDShutUp = 1
+
+let Tlist_Enable_Fold_Column = 0
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Inc_Winwidth = 0
+let Tlist_Show_One_File = 1
+let Tlist_Auto_Highlight_Tag = 1
+let Tlist_Auto_Update = 1
+let Tlist_Highlight_Tag_On_BufEnter = 1
+
+let g:netrw_dirhistmax = 0
+
+let g:snips_author = $USER_FULLNAME
+
+let g:showmarks_enable = 0
+let g:showmarks_textlower = "\t"
+let g:showmarks_textupper = "\t"
+let g:showmarks_textother = "\t"
+
+let g:GPGPreferArmor = 1
+let g:GPGDefaultRecipients = [$GPG_DEFAULT_ID]
+
+let g:utl_cfg_hdl_scm_http = 'silent !xdg-open %u'
+let g:utl_cfg_hdl_scm_mailto = g:utl_cfg_hdl_scm_http
+let g:utl_cfg_hdl_mt_handler = 'silent !xdg-open %p'
+
+let g:toggle_words_dict = {'*': [
+    \ ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'],
+    \ ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
+    \ ]}
+
+
+
+" Autocommands ------------------------------------------------------------{{{1
+
+augroup misc
+    autocmd!
+    autocmd BufReadPost * call JumpToLastPosition()
+    autocmd FileChangedShell * call WarningMsg("File changed outside of vim")
+augroup end
+
+
+
+" OS-Specific --------------------------------------------------------{{{1
+
+if has("win32") || has("win64")
+    set shellslash
+    let $PATH='C:\Program Files\GetGnuWin32\gnuwin32\bin;'.$PATH
+    let g:netrw_scp_cmd='pscp -q'
+    let g:utl_cfg_hdl_scm_http = 'silent !start firefox.exe %u'
+    let g:utl_cfg_hdl_scm_mailto = g:utl_cfg_hdl_scm_http
+    let g:utl_cfg_hdl_mt_handler = 'silent !start %P'
+    let g:open_location_cmd = 'start cmd /cstart /b'
+else
+    let g:open_location_cmd = 'xdg-open'
+endif
+
+
+
+" Highlighting, Colors ----------------------------------------------------{{{1
+
+syntax on  " Enable syntax highlighting
+
+set background=dark
+let g:inkpot_black_background=1
+
+colorscheme inkpot
+colorscheme custom  " Some colorscheme customizations

@@ -1,0 +1,24 @@
+[submodule ".vim/bundle/puppet"]
+	path = .vim/bundle/puppet
+	url = git://github.com/rodjek/vim-puppet.git
+[submodule ".vim/bundle/ultisnips"]
+	path = .vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule ".vim/bundle/ctrlp"]
+	path = .vim/bundle/ctrlp
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule ".vim/bundle/vim-markdown"]
+	path = .vim/bundle/vim-markdown
+	url = git://github.com/tpope/vim-markdown.git
+[submodule ".vim/bundle/vim-classpath"]
+	path = .vim/bundle/vim-classpath
+	url = git://github.com/tpope/vim-classpath.git
+[submodule ".vim/bundle/abolish"]
+	path = .vim/bundle/abolish
+	url = git://github.com/tpope/vim-abolish.git
+[submodule ".vim/bundle/vim-gradle"]
+	path = .vim/bundle/vim-gradle
+	url = https://github.com/tfnico/vim-gradle.git

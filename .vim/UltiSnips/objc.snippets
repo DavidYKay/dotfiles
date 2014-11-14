@@ -1,0 +1,38 @@
+snippet alloc "objective-c alloc" !b
+[[${1:NSObject} alloc] ${2:init}];
+endsnippet
+
+snippet init "objective-c init" !b
+- (id) init {
+    if (self = [super init]) {
+        ${1:...}
+    }
+    return self;
+}
+endsnippet
+
+snippet prag "objective-c pragma mark" !b
+#pragma mark - ${1:...}
+endsnippet
+
+snippet meth "objective-c method" !b
+- (${1:void})${2:doSomething} {
+    ${3:...}
+}
+endsnippet
+
+snippet strfr "objective-c string format" 
+[NSString stringWithFormat: @"${1:%@}", ${2:object}];
+endsnippet
+
+snippet fore "objective-c for each" 
+for (${1:id} ${2:object} : $2s) {
+    ${3:...}
+}
+endsnippet
+
+snippet for "objective-c for each" 
+for (${1:NSInteger} ${2:i} in i < ${3:10} : $2++) {
+    ${4:...}
+}
+endsnippet

@@ -1,0 +1,10 @@
+#!/bin/bash
+rm ~/.bashrc 
+rm ~/.git 
+rm ~/.gitconfig 
+rm ~/.gitignore 
+rm ~/.gitk 
+rm ~/.gvimrc 
+rm ~/.vim 
+rm ~/.vimrc 
+rm ~/.zshrc 
