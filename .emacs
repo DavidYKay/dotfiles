@@ -79,3 +79,13 @@
 
 ; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
+
+; use Windows key as meta
+(setq x-super-keysym 'meta)
+
+; disable top toolbar
+(tool-bar-mode -1)
+
+; shift left and right for next/prev buffer
+(global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+←
+(global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
