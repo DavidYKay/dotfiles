@@ -71,5 +71,5 @@ if len(sys.argv) > 1:
         print_usage("Invalid argument")
 
 else:
-    print_usage()
+    print_usage("No command given")
 
