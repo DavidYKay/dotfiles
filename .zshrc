@@ -31,6 +31,10 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 alias ls='ls --color=auto'
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias xclip='pbcopy'
+fi
+
 #****************************************
 # The following lines were added by compinstall
 #****************************************
@@ -299,5 +303,15 @@ zstyle ':completion::complete:*' use-cache 1
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # PerlBrew
- source ~/.perl5/perlbrew/etc/bashrc
+# source ~/.perl5/perlbrew/etc/bashrc
+# PythonBrew
+#qh:x[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+
+# PyEnv
+eval "$(pyenv init -)"
+
+export PATH="~/Tools/appengine/java/current/bin:$PATH"
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
 
