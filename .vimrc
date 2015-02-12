@@ -212,8 +212,6 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 
-"let g:syntastic_c_include_dirs
-let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/include/jsoncpp']
 
 "********************************
 " Compilers
@@ -229,5 +227,11 @@ autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xm
 
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 
-let g:syntastic_python_checkers=['pylint']
+"********************************
+" Syntastic
+"********************************
 
+"let g:syntastic_c_include_dirs
+let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/include/jsoncpp']
+let g:syntastic_python_checkers=['pylint']
+let g:syntastic_java_javac_config_file_enabled=1
