@@ -5,3 +5,4 @@ for i in `cat list`;
 do ln -s "`pwd`/$i" ~/; 
 done
 rm list
+rm ~/.git
