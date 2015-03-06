@@ -4,7 +4,7 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:~/Tools/google_appengine:~/Tools/android/sdk/tools:/workspace/ici/scripts:/var/lib/gems/1.8/bin:~/bin:~/Tools/android/sdk/platform-tools:~/Tools/android/ndk:~/Tools/google_appengine/:
+export PATH=$PATH:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/android/sdk/tools:/workspace/ici/scripts:/var/lib/gems/1.8/bin:~/bin:~/Tools/android/sdk/platform-tools:~/Tools/android/ndk:
 
 #OCTAVE
 #export PATH=$PATH:/Applications/Octave.app/Contents/Resources/bin
@@ -302,16 +302,9 @@ zstyle ':completion::complete:*' use-cache 1
 # RVM User
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-# PerlBrew
-# source ~/.perl5/perlbrew/etc/bashrc
-# PythonBrew
-#qh:x[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
-
 # PyEnv
 eval "$(pyenv init -)"
 
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-
-
