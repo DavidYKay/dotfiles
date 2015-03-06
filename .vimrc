@@ -32,6 +32,12 @@ set number
 set directory=~/.vim/tmp
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,#*
+let g:ctrlp_custom_ignore = 'archive/'
+"let g:ctrlp_custom_ignore = {
+  "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  "\ 'file': '\v\.(exe|so|dll)$',
+  "\ 'link': 'some_bad_symbolic_links',
+  "\ }
 
 "********************************
 "GUI
