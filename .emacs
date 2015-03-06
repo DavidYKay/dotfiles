@@ -2,7 +2,7 @@
 
 ; (set-default-font "Liberation Mono-13")
 ;(set-default-font "ProggyCleanTT-12")
-(set-default-font "Monaco-12")
+(set-default-font "Monaco-10")
 ;(set-default-font "ProggyCleanTT-14")
 
 ; set theme similar to gentooish
@@ -18,6 +18,9 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+
+; Backup management
+; (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region)
 
 ; Backup management
 
@@ -38,6 +41,7 @@
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "target" ".lein-git-deps" "archive"))
                             (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" ))))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
+;(global-set-key (kbd "C-\") 'fiplr-find-file)
 
 ; CEDET
 ; (add-to-list 'load-path "~/.emacs.d/cedet-1.1")
@@ -122,3 +126,11 @@
 (require 'evil)
 (evil-mode 1)
 (define-key evil-normal-state-map "M-x" 'execute-extended-command)
+
+; Cider
+(setq cider-lein-command "~/bin/lein")
+
+; Auto-Complete
+(add-to-list 'load-path "/Users/dk/.emacs.d")
+(require 'auto-complete-config)
+(ac-config-default)

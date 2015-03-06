@@ -4,7 +4,8 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/android/sdk/tools:/workspace/ici/scripts:/var/lib/gems/1.8/bin:~/bin:~/Tools/android/sdk/platform-tools:~/Tools/android/ndk:
+export PATH=$PATH:/var/lib/gems/1.8/bin:/workspace/ici/scripts:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin
+
 
 #OCTAVE
 #export PATH=$PATH:/Applications/Octave.app/Contents/Resources/bin

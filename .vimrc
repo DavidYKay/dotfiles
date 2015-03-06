@@ -16,7 +16,7 @@ set expandtab
 "set tabs to four spaces
 set softtabstop=2
 set shiftwidth=2
-set tabstop=2
+"set tabstop=2
 "set noexpandtab
 set autoindent smartindent
 "set foldmethod=indent
@@ -31,7 +31,7 @@ set number
 "store swap files centrally
 set directory=~/.vim/tmp
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,#*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,#*,*/packages/*
 let g:ctrlp_custom_ignore = 'archive/'
 "let g:ctrlp_custom_ignore = {
   "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -183,7 +183,7 @@ let g:vimclojure#HighlightBuiltins = 1
 let g:vimclojure#ParenRainbow = 1
 
 " this should only be necessary if you don't have the ng client in your PATH
-"let vimclojure#NailgunClient = "$HOME/bin/ng"
+" let vimclojure#NailgunClient = "$HOME/bin/ng"
 let vimclojure#WantNailgun = 1
 let vimclojure#FuzzyIndent = 1
 
