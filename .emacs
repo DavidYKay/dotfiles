@@ -1,8 +1,15 @@
+;(defvar running-on-linux (string-match "linux" (getenv "OSTYPE")))
+;(defvar running-on-mac (string-match "darwin" (getenv "OSTYPE")))
+
+(defvar running-on-mac nil)
+(defvar running-on-linux t)
+
 ; set guifont=ProggyCleanTT\ 12
 
 ; (set-default-font "Liberation Mono-13")
 ;(set-default-font "ProggyCleanTT-12")
-(set-default-font "Monaco-10")
+(if running-on-linux (set-default-font "ProggyCleanTT-12"))
+(if running-on-mac (set-default-font "Monaco-10"))
 ;(set-default-font "ProggyCleanTT-14")
 
 ; set theme similar to gentooish
