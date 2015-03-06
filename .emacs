@@ -35,8 +35,8 @@
 (helm-mode 1)
 
 ; FIPLR (like Ctrl-P)
-(setq fiplr-ignored-globs '((directories (".git" ".svn" "target" ".lein-git-deps"))
-                                                        (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" ))))
+(setq fiplr-ignored-globs '((directories (".git" ".svn" "target" ".lein-git-deps" "archive"))
+                            (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" ))))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
 
 ; CEDET
