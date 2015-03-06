@@ -4,7 +4,7 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:/var/lib/gems/1.8/bin:/workspace/ici/scripts:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin
+export PATH=$PATH:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin
 
 
 #OCTAVE
@@ -304,6 +304,7 @@ zstyle ':completion::complete:*' use-cache 1
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # PyEnv
+export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
