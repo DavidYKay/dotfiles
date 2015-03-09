@@ -65,7 +65,7 @@
                             (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.png"))))
 (setq fiplr-root-markers '(".git" ".svn" ".fiplr-root"))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
-;(global-set-key (kbd "C-\") 'fiplr-find-file)
+(global-set-key (kbd "C-\\") 'fiplr-find-file)
 
 ; CEDET
 ; (add-to-list 'load-path "~/.emacs.d/cedet-1.1")
@@ -158,3 +158,4 @@
 (add-to-list 'load-path "/Users/dk/.emacs.d")
 (require 'auto-complete-config)
 (ac-config-default)
+
