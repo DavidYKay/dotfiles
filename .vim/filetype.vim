@@ -21,6 +21,7 @@ au! Syntax thrift source ~/.vim/syntax/thrift.vim
 au BufRead,BufNewFile *.dtm set filetype=clojure
 au BufRead,BufNewFile *.cljs set filetype=clojure
 au BufRead,BufNewFile *.edn set filetype=clojure
+au BufRead,BufNewFile .lein-env set filetype=clojure
 
 au BufRead,BufNewFile Podfile set filetype=ruby
 au BufRead,BufNewFile *.m set filetype=objc
