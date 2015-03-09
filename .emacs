@@ -19,12 +19,28 @@
 
 (global-linum-mode t)
 
+
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+
+(require 'nav)
+(require 'f)
+;
+(defun was-compiled-p (path)
+  "Does the directory at PATH contain any .elc files?"
+  (--any-p (f-ext? it "elc") (f-files path)))
+
+(defun ensure-packages-compiled ()
+  "If any packages installed with package.el aren't compiled yet, compile them."
+  (--each (f-directories package-user-dir)
+    (unless (was-compiled-p it)
+      (byte-recompile-directory it 0))))
+
+(ensure-packages-compiled)
 
 ; Backup management
 ; (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region)
@@ -129,7 +145,7 @@
 (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
 
 ; Evil Mode
-(add-to-list 'load-path "~/.emacs.d/elpa/evil-1.0.8")
+; (add-to-list 'load-path "~/.emacs.d/elpa/evil-1.0.8")
 (require 'evil)
 (evil-mode 1)
 (define-key evil-normal-state-map "M-x" 'execute-extended-command)
