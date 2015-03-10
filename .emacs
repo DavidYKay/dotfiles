@@ -65,10 +65,11 @@
 
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" "target" ".lein-git-deps" "archive"))
-                            (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.png" "*.pem" "*.cer" "*.p12"))))
+                            (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.png" "*.pem" "*.cer" "*.p12" ".*"))))
 (setq fiplr-root-markers '(".git" ".svn" ".fiplr-root"))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
 (global-set-key (kbd "C-\\") 'fiplr-find-file)
+(define-key *fiplr-keymap* (kbd "<f5>")   'fiplr-reload-list)
 
 ; CEDET
 ; (add-to-list 'load-path "~/.emacs.d/cedet-1.1")
