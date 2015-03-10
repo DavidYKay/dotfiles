@@ -1,15 +1,16 @@
 (cond
    ((string-equal system-type "gnu/linux")
     (defvar running-on-linux t)
-    (set-default-font "ProggyCleanTT-12"))
-   ; use Windows key as meta
+    ; use Windows key as meta
     (setq x-super-keysym 'meta)
+    (set-default-font "ProggyCleanTT-12"))
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
      ;(setq mac-command-key-is-meta t)
      ;(set-default-font "VeraMono-14")
      ))
+    
 
 
 ;(set-default-font "ProggyCleanTT-14")
