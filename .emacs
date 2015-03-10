@@ -1,15 +1,17 @@
-;(defvar running-on-linux (string-match "linux" (getenv "OSTYPE")))
-;(defvar running-on-mac (string-match "darwin" (getenv "OSTYPE")))
+(cond
+   ((string-equal system-type "gnu/linux")
+    (defvar running-on-linux t)
+    (set-default-font "ProggyCleanTT-12"))
+   ; use Windows key as meta
+    (setq x-super-keysym 'meta)
 
-(defvar running-on-mac nil)
-(defvar running-on-linux t)
+    ((string-equal system-type "darwin")
+     (defvar running-on-mac t)
+     ;(setq mac-command-key-is-meta t)
+     ;(set-default-font "VeraMono-14")
+     ))
 
-; set guifont=ProggyCleanTT\ 12
 
-; (set-default-font "Liberation Mono-13")
-;(set-default-font "ProggyCleanTT-12")
-(if running-on-linux (set-default-font "ProggyCleanTT-12"))
-(if running-on-mac (set-default-font "Monaco-10"))
 ;(set-default-font "ProggyCleanTT-14")
 
 ; set theme similar to gentooish
@@ -135,8 +137,6 @@
 ; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
-; use Windows key as meta
-(setq x-super-keysym 'meta)
 
 ; disable top toolbar
 (tool-bar-mode -1)
