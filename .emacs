@@ -63,6 +63,7 @@
 (global-set-key (kbd "C-c h") 'helm-mini)
 (helm-mode 1)
 
+(require 'fiplr)
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" "target" ".lein-git-deps" "archive"))
                             (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.png" "*.pem" "*.cer" "*.p12" ".*" ".#*" "#*#" ))))
