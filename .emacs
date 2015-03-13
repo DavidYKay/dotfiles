@@ -66,7 +66,7 @@
 (require 'fiplr)
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" "target" ".lein-git-deps" "archive"))
-                            (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.png" "*.pem" "*.cer" "*.p12" ".*" ".#*" "#*#" ))))
+                            (files ("*.jpg" "*.png" "*.zip" "*~" "*.class" ".gitignore" "*.dll" "*.bin" "*.jar" "*.pyc" "*.png" "*.pem" "*.cer" "*.p12" ".*" ".#*" "#*#" ))))
 
 (setq fiplr-root-markers '(".git" ".svn" ".fiplr-root"))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
