@@ -310,3 +310,5 @@ eval "$(pyenv init -)"
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+export PYTHONPATH=$PYTHONPATH:./lib
