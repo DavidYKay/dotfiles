@@ -1,0 +1,1 @@
+# gifsicle --colors 256 --optimize=3 -i < animation.gif > fully-optimized.gif
