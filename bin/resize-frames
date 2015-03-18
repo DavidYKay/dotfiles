@@ -1,0 +1,1 @@
+# mogrify -resize 640x360 -path lores clear*.gif 

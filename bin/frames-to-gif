@@ -1,0 +1,1 @@
+# convert -delay 1x24 -loop 0 clear*.gif animation.gif 

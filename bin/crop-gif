@@ -1,0 +1,2 @@
+# position (x,y) size(width,height)
+gifsicle --crop 210,0+240x360 -i < raw/obstacle-back.gif > cropped/obstacle-back.gif
