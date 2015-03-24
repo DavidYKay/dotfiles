@@ -7,8 +7,14 @@ if has('win32')
     set guifont=Consolas:h14
     colo slack
 elseif has('unix')
-    set guifont=ProggyCleanTT\ 12
-    colo gentooish
+    let hostname = substitute(system('hostname'), '\n', '', '')
+    if hostname == "donkeyKong"
+        set guifont=Mono\ 13
+        colo slack
+    else
+        set guifont=ProggyCleanTT\ 12
+        colo gentooish
+    endif
 elseif has('mac')
     set gfn=Monaco:h10
     colo gentooish
