@@ -7,10 +7,13 @@
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
-     ;(setq mac-command-key-is-meta t)
+     (setq mac-option-key-is-meta nil)
+     (setq mac-command-key-is-meta t)
+     (setq mac-command-modifier 'meta)
+     (setq mac-option-modifier 'alt)
      ;(set-default-font "VeraMono-14")
      ))
-    
+   
 
 
 ;(set-default-font "ProggyCleanTT-14")
