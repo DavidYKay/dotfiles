@@ -11,14 +11,16 @@
      (setq mac-command-key-is-meta t)
      (setq mac-command-modifier 'meta)
      (setq mac-option-modifier 'alt)
-     ;(set-default-font "VeraMono-14")
+     (global-unset-key (kbd "<mouse-2>"))
+     (global-set-key (kbd "<mouse-2>") 'clipboard-yank)
+     (global-unset-key "\M-v")
+     (global-set-key "\M-v" 'clipboard-yank)
+     ;(Set-default-font "VeraMono-14")
      ))
-   
-
 
 ;(set-default-font "ProggyCleanTT-14")
 
-; set theme similar to gentooish
+; Set theme similar to gentooish
 (load-theme 'wombat t)
 ; Set cursor color to white
 (set-cursor-color "#ffffff")
