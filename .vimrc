@@ -14,9 +14,9 @@ colo gentooish
 "spaces rather than tabs
 set expandtab
 "set tabs to four spaces
-set softtabstop=2
-set shiftwidth=2
-"set tabstop=2
+set softtabstop=4
+set shiftwidth=4
+"set tabstop=4
 "set noexpandtab
 set autoindent smartindent
 "set foldmethod=indent
