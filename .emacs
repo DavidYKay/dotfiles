@@ -3,7 +3,8 @@
     (defvar running-on-linux t)
     ; use Windows key as meta
     (setq x-super-keysym 'meta)
-    (set-default-font "ProggyCleanTT-12"))
+    ;(set-default-font "ProggyCleanTT-12"))
+    (set-default-font "Mono-13"))
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
@@ -18,10 +19,10 @@
      ;(Set-default-font "VeraMono-14")
      ))
 
-;(set-default-font "ProggyCleanTT-14")
-
 ; Set theme similar to gentooish
-(load-theme 'wombat t)
+;(load-theme 'wombat t)
+(load-theme 'wheatgrass t)
+;
 ; Set cursor color to white
 (set-cursor-color "#ffffff")
 
