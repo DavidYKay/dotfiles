@@ -169,3 +169,5 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
+; Flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
