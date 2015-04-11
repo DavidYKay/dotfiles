@@ -1,1 +1,4 @@
+#!/bin/bash
+
 # convert -delay 1x24 -loop 0 clear*.gif animation.gif 
+convert -delay 1x24 -loop 0 $1 animation.gif 
