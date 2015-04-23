@@ -4,7 +4,7 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/.cabal/bin
+export PATH=~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:$PATH
 
 
 #OCTAVE
@@ -312,6 +312,8 @@ export PATH="~/Tools/appengine/java/current/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export PYTHONPATH=$PYTHONPATH:./lib
+
+export GOPATH=~/Tools/go
 
 # env-zsh
 autoload -U add-zsh-hook
