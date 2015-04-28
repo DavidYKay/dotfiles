@@ -73,6 +73,7 @@
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" "target" ".lein-git-deps" "archive" ".cabal-sandbox" "venv"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" 
+				    "*.xls" "*.xlsx" "*.XLS" "*.XLSX"
 				    "*.zip" "*.gz"
 				    "*.bin" "*.dll" 
 				    "*.class" "*.jar" "*.pyc" 
