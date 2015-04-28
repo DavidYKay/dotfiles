@@ -31,7 +31,12 @@ set number
 "store swap files centrally
 set directory=~/.vim/tmp
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,#*,*/bin/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*,*/obj/*,*/target/*,*.png,*.jpg,*.pdf,*.dll,*.mdb
+set wildignore+=*/tmp/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*,
+set wildignore+=*/bin/*,*/obj/*,*/target/*,
+set wildignore+=*.so,*.zip,*.class,*.dex,*.apk,#*,*.dll,*.mdb,
+set wildignore+=*.png,*.jpg,*.pdf,*.xls,*.xlsx
+set wildignore+=*.swp,
+
 let g:ctrlp_custom_ignore = 'archive/'
 "let g:ctrlp_custom_ignore = {
   "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
