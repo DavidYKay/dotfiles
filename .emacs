@@ -185,5 +185,35 @@
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
+; string manip
+
+(defun to-kebab-case (start end)
+  "convert to lispy case. Note that this does not current filter out symbols like [ ] { }"
+  (interactive "r")
+  (insert (s-dashed-words (delete-and-extract-region start end))))
+
+(defun to-snake-case (start end)
+  "convert to C/python case. Note that this does not current filter out symbols like [ ] { }"
+  (interactive "r")
+  (insert (s-snake-case (delete-and-extract-region start end))))
+
+(defun to-camel-case (start end)
+  "convert to camel case. Note that this does not current filter out symbols like [ ] { }"
+  (interactive "r")
+  (insert (s-lower-camel-case (delete-and-extract-region start end))))
+
+(defun wrap-text (b e txt)
+  "simple wrapper"
+  (interactive "r\nMEnter text to wrap with: ")
+  (save-restriction
+    (narrow-to-region b e)
+    (goto-char (point-min))
+    (insert "(")
+    (insert txt)
+    (goto-char (point-max))
+    (insert ")")))
+
+
+
 ;(provide '.emacs)
 
