@@ -166,9 +166,10 @@
 
 ; Evil Mode
 ; (add-to-list 'load-path "~/.emacs.d/elpa/evil-1.0.8")
+(setq evil-want-C-u-scroll t)
 (require 'evil)
-(evil-mode 1)
 (define-key evil-normal-state-map "M-x" 'execute-extended-command)
+(evil-mode 1)
 
 ; Cider
 (setq cider-lein-command "~/bin/lein")
