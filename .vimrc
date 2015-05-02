@@ -35,7 +35,7 @@ set directory=~/.vim/tmp
 set wildignore+=*/tmp/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*
 set wildignore+=*.so,*.class,*.dex,*.apk,*.dll,*.pyc
-set wildignore+= *.zip,*.mdb,*.sqlite
+set wildignore+=*.zip,*.mdb,*.sqlite
 set wildignore+=*.png,*.jpg,*.pdf,*.xls,*.xlsx
 set wildignore+=*.swp,#*
 
