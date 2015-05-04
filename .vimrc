@@ -249,3 +249,4 @@ autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/include/jsoncpp']
 let g:syntastic_python_checkers=['pylint']
 let g:syntastic_java_javac_config_file_enabled=1
+let g:syntastic_java_javac_classpath = "build/intermediates/classes/debug:~/Tools/android/sdk/platforms/android-22/*.jar"
