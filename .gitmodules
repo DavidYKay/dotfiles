@@ -24,7 +24,7 @@
 	url = git://github.com/tpope/vim-abolish.git
 [submodule ".vim/bundle/supertab"]
 	path = .vim/bundle/supertab
-	url = git@github.com:ervandew/supertab.git
+	url = git://github.com:ervandew/supertab.git
 [submodule ".vim/bundle/vim-swift"]
 	path = .vim/bundle/vim-swift
 	url = git://github.com/toyamarinyon/vim-swift.git
@@ -36,13 +36,13 @@
 	url = https://github.com/udalov/kotlin-vim
 [submodule ".vim/bundle/rust-vim"]
 	path = .vim/bundle/rust-vim
-	url = git@github.com:rust-lang/rust.vim.git
+	url = git://github.com:rust-lang/rust.vim.git
 [submodule ".vim/bundle/vim-arduino"]
 	path = .vim/bundle/vim-arduino
-	url = git@github.com:jameslyden/vim-arduino.git
+	url = git://github.com:jameslyden/vim-arduino.git
 [submodule ".vim/bundle/vim-toml"]
 	path = .vim/bundle/vim-toml
-	url = git@github.com:cespare/vim-toml.git
+	url = git://github.com:cespare/vim-toml.git
 [submodule ".vim/bundle/Dockerfile"]
 	path = .vim/bundle/Dockerfile
 	url = https://github.com/ekalinin/Dockerfile.vim.git
