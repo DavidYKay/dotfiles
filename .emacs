@@ -3,8 +3,8 @@
     (defvar running-on-linux t)
     ; use Windows key as meta
     (setq x-super-keysym 'meta)
-    ;(set-default-font "ProggyCleanTT-12"))
-    (set-default-font "Mono-13"))
+    (set-default-font "ProggyCleanTT-12"))
+    ;(set-default-font "Mono-13"))
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
@@ -183,8 +183,18 @@
 ; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+; pos-tip for displaying error messages
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+;; flycheck rust
+
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+;; flycheck clojure / squiggly
+
+(eval-after-load 'flycheck '(flycheck-clojure-setup))
 
 ; string manip
 
