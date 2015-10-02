@@ -324,3 +324,6 @@ load-local-conf() {
      fi
 }
 add-zsh-hook chpwd load-local-conf
+
+export NVM_DIR="/Users/dk/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
