@@ -74,7 +74,7 @@
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" 
 					  "target" "archive" "out"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
-					  ".gradle" ".cabal-sandbox" "venv"))
+					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" 
 				    "*.xls" "*.xlsx" "*.XLS" "*.XLSX"
 				    "*.zip" "*.gz"
