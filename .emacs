@@ -75,7 +75,7 @@
 					  "target" "archive" "out"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
-                            (files ("*.gif" "*.jpg" "*.pdf" "*.png" 
+                            (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
 				    "*.xls" "*.xlsx" "*.XLS" "*.XLSX"
 				    "*.zip" "*.gz"
 				    "*.bin" "*.dll" 
