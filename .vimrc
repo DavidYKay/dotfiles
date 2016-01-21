@@ -33,6 +33,7 @@ set number
 set directory=~/.vim/tmp
 
 set wildignore+=*/tmp/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*
+set wildignore+=*/xcuserdata/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/dist/*,*/Pods/*
 set wildignore+=*.so,*.class,*.dex,*.apk,*.dll,*.pyc,*.xib
 set wildignore+=*.zip,*.mdb,*.sqlite
