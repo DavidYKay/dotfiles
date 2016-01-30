@@ -10,7 +10,8 @@ elseif has('unix')
     let hostname = substitute(system('hostname'), '\n', '', '')
     if hostname == "donkeyKong"
         set guifont=Mono\ 13
-        colo slack
+        " colo slack
+        colo gentooish
     else
         set guifont=ProggyCleanTT\ 12
         colo gentooish
