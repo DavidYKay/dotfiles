@@ -194,7 +194,7 @@
 
 ;; flycheck clojure / squiggly
 
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
+;(eval-after-load 'flycheck '(flycheck-clojure-setup))
 
 ; string manip
 
