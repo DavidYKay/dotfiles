@@ -1,7 +1,9 @@
 [user]
-	email = davidykay@gmail.com
-	name = David Young-Chan Kay
-[color]
-	ui = auto
+	name = David Young-chan Kay
+    email = davidykay@gmail.com
+ [color]
+    ui = auto
 [github]
 	user = DavidYKay
+[core]
+	pager = diff-highlight | diff-so-fancy | less --tabs=1,5 -R
