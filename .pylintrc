@@ -1,3 +1,4 @@
 [MESSAGES CONTROL]
 
-disable=W, C, R
+#disable=W, C, R
+disable= C0103, C0301, E1101

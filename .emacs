@@ -157,6 +157,11 @@
 ; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
+;; Python
+
+; (pyenv-mode)
+(setq exec-path (append exec-path '("~/.pyenv/shims")))
+
 
 ; disable top toolbar
 (tool-bar-mode -1)
@@ -224,7 +229,5 @@
     (goto-char (point-max))
     (insert ")")))
 
-
-
-;(provide '.emacs)
-
+(provide '.emacs)
+;;; .emacs ends here
