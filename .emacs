@@ -72,7 +72,7 @@
 (require 'fiplr)
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" 
-					  "target" "archive" "out"
+					  "target" "archive" "out" "ui-out"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
@@ -154,7 +154,19 @@
  ;; If there is more than one, they won't work right.
  )
 
-; ClojureScript
+;; Lisp / Clojure(script)
+(add-hook 'lisp-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'clojure-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+
+;; Clojure(script)
+
+; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
+;(global-set-key (kbd "RET") 'newline-and-indent)
+;(local-set-key (kbd "RET") 'newline-and-indent)
+
+;; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
 ;; Python
