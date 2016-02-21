@@ -50,12 +50,14 @@
     (define-prefix-command 'cider-doc-map)
     (define-key cider-doc-map (kbd "a") #'cider-apropos)
     (define-key cider-doc-map (kbd "C-a") #'cider-apropos)
-    (define-key cider-doc-map (kbd "A") #'cider-apropos-documentation)
+    (define-key cider-doc-map (kbd "f") #'cider-apropos-documentation)
+    (define-key cider-doc-map (kbd "C-f") #'cider-apropos-documentation)
     (define-key cider-doc-map (kbd "d") #'cider-doc)
     (define-key cider-doc-map (kbd "C-d") #'cider-doc)
     (define-key cider-doc-map (kbd "r") #'cider-grimoire)
     (define-key cider-doc-map (kbd "C-r") #'cider-grimoire)
     (define-key cider-doc-map (kbd "h") #'cider-grimoire-web)
+    (define-key cider-doc-map (kbd "C-h") #'cider-grimoire-web)
     (define-key cider-doc-map (kbd "j") #'cider-javadoc)
     (define-key cider-doc-map (kbd "C-j") #'cider-javadoc)
     cider-doc-map)
@@ -67,7 +69,7 @@
     ["JavaDoc in browser" cider-javadoc]
     ["Grimoire" cider-grimoire]
     ["Grimoire in browser" cider-grimoire-web]
-    ["Search functions/vars" cider-apropos]
+    ["Search symbols" cider-apropos]
     ["Search documentation" cider-apropos-documentation])
   "CIDER documentation submenu.")
 
@@ -190,9 +192,10 @@
   "Open Javadoc documentation in a popup buffer.
 
 Prompts for the symbol to use, or uses the symbol at point, depending on
-the value of `cider-prompt-for-symbol'. With prefix arg ARG, does the
+the value of `cider-prompt-for-symbol'.  With prefix arg ARG, does the
 opposite of what that option dictates."
   (interactive "P")
+  (cider-ensure-connected)
   (funcall (cider-prompt-for-symbol-function arg)
            "Javadoc for"
            #'cider-javadoc-handler))
@@ -251,9 +254,10 @@ opposite of what that option dictates."
   "Open Clojure documentation in a popup buffer.
 
 Prompts for the symbol to use, or uses the symbol at point, depending on
-the value of `cider-prompt-for-symbol'. With prefix arg ARG, does the
+the value of `cider-prompt-for-symbol'.  With prefix arg ARG, does the
 opposite of what that option dictates."
   (interactive "P")
+  (cider-ensure-connected)
   (funcall (cider-prompt-for-symbol-function arg)
            "Doc for"
            #'cider-doc-lookup))

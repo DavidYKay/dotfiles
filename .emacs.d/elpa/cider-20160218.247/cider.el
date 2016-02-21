@@ -11,7 +11,7 @@
 ;; Maintainer: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: http://www.github.com/clojure-emacs/cider
 ;; Version: 0.11.0-cvs
-;; Package-Requires: ((emacs "24.3") (clojure-mode "5.1.0") (pkg-info "0.4") (queue "0.1.1") (spinner "1.4") (seq "1.9"))
+;; Package-Requires: ((emacs "24.3") (clojure-mode "5.2.0") (pkg-info "0.4") (queue "0.1.1") (spinner "1.7") (seq "1.9"))
 ;; Keywords: languages, clojure, cider
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -104,7 +104,8 @@ version from the CIDER package or library.")
   :group 'cider)
 
 (defcustom cider-boot-command
-  "boot"
+  (or (executable-find "boot")
+      (executable-find "boot.sh"))
   "The command used to execute Boot."
   :type 'string
   :group 'cider
@@ -152,18 +153,23 @@ This variable is used by `cider-connect'."
   "List of functions to call when connected to Clojure nREPL server."
   :type 'hook
   :group 'cider
-  :version "0.9.0")
+  :package-version '(cider . "0.9.0"))
 
 (defcustom cider-disconnected-hook nil
   "List of functions to call when disconnected from the Clojure nREPL server."
   :type 'hook
   :group 'cider
-  :version "0.9.0")
+  :package-version '(cider . "0.9.0"))
 
 (defcustom cider-auto-mode t
   "When non-nil, automatically enable `cider-mode' for all Clojure buffers."
   :type 'boolean
-  :version "0.9.0")
+  :package-version '(cider . "0.9.0"))
+
+(defcustom cider-inject-dependencies-at-jack-in t
+  "When nil, do not inject repl dependencies (most likely nREPL middlewares) at `cider-jack-in' time."
+  :type 'boolean
+  :version '(cider . "0.11.0"))
 
 (defvar cider-ps-running-nrepls-command "ps u | grep leiningen"
   "Process snapshot command used in `cider-locate-running-nrepl-ports'.")
@@ -204,6 +210,90 @@ Sub-match 1 must be the project path.")
     ("boot" cider-boot-parameters)
     ("gradle" cider-gradle-parameters)))
 
+
+;;; Jack-in dependencies injection
+(defvar cider-jack-in-dependencies
+  '(("org.clojure/tools.nrepl" "0.2.12"))
+  "List of dependencies where elements are lists of artifact name and version.")
+(put 'cider-jack-in-dependencies 'risky-local-variable t)
+
+(defvar cider-jack-in-lein-plugins
+  `(("cider/cider-nrepl" ,(upcase cider-version)))
+  "List of Leiningen plugins where elements are lists of artifact name and version.")
+(put 'cider-jack-in-lein-plugins 'risky-local-variable t)
+
+(defvar cider-jack-in-nrepl-middlewares
+  '("cider.nrepl/cider-middleware")
+  "List of Clojure variable names. Each of these Clojure variables should hold a vector of nREPL middlewares.")
+(put 'cider-jack-in-nrepl-middlewares 'risky-local-variable t)
+
+(defun cider--list-as-boot-artifact (list)
+  "Return a boot artifact string described by the elements of LIST.
+LIST should have the form (ARTIFACT-NAME ARTIFACT-VERSION).  The returned
+string is quoted for passing as argument to an inferior shell."
+  (concat "-d " (shell-quote-argument (format "%s:%s" (car list) (cadr list)))))
+
+(defun boot-command-prefix (dependencies)
+  (concat (mapconcat #'cider--list-as-boot-artifact dependencies " ")
+          " "))
+
+(defun boot-repl-task-params (params middlewares)
+  (if (string-match "\\_<repl\\_>" params)
+      (replace-match (concat "repl "
+                             (mapconcat (lambda (middleware)
+                                          (format "-m %s" (shell-quote-argument middleware)))
+                                        middlewares
+                                        " "))
+                     'fixed 'literal params)
+    (message "Warning: `cider-boot-parameters' doesn't call the \"repl\" task, jacking-in might not work")
+    params))
+
+(defun cider-boot-jack-in-dependencies (params dependencies plugins middlewares)
+  (concat (boot-command-prefix (append dependencies plugins))
+          (boot-repl-task-params params middlewares)))
+
+(defun cider--list-as-lein-artifact (list)
+  "Return an artifact string described by the elements of LIST.
+LIST should have the form (ARTIFACT-NAME ARTIFACT-VERSION).  The returned
+string is quoted for passing as argument to an inferior shell."
+  (shell-quote-argument (format "[%s %S]" (car list) (cadr list))))
+
+(defun cider-lein-jack-in-dependencies (params dependencies lein-plugins)
+  (concat
+   (mapconcat #'identity
+              (append (seq-map (lambda (dep)
+                                 (concat "update-in :dependencies conj "
+                                         (cider--list-as-lein-artifact dep)))
+                               dependencies)
+                      (seq-map (lambda (plugin)
+                                 (concat "update-in :plugins conj "
+                                         (cider--list-as-lein-artifact plugin)))
+                               lein-plugins))
+              " -- ")
+   " -- "
+   params))
+
+(defun cider-inject-jack-in-dependencies (params project-type)
+  "Return PARAMS with injected REPL dependencies.
+These are set in `cider-jack-in-dependencies', `cider-jack-in-lein-plugins' and
+`cider-jack-in-nrepl-middlewares' are injected from the CLI according to
+the used PROJECT-TYPE.  Eliminates the need for hacking profiles.clj or the
+boot script for supporting cider with its nREPL middleware and
+dependencies."
+  (pcase project-type
+    ("lein" (cider-lein-jack-in-dependencies
+             params
+             cider-jack-in-dependencies
+             cider-jack-in-lein-plugins))
+    ("boot" (cider-boot-jack-in-dependencies
+             params
+             cider-jack-in-dependencies
+             cider-jack-in-lein-plugins
+             cider-jack-in-nrepl-middlewares))
+    ("gradle" params)))
+
+
+;;; ClojureScript REPL creation
 (defcustom cider-cljs-lein-repl "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))"
   "Clojure form that returns a ClojureScript REPL environment.
 This is only used in lein projects.  It is evaluated in a Clojure REPL and
@@ -236,6 +326,13 @@ should be the regular Clojure REPL started by the server process filter."
          (cljs-proc (apply #'nrepl-start-client-process client-process-args))
          (cljs-buffer (process-buffer cljs-proc)))
     (with-current-buffer cljs-buffer
+      ;; The new connection has now been bumped to the top, but it's still a clj
+      ;; REPL!  Additionally, some cljs REPLs can actually take a while to start
+      ;; (some even depend on the user opening a browser).  Meanwhile, this REPL
+      ;; will gladly receive requests in place of the original clj REPL.  Our
+      ;; solution is to bump the original REPL back up the list, so it takes
+      ;; priority on clj requests.
+      (cider-make-connection-default client-buffer)
       (cider-nrepl-send-request
        (list "op" "eval"
              "ns" (cider-current-ns)
@@ -298,6 +395,10 @@ own buffer."
                                                 (cider-jack-in-params project-type))
                                         (cider-jack-in-params project-type))
                          (cider-jack-in-params project-type)))
+               (params (if cider-inject-dependencies-at-jack-in
+                           (cider-inject-jack-in-dependencies params project-type)
+                         params))
+
                (cmd (format "%s %s" (cider-jack-in-command project-type) params)))
           (when-let ((repl-buff (cider-find-reusable-repl-buffer nil project-dir)))
             (let ((nrepl-create-client-buffer-function  #'cider-repl-create)

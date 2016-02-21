@@ -35,11 +35,12 @@
 
 ;;; Code:
 
-(require 'cider-repl)
+(require 'cider-interaction)
 (require 'cider-client)
 (require 'cider-compat)
+(require 'cider-util)
 
-(defconst cider-browse-ns-buffer "*Browse NS*")
+(defconst cider-browse-ns-buffer "*cider-ns-browser*")
 (defvar-local cider-browse-ns-current-ns nil)
 
 ;; Mode Definition
@@ -49,7 +50,7 @@
     (set-keymap-parent map cider-popup-buffer-mode-map)
     (define-key map "d" #'cider-browse-ns-doc-at-point)
     (define-key map "s" #'cider-browse-ns-find-at-point)
-    (define-key map [return] #'cider-browse-ns-doc-at-point)
+    (define-key map [return] #'cider-browse-ns-operate-at-point)
     (define-key map "^" #'cider-browse-ns-all)
     (define-key map "n" #'next-line)
     (define-key map "p" #'previous-line)
@@ -64,18 +65,25 @@
   "Major mode for browsing Clojure namespaces.
 
 \\{cider-browse-ns-mode-map}"
-  (set-syntax-table clojure-mode-syntax-table)
   (setq buffer-read-only t)
   (setq-local electric-indent-chars nil)
   (setq-local truncate-lines t)
   (setq-local cider-browse-ns-current-ns nil))
 
+(defun cider-browse-ns--text-face (text)
+  "Match TEXT with a face."
+  (cond
+   ((string-match-p "\\." text) 'font-lock-type-face)
+   ((string-match-p "\\`*" text) 'font-lock-variable-name-face)
+   (t 'font-lock-function-name-face)))
+
 (defun cider-browse-ns--properties (text)
-  "Decorate TEXT with a clickable keymap and function face."
-  (propertize text
-              'font-lock-face 'font-lock-function-name-face
-              'mouse-face 'highlight
-              'keymap cider-browse-ns-mouse-map))
+  "Decorate TEXT with a clickable keymap and a face."
+  (let ((face (cider-browse-ns--text-face text)))
+    (propertize text
+                'font-lock-face face
+                'mouse-face 'highlight
+                'keymap cider-browse-ns-mouse-map)))
 
 (defun cider-browse-ns--list (buffer title items &optional ns noerase)
   "Reset contents of BUFFER.
@@ -88,7 +96,7 @@ contents of the buffer are not reset before inserting TITLE and ITEMS."
     (let ((inhibit-read-only t))
       (unless noerase (erase-buffer))
       (goto-char (point-max))
-      (insert (cider-propertize-ns title) "\n")
+      (insert (cider-propertize title 'ns) "\n")
       (dolist (item items)
         (insert (propertize (concat "  " item "\n")
                             'cider-browse-ns-current-ns ns)))
@@ -123,31 +131,52 @@ contents of the buffer are not reset before inserting TITLE and ITEMS."
                                      names))
       (setq-local cider-browse-ns-current-ns nil))))
 
-(defun cider-browse-ns--var-at-point ()
-  "Get the var at point."
-  (let ((line (thing-at-point 'line)))
-    (when (string-match " +\\(.+\\)\n?" line)
-      (format "%s/%s"
-              (or (get-text-property (point) 'cider-browse-ns-current-ns)
-                  cider-browse-ns-current-ns)
-              (match-string 1 line)))))
+(defun cider-browse-ns--thing-at-point ()
+  "Get the thing at point.
+Return a list of the type ('ns or 'var) and the value."
+  (let ((line (cider-string-trim (thing-at-point 'line))))
+    (if (string-match "\\." line)
+        (list 'ns line)
+      (list 'var (format "%s/%s"
+                         (or (get-text-property (point) 'cider-browse-ns-current-ns)
+                             cider-browse-ns-current-ns)
+                         line)))))
 
 (defun cider-browse-ns-doc-at-point ()
-  "Expand browser according to thing at current point."
+  "Show the documentation for the thing at current point."
   (interactive)
-  (when-let ((var (cider-browse-ns--var-at-point)))
-    (cider-doc-lookup var)))
+  (let* ((thing (cider-browse-ns--thing-at-point))
+         (value (cadr thing)))
+    ;; value is either some ns or a var
+    (cider-doc-lookup value)))
+
+(defun cider-browse-ns-operate-at-point ()
+  "Expand browser according to thing at current point.
+If the thing at point is a ns it will be browsed,
+and if the thing at point is some var - its documentation will
+be displayed."
+  (interactive)
+  (let* ((thing (cider-browse-ns--thing-at-point))
+         (type (car thing))
+         (value (cadr thing)))
+    (if (eq type 'ns)
+        (cider-browse-ns value)
+      (cider-doc-lookup value))))
 
 (defun cider-browse-ns-find-at-point ()
-  "Find the definition of the var at point."
+  "Find the definition of the thing at point."
   (interactive)
-  (when-let ((var (cider-browse-ns--var-at-point)))
-    (cider-find-var current-prefix-arg var)))
+  (let* ((thing (cider-browse-ns--thing-at-point))
+         (type (car thing))
+         (value (cadr thing)))
+    (if (eq type 'ns)
+        (cider-find-ns nil value)
+      (cider-find-var current-prefix-arg value))))
 
 (defun cider-browse-ns-handle-mouse (event)
   "Handle mouse click EVENT."
   (interactive "e")
-  (cider-browse-ns-doc-at-point))
+  (cider-browse-ns-operate-at-point))
 
 (provide 'cider-browse-ns)
 

@@ -57,11 +57,22 @@
   :group 'cider-debug
   :package-version '(cider . "0.10.0"))
 
-(defface cider-instrumented-face
-  '((t :box (:color "red" :line-width -1)))
-  "Face used to mark code being debugged."
+(defface cider-enlightened
+  '((((class color) (background light)) :inherit cider-result-overlay-face
+     :box (:color "darkorange" :line-width -1))
+    (((class color) (background dark))  :inherit cider-result-overlay-face
+     ;; "#dd0" is a dimmer yellow.
+     :box (:color "#990" :line-width -1)))
+  "Face used to mark enlightened sexps and their return values."
   :group 'cider-debug
-  :package-version '(cider . "0.10.0"))
+  :package-version '(cider . "0.11.0"))
+
+(defface cider-enlightened-local
+  '((((class color) (background light)) :weight bold :foreground "darkorange")
+    (((class color) (background dark))  :weight bold :foreground "yellow"))
+  "Face used to mark enlightened locals (not their values)."
+  :group 'cider-debug
+  :package-version '(cider . "0.11.0"))
 
 (defcustom cider-debug-prompt 'overlay
   "If and where to show the keys while debugging.
@@ -127,6 +138,8 @@ This variable must be set before starting the repl connection."
 (defun cider--debug-response-handler (response)
   "Handle responses from the cider.debug middleware."
   (nrepl-dbind-response response (status id causes)
+    (when (member "enlighten" status)
+      (cider--handle-enlighten response))
     (when (or (member "eval-error" status)
               (member "stack" status))
       ;; TODO: Make the error buffer a bit friendlier when we're just printing
@@ -223,7 +236,7 @@ Each element of LOCALS should be a list of at least two elements."
                        'before-string (cider--debug-prompt input-type))
         (setq cider--debug-prompt-overlay
               (cider--make-overlay
-               (max (cider-defun-at-point-start-pos)
+               (max (car (cider-defun-at-point 'bounds))
                     (window-start))
                nil 'debug-prompt
                'before-string (cider--debug-prompt input-type)))))
@@ -390,7 +403,7 @@ specific message."
 (defconst cider--debug-buffer-format "*cider-debug %s*")
 
 (defun cider--debug-trim-code (code)
-  (replace-regexp-in-string "\\`#\\(dbg\\|break\\) ?" "" code))
+  (replace-regexp-in-string "\\`#[a-z]+[\n\r[:blank:]]*" "" code))
 
 (declare-function cider-set-buffer-ns "cider-mode")
 (defun cider--initialize-debug-buffer (code ns id &optional reason)
@@ -447,6 +460,8 @@ key of a map, and it means \"go to the value associated with this key\". "
       ;; Navigate through sexps inside the sexp.
       (let ((in-syntax-quote nil))
         (while coordinates
+          (while (clojure--looking-at-non-logical-sexp)
+            (forward-sexp))
           (down-list)
           ;; Are we entering a syntax-quote?
           (when (looking-back "`\\(#{\\|[{[(]\\)" (line-beginning-position))
@@ -497,43 +512,62 @@ key of a map, and it means \"go to the value associated with this key\". "
     ;; Avoid throwing actual errors, since this happens on every breakpoint.
     (error (message "Can't find instrumented sexp, did you edit the source?"))))
 
-(defun cider--debug-goto-source-or-create-source-buffer (response)
-  "Position point after the sexp specified in RESPONSE.
+(defun cider--debug-position-for-code (code)
+  "Return non-nil if point is roughly before CODE.
+This might move point one line above."
+  (or (looking-at-p (regexp-quote code))
+      (let ((trimmed (regexp-quote (cider--debug-trim-code code))))
+        (or (looking-at-p trimmed)
+            ;; If this is a fake #dbg injected by `C-u
+            ;; C-M-x', then the sexp we want is actually on
+            ;; the line above.
+            (progn (forward-line -1)
+                   (looking-at-p trimmed))))))
+
+(defun cider--debug-find-source-position (response &optional create-if-needed)
+  "Return a marker of the position after the sexp specified in RESPONSE.
+This marker might be in a different buffer!  If the sexp can't be
+found (file that contains the code is no longer visited or has been
+edited), return nil.  However, if CREATE-IF-NEEDED is non-nil, a new buffer
+is created in this situation and the return value is never nil.
+
 Follow the \"line\" and \"column\" entries in RESPONSE, and check whether
 the code at point matches the \"code\" entry in RESPONSE.  If it doesn't,
 assume that the code in this file has been edited, and create a temp buffer
 holding the original code.
 Either way, navigate inside the code by following the \"coor\" entry which
-is a coordinate measure in sexps.
-
-Return the original point position on the buffer that is current at the end
-of execution.  Use this instead of `save-excursion' to restore the point
-position, because this function might change the current buffer."
+is a coordinate measure in sexps."
   (nrepl-dbind-response response (code file line column ns original-id coor)
     (when (or code (and file line column))
-      (let ((old-point))
-        ;; We prefer in-source debugging.
-        (when (and file line column)
-          (if-let ((buf (find-buffer-visiting file)))
-              (if-let ((win (get-buffer-window buf)))
-                  (select-window win)
-                (pop-to-buffer buf))
-            (find-file file))
-          (setq old-point (point))
-          ;; Get to the proper line & column in the file
-          (forward-line (- line (line-number-at-pos)))
-          (move-to-column column))
-        ;; But we can create a temp buffer if that fails.
-        (unless (or (looking-at-p (regexp-quote code))
-                    (looking-at-p (regexp-quote (cider--debug-trim-code code))))
-          (cider--initialize-debug-buffer
-           code ns original-id
-           (if (and line column)
-               "you edited the code"
-             "your tools.nrepl version is older than 0.2.11"))
-          (setq old-point (point-min)))
-        (cider--debug-move-point coor)
-        old-point))))
+      ;; This is for restoring current-buffer.
+      (save-excursion
+        (let ((out))
+          ;; We prefer in-source debugging.
+          (when-let ((buf (and file line column
+                               (find-buffer-visiting file))))
+            ;; The logic here makes it hard to use `with-current-buffer'.
+            (with-current-buffer buf
+              ;; This is for retoring point inside buf.
+              (save-excursion
+                ;; Get to the proper line & column in the file
+                (forward-line (- line (line-number-at-pos)))
+                (move-to-column column)
+                ;; Check if it worked
+                (when (cider--debug-position-for-code code)
+                  ;; Find the desired sexp.
+                  (cider--debug-move-point coor)
+                  (setq out (point-marker))))))
+          ;; But we can create a temp buffer if that fails.
+          (or out
+              (when create-if-needed
+                (cider--initialize-debug-buffer
+                 code ns original-id
+                 (if (and line column)
+                     "you edited the code"
+                   "your tools.nrepl version is older than 0.2.11"))
+                (save-excursion
+                  (cider--debug-move-point coor)
+                  (point-marker)))))))))
 
 (defun cider--handle-debug (response)
   "Handle debugging notification.
@@ -548,11 +582,15 @@ needed.  It is expected to contain at least \"key\", \"input-type\", and
                                                         (or prompt "Expression: "))
                                                        key))
             ((pred sequencep)
-             (cider--debug-goto-source-or-create-source-buffer response)
+             (let* ((marker (cider--debug-find-source-position response 'create-if-needed)))
+               (pop-to-buffer (marker-buffer marker))
+               (goto-char marker))
              ;; The overlay code relies on window boundaries, but point could have been
              ;; moved outside the window by some other code. Redisplay here to ensure the
              ;; visible window includes point.
              (redisplay)
+             ;; Remove overlays AFTER redisplaying! Otherwise there's a visible
+             ;; flicker even if we immediately recreate the overlays.
              (cider--debug-remove-overlays)
              (when cider-debug-use-overlays
                (cider--debug-display-result-overlay debug-value))
@@ -563,6 +601,36 @@ needed.  It is expected to contain at least \"key\", \"input-type\", and
       ;; If something goes wrong, we send a "quit" or the session hangs.
       (error (cider-debug-mode-send-reply ":quit" key)
              (message "Error encountered while handling the debug message: %S" e)))))
+
+(defun cider--handle-enlighten (response)
+  "Handle an enlighten notification.
+RESPONSE is a message received from the nrepl describing the value and
+coordinates of a sexp.  Create an overlay after the specified sexp
+displaying its value."
+  (when-let ((marker (cider--debug-find-source-position response)))
+    (with-current-buffer (marker-buffer marker)
+      (save-excursion
+        (goto-char marker)
+        (clojure-backward-logical-sexp 1)
+        (nrepl-dbind-response response (debug-value erase-previous)
+          (when erase-previous
+            (remove-overlays (point) marker 'cider-type 'enlighten))
+          (when debug-value
+            (if (memq (char-before marker) '(?\) ?\] ?}))
+                ;; Enlightening a sexp looks like a regular return value, except
+                ;; for a different border.
+                (cider--make-result-overlay (cider-font-lock-as-clojure debug-value)
+                  :where (cons marker marker)
+                  :type 'enlighten
+                  :prepend-face 'cider-enlightened)
+              ;; Enlightening a symbol uses a more abbreviated format. The
+              ;; result face is the same as a regular result, but we also color
+              ;; the symbol with `cider-enlightened-local'.
+              (cider--make-result-overlay (cider-font-lock-as-clojure debug-value)
+                :format "%s"
+                :where (cons (point) marker)
+                :type 'enlighten
+                'face 'cider-enlightened-local))))))))
 
 
 ;;; Move here command

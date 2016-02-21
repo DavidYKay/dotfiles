@@ -230,6 +230,12 @@ PROJECT-DIR, HOST and PORT are as in `/nrepl-make-buffer-name'."
    (nrepl-make-buffer-name nrepl-connection-buffer-name-template
                            project-dir host port)))
 
+(defun nrepl-connection-identifier (conn)
+  "Return the string which identifies a connection CONN."
+  (thread-last (buffer-name conn)
+    (replace-regexp-in-string "\\`*cider-repl " "")
+    (replace-regexp-in-string "*\\'" "" )))
+
 (defun nrepl-server-buffer-name (&optional project-dir host port)
   "Return the name of the server buffer.
 PROJECT-DIR, HOST and PORT are as in `nrepl-make-buffer-name'."
@@ -716,7 +722,7 @@ If NO-ERROR is non-nil, show messages instead of throwing an error."
 ;;; Client: Process Handling
 
 (defun nrepl--maybe-kill-server-buffer (server-buf)
-  "Kill SERVER-BUFFER and its process, subject to user confirmation.
+  "Kill SERVER-BUF and its process, subject to user confirmation.
 Do nothing if there is a REPL connected to that server."
   (with-current-buffer server-buf
     ;; Don't kill the server if there is a REPL connected to it.
@@ -844,10 +850,11 @@ The presence of a particular key determines the type of the response.  For
 example, if 'value' key is present, the response is of type 'value', if
 'out' key is present the response is 'stdout' etc.  Depending on the type,
 the handler dispatches the appropriate value to one of the supplied
-handlers: VALUE-HANDLER, STDOUT-HANDLER, STDERR-HANDLER, DONE-HANDLER, and
-EVAL-ERROR-HANDLER.  If the optional EVAL-ERROR-HANDLER is nil, the default
-`nrepl-err-handler' is used.  If any of the other supplied handlers are nil
-nothing happens for the corresponding type of response.
+handlers: VALUE-HANDLER, STDOUT-HANDLER, STDERR-HANDLER, DONE-HANDLER,
+EVAL-ERROR-HANDLER, and PPRINT-OUT-HANDLER.  If the optional
+EVAL-ERROR-HANDLER is nil, the default `nrepl-err-handler' is used.  If any
+of the other supplied handlers are nil nothing happens for the
+corresponding type of response.
 
 When `nrepl-log-messages' is non-nil, *nrepl-messages* buffer contains
 server responses."
@@ -993,6 +1000,9 @@ Register CALLBACK as the response handler."
                       callback
                       connection))
 
+(define-minor-mode cider-enlighten-mode nil nil (cider-mode " light")
+  :global t)
+
 (defun nrepl--eval-request (input session &optional ns line column)
   "Prepare :eval request message for INPUT.
 SESSION and NS provide context for the request.
@@ -1002,18 +1012,21 @@ If LINE and COLUMN are non-nil and current buffer is a file buffer, \"line\",
           (list "op" "eval"
                 "session" session
                 "code" input)
+          (when cider-enlighten-mode
+            (list "enlighten" "true"))
           (let ((file (or (buffer-file-name) (buffer-name))))
             (when (and line column file)
               (list "file" file
                     "line" line
                     "column" column)))))
 
-(defun nrepl-request:eval (input callback connection &optional session ns line column)
+(defun nrepl-request:eval (input callback connection &optional session ns line column additional-params)
   "Send the request INPUT and register the CALLBACK as the response handler.
 The request is dispatched via CONNECTION and SESSION.  If NS is non-nil,
 include it in the request. LINE and COLUMN, if non-nil, define the position
-of INPUT in its buffer."
-  (nrepl-send-request (nrepl--eval-request input session ns line column)
+of INPUT in its buffer.
+ADDITIONAL-PARAMS is a plist to be appended to the request message."
+  (nrepl-send-request (append (nrepl--eval-request input session ns line column) additional-params)
                       callback
                       connection))
 
@@ -1202,7 +1215,7 @@ TYPE is either request or response.
 The message is logged to a buffer described by
 `nrepl-message-buffer-name-template'."
   (when nrepl-log-messages
-    (with-current-buffer (nrepl-messages-buffer msg)
+    (with-current-buffer (nrepl-messages-buffer (current-buffer))
       (setq buffer-read-only nil)
       (when (> (buffer-size) nrepl-message-buffer-max-size)
         (goto-char (/ (buffer-size) nrepl-message-buffer-reduce-denominator))
@@ -1275,15 +1288,14 @@ Set this to nil to prevent truncation."
                                'follow-link t))))
             (insert (color ")\n"))))))))
 
-(defun nrepl-messages-buffer (msg)
-  "Return or create the buffer for MSG.
-The default buffer name is *nrepl-messages session*."
-  ;; Log `new-session' replies to the "orphan" buffer, because that's probably
-  ;; where we logged the request it's replying to.
-  (let* ((msg-session (or (unless (nrepl-dict-get msg "new-session")
-                            (nrepl-dict-get msg "session"))
-                          "00000000-0000-0000-0000-000000000000"))
-         (msg-buffer-name (format nrepl-message-buffer-name-template msg-session)))
+(defun nrepl-messages-buffer-name (conn)
+  "Return the name for the message buffer matching CONN."
+  (format nrepl-message-buffer-name-template (nrepl-connection-identifier conn)))
+
+(defun nrepl-messages-buffer (conn)
+  "Return or create the buffer for CONN.
+The default buffer name is *nrepl-messages connection*."
+  (let ((msg-buffer-name (nrepl-messages-buffer-name conn)))
     (or (get-buffer msg-buffer-name)
         (let ((buffer (get-buffer-create msg-buffer-name)))
           (with-current-buffer buffer

@@ -27,7 +27,7 @@
 (require 'cider-popup)
 (require 'cider-compat)
 
-(defvar cider-classpath-buffer "*Classpath*")
+(defvar cider-classpath-buffer "*cider-classpath*")
 
 (defvar cider-classpath-mode-map
   (let ((map (make-sparse-keymap)))
@@ -88,6 +88,7 @@
 (defun cider-classpath ()
   "List all classpath entries."
   (interactive)
+  (cider-ensure-connected)
   (with-current-buffer (cider-popup-buffer cider-classpath-buffer t)
     (cider-classpath-list (current-buffer)
                           (mapcar (lambda (name)

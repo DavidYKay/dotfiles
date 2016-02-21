@@ -30,6 +30,7 @@
 
 ;;; Code:
 
+(require 'clojure-mode)
 (require 'cider-interaction)
 (require 'cider-test)
 (require 'cider-eldoc)
@@ -50,9 +51,9 @@ Info contains project name and host:port endpoint."
   (if-let ((current-connection (ignore-errors (cider-current-connection))))
       (with-current-buffer current-connection
         (concat
-         cider-repl-type ":"
+         cider-repl-type
          (when cider-mode-line-show-connection
-           (format "%s@%s:%s"
+           (format ":%s@%s:%s"
                    (or (cider--project-name nrepl-project-dir) "<no project>")
                    (pcase (car nrepl-endpoint)
                      ("localhost" "")
@@ -174,7 +175,7 @@ Returns to the buffer in which the command was invoked."
 ;;; The minor mode
 (defvar cider-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-d") #'cider-doc-map)
+    (define-key map (kbd "C-c C-d") 'cider-doc-map)
     (define-key map (kbd "M-.") #'cider-find-var)
     (define-key map (kbd "C-c C-.") #'cider-find-ns)
     (define-key map (kbd "M-,") #'cider-pop-back)
@@ -185,6 +186,7 @@ Returns to the buffer in which the command was invoked."
     (define-key map (kbd "C-x C-e") #'cider-eval-last-sexp)
     (define-key map (kbd "C-c C-e") #'cider-eval-last-sexp)
     (define-key map (kbd "C-c C-w") #'cider-eval-last-sexp-and-replace)
+    (define-key map (kbd "C-c M-;") #'cider-eval-defun-to-comment)
     (define-key map (kbd "C-c M-e") #'cider-eval-last-sexp-to-repl)
     (define-key map (kbd "C-c M-p") #'cider-insert-last-sexp-in-repl)
     (define-key map (kbd "C-c C-p") #'cider-pprint-eval-last-sexp)
@@ -205,10 +207,8 @@ Returns to the buffer in which the command was invoked."
     (define-key map (kbd "C-c C-k") #'cider-load-buffer)
     (define-key map (kbd "C-c C-l") #'cider-load-file)
     (define-key map (kbd "C-c C-b") #'cider-interrupt)
-    (define-key map (kbd "C-c ,")   #'cider-test-run-tests)
-    (define-key map (kbd "C-c C-,") #'cider-test-rerun-tests)
-    (define-key map (kbd "C-c M-,") #'cider-test-run-test)
-    (define-key map (kbd "C-c C-t") #'cider-test-show-report)
+    (define-key map (kbd "C-c ,")   'cider-test-commands-map)
+    (define-key map (kbd "C-c C-t") 'cider-test-commands-map)
     (define-key map (kbd "C-c M-s") #'cider-selector)
     (define-key map (kbd "C-c M-r") #'cider-rotate-default-connection)
     (define-key map (kbd "C-c M-d") #'cider-display-connection-info)
@@ -227,6 +227,7 @@ Returns to the buffer in which the command was invoked."
          ["Eval last sexp in popup buffer" cider-pprint-eval-last-sexp]
          ["Eval last sexp to REPL buffer" cider-eval-last-sexp-to-repl]
          ["Eval last sexp and replace" cider-eval-last-sexp-and-replace]
+         ["Eval top-level sexp to comment" cider-eval-defun-to-comment]
          ["Eval region" cider-eval-region]
          ["Eval ns form" cider-eval-ns-form]
          ["Insert last sexp in REPL" cider-insert-last-sexp-in-repl]
@@ -240,11 +241,7 @@ Returns to the buffer in which the command was invoked."
          ["Find definition" cider-find-var]
          ["Find resource" cider-find-resource]
          ["Go back" cider-pop-back])
-        ("Test"
-         ["Run test" cider-test-run-test]
-         ["Run all tests" cider-test-run-tests]
-         ["Rerun failed/erring tests" cider-test-rerun-tests]
-         ["Show test report" cider-test-show-report])
+        ,cider-test-menu
         "--"
         ["Run project (-main function)" cider-run]
         ["Inspect" cider-inspect]
@@ -261,6 +258,10 @@ Returns to the buffer in which the command was invoked."
         ["Toggle REPL Pretty Print" cider-repl-toggle-pretty-printing]
         ["Clear REPL output" cider-find-and-clear-repl-output]
         "--"
+        ["Browse classpath" cider-classpath]
+        ["Browse namespace" cider-browse-ns]
+        ["Browse all namespaces" cider-browse-ns-all]
+        "--"
         ("nREPL"
          ["Describe session" cider-describe-nrepl-session]
          ["Close session" cider-close-nrepl-session]
@@ -272,6 +273,7 @@ Returns to the buffer in which the command was invoked."
         ["Quit" cider-quit]
         ["Restart" cider-restart]
         "--"
+        ["A sip of CIDER" cider-drink-a-sip]
         ["View manual online" cider-open-manual]
         ["Report a bug" cider-report-bug]
         ["Version info" cider-version]))
@@ -342,6 +344,19 @@ The value can also be t, which means to font-lock as much as possible."
   "Faced used on depreacted vars"
   :group 'cider)
 
+(defface cider-instrumented-face
+  '((t :box (:color "#c00" :line-width -1)))
+  "Face used to mark code being debugged."
+  :group 'cider-debug
+  :group 'cider
+  :package-version '(cider . "0.10.0"))
+
+(defface cider-traced-face
+  '((t :box (:color "cyan" :line-width -1)))
+  "Face used to mark code being traced."
+  :group 'cider
+  :package-version '(cider . "0.11.0"))
+
 (defconst cider-deprecated-properties
   '(face cider-deprecated
          help-echo "This var is deprecated. \\[cider-doc] for version information."))
@@ -358,46 +373,41 @@ The value can also be t, which means to font-lock as much as possible."
   (let ((cider-font-lock-dynamically (if (eq cider-font-lock-dynamically t)
                                          '(function var macro core deprecated)
                                        cider-font-lock-dynamically))
-        deprecated
+        deprecated enlightened
         macros functions vars instrumented traced)
-    (when (memq 'core cider-font-lock-dynamically)
-      (while core-plist
-        (let ((sym (pop core-plist))
-              (meta (pop core-plist)))
-          (when (nrepl-dict-get meta "cider-instrumented")
-            (push sym instrumented))
-          (when (or (nrepl-dict-get meta "clojure.tools.trace/traced")
-                    (nrepl-dict-get meta "cider.inlined-deps.clojure.tools.trace/traced"))
-            (push sym traced))
-          (when (nrepl-dict-get meta "deprecated")
-            (push sym deprecated))
-          (cond
-           ((nrepl-dict-get meta "macro")
-            (push sym macros))
-           ((nrepl-dict-get meta "arglists")
-            (push sym functions))
-           (t
-            (push sym vars))))))
-    (while symbols-plist
-      (let ((sym (pop symbols-plist))
-            (meta (pop symbols-plist)))
-        (when (nrepl-dict-get meta "cider-instrumented")
-          (push sym instrumented))
-        (when (or (nrepl-dict-get meta "clojure.tools.trace/traced")
-                  (nrepl-dict-get meta "cider.inlined-deps.clojure.tools.trace/traced"))
-          (push sym traced))
-        (when (and (nrepl-dict-get meta "deprecated")
-                   (memq 'deprecated cider-font-lock-dynamically))
-          (push sym deprecated))
-        (cond
-         ((and (memq 'macro cider-font-lock-dynamically)
-               (nrepl-dict-get meta "macro"))
-          (push sym macros))
-         ((and (memq 'function cider-font-lock-dynamically)
-               (nrepl-dict-get meta "arglists"))
-          (push sym functions))
-         ((memq 'var cider-font-lock-dynamically)
-          (push sym vars)))))
+    (cl-labels ((handle-plist
+                 (plist)
+                 (let ((do-function (memq 'function cider-font-lock-dynamically))
+                       (do-var (memq 'var cider-font-lock-dynamically))
+                       (do-macro (memq 'macro cider-font-lock-dynamically))
+                       (do-deprecated (memq 'deprecated cider-font-lock-dynamically)))
+                   (while plist
+                     (let ((sym (pop plist))
+                           (meta (pop plist)))
+                       (pcase (nrepl-dict-get meta "cider.nrepl.middleware.util.instrument/breakfunction")
+                         (`nil nil)
+                         (`"#'cider.nrepl.middleware.debug/breakpoint-if-interesting"
+                          (push sym instrumented))
+                         (`"#'cider.nrepl.middleware.enlighten/light-form"
+                          (push sym enlightened)))
+                       ;; The ::traced keywords can be inlined by MrAnderson, so
+                       ;; we catch that case too.
+                       ;; FIXME: This matches values too, not just keys.
+                       (when (seq-find (lambda (k) (and (stringp k)
+                                                   (string-match (rx "clojure.tools.trace/traced" eos) k)))
+                                       meta)
+                         (push sym traced))
+                       (when (and do-deprecated (nrepl-dict-get meta "deprecated"))
+                         (push sym deprecated))
+                       (cond ((and do-macro (nrepl-dict-get meta "macro"))
+                              (push sym macros))
+                             ((and do-function (nrepl-dict-get meta "arglists"))
+                              (push sym functions))
+                             (do-var (push sym vars))))))))
+      (when (memq 'core cider-font-lock-dynamically)
+        (let ((cider-font-lock-dynamically '(function var macro core deprecated)))
+          (handle-plist core-plist)))
+      (handle-plist symbols-plist))
     `(
       ,@(when macros
           `((,(concat (rx (or "(" "#'")) ; Can't take the value of macros.
@@ -412,6 +422,9 @@ The value can also be t, which means to font-lock as much as possible."
       ,@(when deprecated
           `((,(regexp-opt deprecated 'symbols) 0
              (cider--unless-local-match cider-deprecated-properties) append)))
+      ,@(when enlightened
+          `((,(regexp-opt enlightened 'symbols) 0
+             (cider--unless-local-match 'cider-enlightened) append)))
       ,@(when instrumented
           `((,(regexp-opt instrumented 'symbols) 0
              (cider--unless-local-match 'cider-instrumented-face) append)))
@@ -421,7 +434,7 @@ The value can also be t, which means to font-lock as much as possible."
 
 (defconst cider--static-font-lock-keywords
   (eval-when-compile
-    `((,(regexp-opt '("#break" "#dbg") 'symbols) 0 font-lock-warning-face)))
+    `((,(regexp-opt '("#break" "#dbg" "#light") 'symbols) 0 font-lock-warning-face)))
   "Default expressions to highlight in CIDER mode.")
 
 (defvar-local cider--dynamic-font-lock-keywords nil)
@@ -440,10 +453,7 @@ namespace itself."
                   (cider--compile-font-lock-keywords
                    symbols (cider-resolve-ns-symbols (cider-resolve-core-ns))))
       (font-lock-add-keywords nil cider--dynamic-font-lock-keywords 'end))
-    (if (fboundp 'font-lock-flush)
-        (font-lock-flush)
-      (with-no-warnings
-        (font-lock-fontify-buffer)))))
+    (cider--font-lock-flush)))
 
 
 ;;; Detecting local variables
@@ -571,9 +581,6 @@ property."
 
 
 ;;; Mode definition
-;; Once a new stable of `clojure-mode' is realeased, we can depend on it and
-;; ditch this `defvar'.
-(defvar clojure-get-indent-function)
 
 ;;;###autoload
 (define-minor-mode cider-mode
@@ -583,17 +590,29 @@ property."
   nil
   cider-mode-line
   cider-mode-map
-  (cider-eldoc-setup)
-  (make-local-variable 'completion-at-point-functions)
-  (add-to-list 'completion-at-point-functions
-               #'cider-complete-at-point)
-  (font-lock-add-keywords nil cider--static-font-lock-keywords)
-  (cider-refresh-dynamic-font-lock)
-  (setq-local font-lock-fontify-region-function
-              (cider--wrap-fontify-locals font-lock-fontify-region-function))
-  (when cider-dynamic-indentation
-    (setq-local clojure-get-indent-function #'cider--get-symbol-indent))
-  (setq next-error-function #'cider-jump-to-compilation-error))
+  (if cider-mode
+      (progn
+        (cider-eldoc-setup)
+        (make-local-variable 'completion-at-point-functions)
+        (add-to-list 'completion-at-point-functions
+                     #'cider-complete-at-point)
+        (font-lock-add-keywords nil cider--static-font-lock-keywords)
+        (cider-refresh-dynamic-font-lock)
+        ;; `font-lock-mode' might get enabled after `cider-mode'.
+        (add-hook 'font-lock-mode-hook #'cider-refresh-dynamic-font-lock nil 'local)
+        (setq-local font-lock-fontify-region-function
+                    (cider--wrap-fontify-locals font-lock-fontify-region-function))
+        (when cider-dynamic-indentation
+          (setq-local clojure-get-indent-function #'cider--get-symbol-indent))
+        (setq next-error-function #'cider-jump-to-compilation-error))
+    (mapc #'kill-local-variable '(completion-at-point-functions
+                                  next-error-function
+                                  font-lock-fontify-region-function
+                                  clojure-get-indent-function))
+    (remove-hook 'font-lock-mode-hook #'cider-refresh-dynamic-font-lock 'local)
+    (font-lock-remove-keywords nil cider--dynamic-font-lock-keywords)
+    (font-lock-remove-keywords nil cider--static-font-lock-keywords)
+    (cider--font-lock-flush)))
 
 (defun cider-set-buffer-ns (ns)
   "Set this buffer's namespace to NS and refresh font-locking."

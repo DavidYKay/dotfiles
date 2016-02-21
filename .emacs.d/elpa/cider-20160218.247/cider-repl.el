@@ -32,6 +32,7 @@
 
 (require 'cider-client)
 (require 'cider-doc)
+(require 'cider-test)
 (require 'cider-eldoc) ; for cider-eldoc-setup
 (require 'cider-common)
 (require 'cider-compat)
@@ -89,6 +90,19 @@ When set to nil the buffer will only be created."
   :type 'boolean
   :group 'cider-repl)
 
+(defcustom cider-repl-scroll-on-output t
+  "Controls whether the REPL buffer auto-scolls on new output.
+
+When set to t (the default), if the REPL buffer contains more lines than the
+size of the window, the buffer is automatically re-centered upon completion
+of evaluating an expression, so that the bottom line of output is on the
+bottom line of the window.
+
+If this is set to nil, no re-centering takes place."
+  :type 'boolean
+  :group 'cider-repl
+  :package-version '(cider . "0.11.0"))
+
 (defcustom cider-repl-use-pretty-printing nil
   "Control whether the results in REPL are pretty-printed or not.
 The `cider-toggle-pretty-printing' command can be used to interactively
@@ -117,6 +131,12 @@ you'd like to use the default Emacs behavior use
 `indent-for-tab-command'."
   :type 'symbol
   :group 'cider-repl)
+
+(defcustom cider-repl-display-help-banner t
+  "When non-nil a bit of help text will be displayed on REPL start."
+  :type 'boolean
+  :group 'cider-repl
+  :package-version '(cider . "0.11.0"))
 
 
 ;;;; REPL buffer local variables
@@ -274,11 +294,48 @@ client process connection.  Unless NO-BANNER is non-nil, insert a banner."
           (cider--clojure-version)
           (cider--nrepl-version)))
 
+(defun cider-repl--help-banner ()
+  "Generate the help banner."
+  (substitute-command-keys
+   "\n; ======================================================================
+; If you’re new to CIDER it is highly recommended to go through its
+; manual first. Press <M-x cider-view-manual> to view it.
+; In case you’re seeing any warnings you should consult the manual’s
+; \"Troubleshooting\" section.
+;
+; Here are few tips to get you started:
+;
+; * Press <\\[describe-mode]> to see a list of the keybindings available (this
+;   will work in every Emacs buffer)
+; * Press <\\[cider-repl-handle-shortcut]> to quickly invoke some REPL command
+; * Press <\\[cider-switch-to-last-clojure-buffer]> to switch between the REPL and a Clojure file
+; * Press <\\[cider-find-var] to jump to the source of something (e.g. a var, a
+;   Java method)
+; * Press <\\[cider-doc]> to view the documentation for something (e.g.
+;   a var, a Java method)
+;
+; CIDER is super customizable - try <M-x customize-group cider> to
+; get a feel for this. If you’re thirsty for knowledge you should try
+; <M-x cider-drink-a-sip>.
+;
+; If you think you’ve encountered a bug (or have some suggestions for
+; improvements) press <M-x cider-report-bug>.
+;
+; Above all else - don’t panic! In case of an emergency - procure
+; some (hard) cider and enjoy it responsibly!
+;
+; You can disable this message from appearing on start by setting
+; `cider-repl-display-help-banner' to nil.
+; ======================================================================
+"))
+
 (defun cider-repl--insert-banner-and-prompt (buffer)
   "Insert REPL banner and REPL prompt in BUFFER."
   (with-current-buffer buffer
     (when (zerop (buffer-size))
-      (insert (propertize (cider-repl--banner) 'font-lock-face 'font-lock-comment-face)))
+      (insert (propertize (cider-repl--banner) 'font-lock-face 'font-lock-comment-face))
+      (when cider-repl-display-help-banner
+        (insert (propertize (cider-repl--help-banner) 'font-lock-face 'font-lock-comment-face))))
     (goto-char (point-max))
     (cider-repl--mark-output-start)
     (cider-repl--mark-input-start)
@@ -391,7 +448,7 @@ This will not work on non-current prompts."
 
 (defun cider-repl--show-maximum-output ()
   "Put the end of the buffer at the bottom of the window."
-  (when (eobp)
+  (when (and cider-repl-scroll-on-output (eobp))
     (let ((win (get-buffer-window (current-buffer) t)))
       (when win
         (with-selected-window win
@@ -634,25 +691,15 @@ If NEWLINE is true then add a newline at the end of the input."
     (goto-char (point-max))
     (cider-repl--mark-input-start)
     (cider-repl--mark-output-start)
-    (cider-spinner-start)
-    (if (and (not (string-match-p "\\`[ \t\r\n]*\\'" input))
-             cider-repl-use-pretty-printing)
-        (cider-nrepl-request:pprint-eval
-         input
-         (cider-eval-spinner-handler
-          (current-buffer)
-          (cider-repl-handler (current-buffer)))
-         (cider-current-ns)
-         (1- (window-width))
-         (cider--pprint-fn))
-      (cider-nrepl-request:eval
-       input
-       (cider-eval-spinner-handler
-        (current-buffer)
-        (cider-repl-handler (current-buffer)))
-       (cider-current-ns)
-       (line-number-at-pos input-start)
-       (cider-column-number-at-pos input-start)))))
+    (cider-nrepl-request:eval
+     input
+     (cider-repl-handler (current-buffer))
+     (cider-current-ns)
+     (line-number-at-pos input-start)
+     (cider-column-number-at-pos input-start)
+     (unless (or (not cider-repl-use-pretty-printing)
+                 (string-match-p "\\`[ \t\r\n]*\\'" input))
+       (cider--nrepl-pprint-request-plist (1- (window-width)))))))
 
 (defun cider-repl-return (&optional end-of-input)
   "Evaluate the current input string, or insert a newline.
@@ -1057,12 +1104,18 @@ constructs."
 (cider-repl-add-shortcut "trace-ns" #'cider-toggle-trace-ns)
 (cider-repl-add-shortcut "undef" #'cider-undef)
 (cider-repl-add-shortcut "help" #'cider-repl-shortcuts-help)
+(cider-repl-add-shortcut "test-ns" #'cider-test-run-ns-tests)
+(cider-repl-add-shortcut "test-all" #'cider-test-run-loaded-tests)
+(cider-repl-add-shortcut "test-project" #'cider-test-run-project-tests)
+(cider-repl-add-shortcut "test-report" #'cider-test-show-report)
+
+(defconst cider-repl-shortcuts-help-buffer "*CIDER REPL Shortcuts Help*")
 
 (defun cider-repl-shortcuts-help ()
   "Display a help buffer."
   (interactive)
-  (ignore-errors (kill-buffer "*CIDER REPL Shortcuts Help*"))
-  (with-current-buffer (get-buffer-create "*CIDER REPL Shortcuts Help*")
+  (ignore-errors (kill-buffer cider-repl-shortcuts-help-buffer))
+  (with-current-buffer (get-buffer-create cider-repl-shortcuts-help-buffer)
     (insert "CIDER REPL shortcuts:\n\n")
     (maphash (lambda (k v) (insert (format "%s:\n\t%s\n" k v))) cider-repl-shortcuts)
     (goto-char (point-min))
@@ -1111,7 +1164,9 @@ constructs."
 
 (defvar cider-repl-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-d") #'cider-doc-map)
+    (define-key map (kbd "C-c C-d") 'cider-doc-map)
+    (define-key map (kbd "C-c ,")   'cider-test-commands-map)
+    (define-key map (kbd "C-c C-t") 'cider-test-commands-map)
     (define-key map (kbd "M-.") #'cider-find-var)
     (define-key map (kbd "C-c C-.") #'cider-find-ns)
     (define-key map (kbd "M-,") #'cider-pop-back)
@@ -1140,6 +1195,7 @@ constructs."
     (define-key map (kbd "C-c C-z") #'cider-switch-to-last-clojure-buffer)
     (define-key map (kbd "C-c M-o") #'cider-repl-switch-to-other)
     (define-key map (kbd "C-c M-s") #'cider-selector)
+    (define-key map (kbd "C-c M-d") #'cider-display-connection-info)
     (define-key map (kbd "C-c C-q") #'cider-quit)
     (define-key map (kbd "C-c M-i") #'cider-inspect)
     (define-key map (kbd "C-c M-t v") #'cider-toggle-trace-var)
@@ -1167,6 +1223,8 @@ constructs."
          ["Macroexpand-1" cider-macroexpand-1]
          ["Macroexpand-all" cider-macroexpand-all])
         "--"
+        ,cider-test-menu
+        "--"
         ["Run project (-main function)" cider-run]
         ["Inspect" cider-inspect]
         ["Toggle var tracing" cider-toggle-trace-var]
@@ -1184,9 +1242,14 @@ constructs."
         "--"
         ["Interrupt evaluation" cider-interrupt]
         "--"
+        ["Connection info" cider-display-connection-info]
+        "--"
         ["Quit" cider-quit]
         ["Restart" cider-restart]
         "--"
+        ["A sip of CIDER" cider-drink-a-sip]
+        ["View manual online" cider-open-manual]
+        ["Report a bug" cider-report-bug]
         ["Version info" cider-version]))
     map))
 
