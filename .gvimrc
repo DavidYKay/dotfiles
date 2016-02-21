@@ -9,8 +9,13 @@ if has('win32')
 elseif has('unix')
     let hostname = substitute(system('hostname'), '\n', '', '')
     if hostname == "donkeyKong"
-        set guifont=Mono\ 13
-        " colo slack
+        "set guifont=Ubuntu\ Mono\ 14
+        "set guifont=ProggyCleanTT\ 12
+        set guifont=Droid\ Sans\ Mono\ 12
+        "set guifont=Droid\ Sans\ Mono\ 14
+        "set guifont=Droid\ Sans\ Mono\ 16
+        "set guifont=Droid\ Sans\ Mono\ 18
+        "colo slack
         colo gentooish
     else
         set guifont=ProggyCleanTT\ 12

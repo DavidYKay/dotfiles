@@ -3,8 +3,9 @@
     (defvar running-on-linux t)
     ; use Windows key as meta
     (setq x-super-keysym 'meta)
-    (set-default-font "ProggyCleanTT-12"))
-    ;(set-default-font "Mono-13"))
+    ;(set-default-font "Droid Sans Mono-14"))
+    ;(set-default-font "ProggyCleanTT-12"))
+    (set-default-font "Mono-13"))
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
@@ -154,6 +155,9 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; Java
+(setq jdee-server-dir "~/.emacs.d/java/")
+
 ;; Lisp / Clojure(script)
 (add-hook 'lisp-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
@@ -166,7 +170,7 @@
 ;(global-set-key (kbd "RET") 'newline-and-indent)
 ;(local-set-key (kbd "RET") 'newline-and-indent)
 
-;; ClojureScript
+; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
 ;; Python

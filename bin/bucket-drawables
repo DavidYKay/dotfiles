@@ -1,5 +1,5 @@
 #!/bin/bash
 
 mv $1_1x.png drawable-mdpi/$1.png
-mv $1_2x.png drawable-hdpi/$1.png
+mv $1_2x.png drawable-xhdpi/$1.png
 mv $1_3x.png drawable-xxhdpi/$1.png
