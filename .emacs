@@ -3,9 +3,9 @@
     (defvar running-on-linux t)
     ; use Windows key as meta
     (setq x-super-keysym 'meta)
-    ;(set-default-font "Droid Sans Mono-14"))
+    (set-default-font "Droid Sans Mono-12"))
     ;(set-default-font "ProggyCleanTT-12"))
-    (set-default-font "Mono-13"))
+    ;(set-default-font "Mono-13"))
 
     ((string-equal system-type "darwin")
      (defvar running-on-mac t)
@@ -21,8 +21,8 @@
      ))
 
 ; Set theme similar to gentooish
-;(load-theme 'wombat t)
-(load-theme 'wheatgrass t)
+(load-theme 'wombat t)
+;(load-theme 'wheatgrass t)
 ; Set theme to light, like summerfruit
 ; (load-theme 'adwaita t)
 
@@ -196,6 +196,11 @@
 (require 'evil)
 (define-key evil-normal-state-map "M-x" 'execute-extended-command)
 (evil-mode 1)
+
+(define-key evil-window-map "\C-h" 'evil-window-left)
+(define-key evil-window-map "\C-j" 'evil-window-down)
+(define-key evil-window-map "\C-k" 'evil-window-up)
+(define-key evil-window-map "\C-l" 'evil-window-right)
 
 ; Cider
 (setq cider-lein-command "~/bin/lein")
