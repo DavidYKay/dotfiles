@@ -23,12 +23,16 @@
 ; Set theme similar to gentooish
 ;(load-theme 'wombat t)
 (load-theme 'wheatgrass t)
-;
+; Set theme to light, like summerfruit
+; (load-theme 'adwaita t)
+
 ; Set cursor color to white
 (set-cursor-color "#ffffff")
 
 (global-linum-mode t)
 
+;; disable startup message
+(setq inhibit-startup-message t)
 
 (require 'package)
 (add-to-list 'package-archives
