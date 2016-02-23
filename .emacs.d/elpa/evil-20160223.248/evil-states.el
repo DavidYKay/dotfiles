@@ -3,7 +3,7 @@
 ;; Author: Vegard Øye <vegard_oye at hotmail.com>
 ;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
 
-;; Version: 1.0.9
+;; Version: 1.2.10
 
 ;;
 ;; This file is NOT part of GNU Emacs.
@@ -39,6 +39,7 @@ AKA \"Command\" state."
   :exit-hook (evil-repeat-start-hook)
   (cond
    ((evil-normal-state-p)
+    (overwrite-mode -1)
     (add-hook 'post-command-hook #'evil-normal-post-command nil t))
    (t
     (remove-hook 'post-command-hook #'evil-normal-post-command t))))
@@ -106,7 +107,9 @@ Handles the repeat-count of the insertion command."
   (when evil-insert-count
     (dotimes (i (1- evil-insert-count))
       (when evil-insert-lines
-        (evil-insert-newline-below))
+        (evil-insert-newline-below)
+        (when evil-auto-indent
+          (indent-according-to-mode)))
       (when (fboundp 'evil-execute-repeat-info)
         (evil-execute-repeat-info
          (cdr evil-insert-repeat-info)))))
@@ -795,17 +798,8 @@ CORNER defaults to `upper-left'."
 (defun evil-half-cursor ()
   "Change cursor to a half-height box.
 \(This is really just a thick horizontal bar.)"
-  (let (height)
-    ;; make `window-line-height' reliable
-    (redisplay)
-    (setq height (window-line-height))
-    (setq height (+ (nth 0 height) (nth 3 height)))
-    ;; cut cursor height in half
-    (setq height (/ height 2))
-    (setq cursor-type (cons 'hbar height))
-    ;; ensure the cursor is redisplayed
-    (force-window-update (selected-window))
-    (redisplay)))
+  (let ((height (/ (window-pixel-height) (* (window-height) 2))))
+    (setq cursor-type (cons 'hbar height))))
 
 ;;; Replace state
 
