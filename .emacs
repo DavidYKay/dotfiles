@@ -164,6 +164,9 @@
 ;; Java
 (setq jdee-server-dir "~/.emacs.d/java/")
 
+;; TODO: see if this works out. If not, make it language-specific
+(global-set-key (kbd "RET") 'newline-and-indent)
+
 ;; Lisp / Clojure(script)
 (add-hook 'lisp-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
