@@ -161,11 +161,14 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; TODO: see if this works out. If not, make it language-specific
+(global-set-key (kbd "RET") 'newline-and-indent)
+
 ;; Java
 (setq jdee-server-dir "~/.emacs.d/java/")
 
-;; TODO: see if this works out. If not, make it language-specific
-(global-set-key (kbd "RET") 'newline-and-indent)
+;; Groovy
+(add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 
 ;; Lisp / Clojure(script)
 (add-hook 'lisp-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
