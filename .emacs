@@ -225,6 +225,19 @@
 (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
+;; Rust
+
+(setq racer-cmd "~/.multirust/toolchains/stable/cargo/bin/racer")
+(setq racer-rust-src-path "~/Tools/rust/lang/latest/src")
+
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
+(setq company-tooltip-align-annotations t)
+
 ;; flycheck rust
 
 (eval-after-load 'flycheck
