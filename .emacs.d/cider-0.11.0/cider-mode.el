@@ -259,6 +259,7 @@ Returns to the buffer in which the command was invoked."
         ["Clear REPL output" cider-find-and-clear-repl-output]
         "--"
         ["Browse classpath" cider-classpath]
+        ["Browse classpath entry" cider-open-classpath-entry]
         ["Browse namespace" cider-browse-ns]
         ["Browse all namespaces" cider-browse-ns-all]
         "--"
@@ -274,7 +275,8 @@ Returns to the buffer in which the command was invoked."
         ["Restart" cider-restart]
         "--"
         ["A sip of CIDER" cider-drink-a-sip]
-        ["View manual online" cider-open-manual]
+        ["View manual online" cider-view-manual]
+        ["View refcard online" cider-view-refcard]
         ["Report a bug" cider-report-bug]
         ["Version info" cider-version]))
     map))

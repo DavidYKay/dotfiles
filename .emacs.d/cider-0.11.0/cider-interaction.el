@@ -448,9 +448,10 @@ Invert meaning of `cider-prompt-for-symbol' if PREFIX indicates it should be."
 (defun cider-find-ns (&optional arg ns)
   "Find the file containing NS.
 
-A prefix of `-` or a double prefix argument causes
+A prefix ARG of `-` or a double prefix argument causes
 the results to be displayed in a different window."
   (interactive "P")
+  (cider-ensure-connected)
   (cider-ensure-op-supported "ns-path")
   (if ns
       (cider--find-ns ns)
@@ -1367,6 +1368,7 @@ that a normal reload would not otherwise recover from.  The trade-off of
 clearing is that stale code from any deleted files may not be completely
 unloaded."
   (interactive "p")
+  (cider-ensure-connected)
   (cider-ensure-op-supported "refresh")
   (let ((clear? (member mode '(clear 16)))
         (refresh-all? (member mode '(refresh-all 4))))
@@ -1463,11 +1465,13 @@ of the buffer into a formatted string."
 (defun cider-format-buffer ()
   "Format the Clojure code in the current buffer."
   (interactive)
+  (cider-ensure-connected)
   (cider--format-buffer #'cider-sync-request:format-code))
 
 (defun cider-format-edn-buffer ()
   "Format the EDN data in the current buffer."
   (interactive)
+  (cider-ensure-connected)
   (cider--format-buffer (lambda (edn)
                           (cider-sync-request:format-edn edn fill-column))))
 
@@ -1493,11 +1497,13 @@ the string contents of the region into a formatted string."
 (defun cider-format-region (start end)
   "Format the Clojure code in the current region."
   (interactive "r")
+  (cider-ensure-connected)
   (cider--format-region start end #'cider-sync-request:format-code))
 
 (defun cider-format-edn-region (start end)
   "Format the EDN data in the current region."
   (interactive "r")
+  (cider-ensure-connected)
   (let* ((start-column (save-excursion (goto-char start) (current-column)))
          (right-margin (- fill-column start-column)))
     (cider--format-region start end
@@ -1507,6 +1513,7 @@ the string contents of the region into a formatted string."
 (defun cider-format-defun ()
   "Format the code in the current defun."
   (interactive)
+  (cider-ensure-connected)
   (save-excursion
     (mark-defun)
     (cider-format-region (region-beginning) (region-end))))
@@ -1519,6 +1526,7 @@ the string contents of the region into a formatted string."
 (defun cider-describe-nrepl-session ()
   "Describe an nREPL session."
   (interactive)
+  (cider-ensure-connected)
   (let ((selected-session (completing-read "Describe nREPL session: " (nrepl-sessions (cider-current-connection)))))
     (when (and selected-session (not (equal selected-session "")))
       (let* ((session-info (nrepl-sync-request:describe (cider-current-connection) selected-session))
@@ -1539,6 +1547,7 @@ the string contents of the region into a formatted string."
 (defun cider-close-nrepl-session ()
   "Close an nREPL session for the current connection."
   (interactive)
+  (cider-ensure-connected)
   (let ((selected-session (completing-read "Close nREPL session: " (nrepl-sessions (cider-current-connection)))))
     (when selected-session
       (nrepl-sync-request:close (cider-current-connection) selected-session)
@@ -1616,6 +1625,7 @@ and all ancillary CIDER buffers."
   "Restart the currently active CIDER connection.
 If RESTART-ALL is t, then restarts all connections."
   (interactive "P")
+  (cider-ensure-connected)
   (if restart-all
       (dolist (conn cider-connections)
         (cider--restart-connection conn))
@@ -1633,6 +1643,7 @@ VAR is a fully qualified Clojure variable name as a string."
   "Run -main or FUNCTION, prompting for its namespace if necessary.
 With a prefix argument, prompt for function to run instead of -main."
   (interactive (list (when current-prefix-arg (read-string "Function name: "))))
+  (cider-ensure-connected)
   (let ((name (or function "-main")))
     (when-let ((response (cider-nrepl-send-sync-request
                           (list "op" "ns-list-vars-by-name"
@@ -1652,13 +1663,37 @@ With a prefix argument, prompt for function to run instead of -main."
                        name))))
         (user-error "No %s var defined in any namespace" (cider-propertize name 'var))))))
 
-(defconst cider-manual-url "https://github.com/clojure-emacs/cider/blob/master/README.md"
+(defvar cider-version)
+
+(defconst cider-manual-url "https://github.com/clojure-emacs/cider/blob/%s/README.md"
   "The URL to CIDER's manual.")
+
+(defun cider--github-version ()
+  "Convert the version to a GitHub-friendly version."
+  (if (string-match-p "-snapshot" cider-version)
+      "master"
+    (concat "v" cider-version)))
+
+(defun cider-manual-url ()
+  "The CIDER manual's url."
+  (format cider-manual-url (cider--github-version)))
 
 (defun cider-view-manual ()
   "View the manual in your default browser."
   (interactive)
-  (browse-url cider-manual-url))
+  (browse-url (cider-manual-url)))
+
+(defconst cider-refcard-url "https://github.com/clojure-emacs/cider/raw/%s/doc/cider-refcard.pdf"
+  "The URL to CIDER's refcard.")
+
+(defun cider-refcard-url ()
+  "The CIDER manual's url."
+  (format cider-refcard-url (cider--github-version)))
+
+(defun cider-view-refcard ()
+  "View the refcard in your default browser."
+  (interactive)
+  (browse-url (cider-refcard-url)))
 
 (defconst cider-report-bug-url "https://github.com/clojure-emacs/cider/issues/new"
   "The URL to report a CIDER issue.")

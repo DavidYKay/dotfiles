@@ -79,7 +79,7 @@
 (require 'fiplr)
 ; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" 
-					  "target" "archive" "out" "ui-out"
+					  "target" "archive" "out" "ui-out" "build"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
@@ -176,6 +176,8 @@
 (add-hook 'clojure-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; Clojure(script)
+(add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
+(require 'cider)
 
 ; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 

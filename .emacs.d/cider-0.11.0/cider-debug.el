@@ -218,10 +218,8 @@ Each element of LOCALS should be a list of at least two elements."
   "Return prompt to display for COMMAND-LIST."
   (concat
    (mapconcat (lambda (x) (put-text-property 0 1 'face 'cider-debug-prompt-face x) x)
-              ;; `eval' is now integrated with things like `C-x C-e' and `C-c M-:'
-              ;; so we don't advertise this key to reduce clutter.
               ;; `inspect' would conflict with `inject'.
-              (seq-difference command-list '("eval" "inspect")) " ")
+              (seq-difference command-list '("inspect")) " ")
    "\n"))
 
 (defvar-local cider--debug-prompt-overlay nil)
@@ -331,7 +329,7 @@ In order to work properly, this mode must be activated by
     ;; doesn't accidentally hit `n' between two messages (thus editing the code).
     (when-let ((proc (unless nrepl-ongoing-sync-request
                        (get-buffer-process (cider-current-connection)))))
-      (accept-process-output proc 0.5))
+      (accept-process-output proc 1))
     (unless cider--debug-mode
       (setq buffer-read-only nil)
       (cider--debug-remove-overlays (current-buffer)))
@@ -358,7 +356,7 @@ In order to work properly, this mode must be activated by
 
 (easy-menu-define cider-debug-mode-menu cider--debug-mode-map
   "Menu for CIDER debug mode"
-  `("CIDER DEBUGGER"
+  `("CIDER Debugger"
     ["Next step" (cider-debug-mode-send-reply ":next") :keys "n"]
     ["Continue non-stop" (cider-debug-mode-send-reply ":continue") :keys "c"]
     ["Move out of sexp" (cider-debug-mode-send-reply ":out") :keys "o"]
@@ -454,8 +452,8 @@ at the end of the given sexp).
               (* x 2))]
       (twice 15))
 
-In addition to numbers, a coordinate can be a string. This string names the
-key of a map, and it means \"go to the value associated with this key\". "
+In addition to numbers, a coordinate can be a string.  This string names the
+key of a map, and it means \"go to the value associated with this key\"."
   (condition-case-unless-debug nil
       ;; Navigate through sexps inside the sexp.
       (let ((in-syntax-quote nil))

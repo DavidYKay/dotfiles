@@ -19,7 +19,7 @@
 
 ;;; Commentary:
 
-;; Use `cider--make-overlay' to place a generic overlay at point. Or use
+;; Use `cider--make-overlay' to place a generic overlay at point.  Or use
 ;; `cider--make-result-overlay' to place an interactive eval result overlay at
 ;; the end of a specified line.
 
@@ -74,7 +74,6 @@ see `cider-debug-use-overlays'."
   :type 'string
   :group 'cider
   :package-version '(cider . "0.5.0"))
-(define-obsolete-variable-alias 'cider-interactive-eval-result-prefix 'cider-eval-result-prefix "0.10.0")
 
 (defcustom cider-eval-result-duration 'command
   "Duration, in seconds, of CIDER's eval-result overlays.

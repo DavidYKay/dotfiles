@@ -288,45 +288,62 @@ client process connection.  Unless NO-BANNER is non-nil, insert a banner."
 
 (defun cider-repl--banner ()
   "Generate the welcome REPL buffer banner."
-  (format "; CIDER %s (Java %s, Clojure %s, nREPL %s)"
-          (cider--version)
-          (cider--java-version)
-          (cider--clojure-version)
-          (cider--nrepl-version)))
+  (let ((host (cider--connection-host (current-buffer)))
+        (port (cider--connection-port (current-buffer))))
+    (format ";; Connected to nREPL server running on port %s on host %s - nrepl://%s:%s
+;; CIDER %s, nREPL %s
+;; Clojure %s, Java %s
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: C-c C-q
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;"
+            port
+            host
+            host
+            port
+            (cider--version)
+            (cider--nrepl-version)
+            (cider--clojure-version)
+            (cider--java-version))))
 
 (defun cider-repl--help-banner ()
   "Generate the help banner."
   (substitute-command-keys
-   "\n; ======================================================================
-; If you’re new to CIDER it is highly recommended to go through its
-; manual first. Press <M-x cider-view-manual> to view it.
-; In case you’re seeing any warnings you should consult the manual’s
-; \"Troubleshooting\" section.
-;
-; Here are few tips to get you started:
-;
-; * Press <\\[describe-mode]> to see a list of the keybindings available (this
-;   will work in every Emacs buffer)
-; * Press <\\[cider-repl-handle-shortcut]> to quickly invoke some REPL command
-; * Press <\\[cider-switch-to-last-clojure-buffer]> to switch between the REPL and a Clojure file
-; * Press <\\[cider-find-var] to jump to the source of something (e.g. a var, a
-;   Java method)
-; * Press <\\[cider-doc]> to view the documentation for something (e.g.
-;   a var, a Java method)
-;
-; CIDER is super customizable - try <M-x customize-group cider> to
-; get a feel for this. If you’re thirsty for knowledge you should try
-; <M-x cider-drink-a-sip>.
-;
-; If you think you’ve encountered a bug (or have some suggestions for
-; improvements) press <M-x cider-report-bug>.
-;
-; Above all else - don’t panic! In case of an emergency - procure
-; some (hard) cider and enjoy it responsibly!
-;
-; You can disable this message from appearing on start by setting
-; `cider-repl-display-help-banner' to nil.
-; ======================================================================
+   "\n;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; \"Troubleshooting\" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <\\[describe-mode]> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <\\[cider-repl-handle-shortcut]> to quickly invoke some REPL command
+;; * Press <\\[cider-switch-to-last-clojure-buffer]> to switch between the REPL and a Clojure file
+;; * Press <\\[cider-find-var] to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <\\[cider-doc]> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable `eldoc-mode' to display function & method signatures in the minibuffer.
+;; * Print CIDER's refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the `cider-repl-clear-help-banner' command.
+;; You can disable it from appearing on start by setting
+;; `cider-repl-display-help-banner' to nil.
+;; ======================================================================
 "))
 
 (defun cider-repl--insert-banner-and-prompt (buffer)
@@ -468,7 +485,6 @@ This will not work on non-current prompts."
 (defun cider-repl-prompt-default (namespace)
   "Return a prompt string that mentions NAMESPACE."
   (format "%s> " namespace))
-(define-obsolete-function-alias 'cider-repl-default-prompt 'cider-repl-prompt-default "0.10.0")
 
 (defun cider-repl-prompt-abbreviated (namespace)
   "Return a prompt string that abbreviates NAMESPACE."
@@ -814,7 +830,44 @@ With a prefix argument CLEAR-REPL it will clear the entire REPL buffer instead."
           (save-excursion
             (goto-char start)
             (insert
-             (propertize ";;; output cleared" 'font-lock-face 'font-lock-comment-face))))))))
+             (propertize ";; output cleared" 'font-lock-face 'font-lock-comment-face))))))))
+
+(defun cider-repl-clear-banners ()
+  "Delete the REPL banners."
+  (interactive)
+  ;; TODO: Improve the boundaries detecting logic
+  ;; probably it should be based on text properties
+  ;; the current implemetation will clear warnings as well
+  (let ((start (point-min))
+        (end (save-excursion
+               (goto-char (point-min))
+               (cider-repl-next-prompt)
+               (forward-line -1)
+               (end-of-line)
+               (point))))
+    (when (< start end)
+      (let ((inhibit-read-only t))
+        (cider-repl--clear-region start (1+ end))))))
+
+(defun cider-repl-clear-help-banner ()
+  "Delete the help REPL banner."
+  (interactive)
+  ;; TODO: Improve the boundaries detecting logic
+  ;; probably it should be based on text properties
+  (let ((start (save-excursion
+                 (goto-char (point-min))
+                 (search-forward ";; =")
+                 (beginning-of-line)
+                 (point)))
+        (end (save-excursion
+               (goto-char (point-min))
+               (cider-repl-next-prompt)
+               (search-backward ";; =")
+               (end-of-line)
+               (point))))
+    (when (< start end)
+      (let ((inhibit-read-only t))
+        (cider-repl--clear-region start (1+ end))))))
 
 (defun cider-repl-switch-ns-handler (buffer)
   "Make a nREPL evaluation handler for the REPL BUFFER's ns switching."
@@ -1087,27 +1140,33 @@ constructs."
 (declare-function cider-undef "cider-interaction")
 (declare-function cider-browse-ns "cider-browse-ns")
 (declare-function cider-classpath "cider-classpath")
-(cider-repl-add-shortcut "hasta la vista" #'cider-quit)
-(cider-repl-add-shortcut "adios" #'cider-quit)
-(cider-repl-add-shortcut "sayonara" #'cider-quit)
-(cider-repl-add-shortcut "quit" #'cider-quit)
-(cider-repl-add-shortcut "restart" #'cider-restart)
-(cider-repl-add-shortcut "version" #'cider-version)
-(cider-repl-add-shortcut "conn-info" #'cider-display-connection-info)
-(cider-repl-add-shortcut "conn-rotate" #'cider-rotate-default-connection)
+(declare-function cider-run "cider-interaction")
+(declare-function cider-refresh "cider-interaction")
 (cider-repl-add-shortcut "clear-output" #'cider-repl-clear-output)
 (cider-repl-add-shortcut "clear" #'cider-repl-clear-buffer)
+(cider-repl-add-shortcut "clear-banners" #'cider-repl-clear-banners)
+(cider-repl-add-shortcut "clear-help-banner" #'cider-repl-clear-help-banner)
 (cider-repl-add-shortcut "ns" #'cider-repl-set-ns)
 (cider-repl-add-shortcut "toggle-pretty" #'cider-repl-toggle-pretty-printing)
 (cider-repl-add-shortcut "browse-ns" (lambda () (cider-browse-ns (cider-current-ns))))
 (cider-repl-add-shortcut "classpath" #'cider-classpath)
 (cider-repl-add-shortcut "trace-ns" #'cider-toggle-trace-ns)
 (cider-repl-add-shortcut "undef" #'cider-undef)
+(cider-repl-add-shortcut "refresh" #'cider-refresh)
 (cider-repl-add-shortcut "help" #'cider-repl-shortcuts-help)
 (cider-repl-add-shortcut "test-ns" #'cider-test-run-ns-tests)
 (cider-repl-add-shortcut "test-all" #'cider-test-run-loaded-tests)
 (cider-repl-add-shortcut "test-project" #'cider-test-run-project-tests)
 (cider-repl-add-shortcut "test-report" #'cider-test-show-report)
+(cider-repl-add-shortcut "run" #'cider-run)
+(cider-repl-add-shortcut "conn-info" #'cider-display-connection-info)
+(cider-repl-add-shortcut "conn-rotate" #'cider-rotate-default-connection)
+(cider-repl-add-shortcut "hasta la vista" #'cider-quit)
+(cider-repl-add-shortcut "adios" #'cider-quit)
+(cider-repl-add-shortcut "sayonara" #'cider-quit)
+(cider-repl-add-shortcut "quit" #'cider-quit)
+(cider-repl-add-shortcut "restart" #'cider-restart)
+(cider-repl-add-shortcut "version" #'cider-version)
 
 (defconst cider-repl-shortcuts-help-buffer "*CIDER REPL Shortcuts Help*")
 
@@ -1234,10 +1293,17 @@ constructs."
         ["Set REPL ns" cider-repl-set-ns]
         ["Toggle pretty printing" cider-repl-toggle-pretty-printing]
         "--"
+        ["Browse classpath" cider-classpath]
+        ["Browse classpath entry" cider-open-classpath-entry]
+        ["Browse namespace" cider-browse-ns]
+        ["Browse all namespaces" cider-browse-ns-all]
+        "--"
         ["Next prompt" cider-repl-next-prompt]
         ["Previous prompt" cider-repl-previous-prompt]
         ["Clear output" cider-repl-clear-output]
         ["Clear buffer" cider-repl-clear-buffer]
+        ["Clear banners" cider-repl-clear-banners]
+        ["Clear help banner" cider-repl-clear-help-banner]
         ["Kill input" cider-repl-kill-input]
         "--"
         ["Interrupt evaluation" cider-interrupt]
@@ -1248,7 +1314,8 @@ constructs."
         ["Restart" cider-restart]
         "--"
         ["A sip of CIDER" cider-drink-a-sip]
-        ["View manual online" cider-open-manual]
+        ["View manual online" cider-view-manual]
+        ["View refcard online" cider-view-refcard]
         ["Report a bug" cider-report-bug]
         ["Version info" cider-version]))
     map))
@@ -1284,15 +1351,14 @@ constructs."
                #'cider-complete-at-point)
   (set-syntax-table cider-repl-mode-syntax-table)
   (cider-eldoc-setup)
-  (eldoc-mode +1)
   ;; At the REPL, we define beginning-of-defun and end-of-defun to be
   ;; the start of the previous prompt or next prompt respectively.
   ;; Notice the interplay with `cider-repl-beginning-of-defun'.
   (setq-local beginning-of-defun-function #'cider-repl-mode-beginning-of-defun)
   (setq-local end-of-defun-function #'cider-repl-mode-end-of-defun)
   (setq-local prettify-symbols-alist clojure--prettify-symbols-alist)
-  (if (fboundp 'hack-dir-local-variables-non-file-buffer)
-      (hack-dir-local-variables-non-file-buffer))
+  ;; apply dir-local variables to REPL buffers
+  (hack-dir-local-variables-non-file-buffer)
   (when cider-repl-history-file
     (cider-repl-history-load cider-repl-history-file)
     (add-hook 'kill-buffer-hook #'cider-repl-history-just-save t t)
