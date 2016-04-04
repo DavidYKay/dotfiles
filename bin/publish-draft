@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+import os
+import sys
+from datetime import date
+
+
+def hyphenate(s):
+    return s.replace(" ", "-")
+
+def destName(title, date):
+    return "%s-%s.md" % (date.isoformat(), hyphenate(title))
+
+def origName(title):
+    return "%s.md" % hyphenate(title)
+
+title = sys.argv[1]
+print destName(title, date.today())
+print origName(title)
+os.rename("_drafts/%s" % origName(title), "_posts/%s" % destName(title, date.today()))
