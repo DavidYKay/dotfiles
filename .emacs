@@ -72,6 +72,9 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
+;; core keybindings
+(global-set-key "\M-w" 'backward-kill-word)
+
 ; Helm: browrser
 (global-set-key (kbd "C-c h") 'helm-mini)
 (helm-mode 1)
