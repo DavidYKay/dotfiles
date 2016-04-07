@@ -72,6 +72,9 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
+(setq backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
 ;; core keybindings
 (global-set-key "\M-w" 'backward-kill-word)
 
@@ -81,8 +84,8 @@
 
 (require 'fiplr)
 ; FIPLR (like Ctrl-P)
-(setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg" 
-					  "target" "archive" "out" "ui-out" "build"
+(setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg"
+					  "bin" "target" "archive" "out" "ui-out" "build"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
@@ -194,7 +197,10 @@
 
 ; (pyenv-mode)
 (setq exec-path (append exec-path '("~/.pyenv/shims")))
-
+(add-hook 'python-mode-hook
+	  (function (lambda ()
+		      (setq indent-tabs-mode nil
+			    tab-width 4))))
 
 ; disable top toolbar
 (tool-bar-mode -1)

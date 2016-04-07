@@ -5,9 +5,62 @@
 
 ;;;### (autoloads (fiplr-clear-cache fiplr-find-directory-other-frame
 ;;;;;;  fiplr-find-directory-other-window fiplr-find-directory fiplr-find-file-other-frame
-;;;;;;  fiplr-find-file-other-window fiplr-find-file) "fiplr" "fiplr.el"
-;;;;;;  (21724 63359 0 0))
+;;;;;;  fiplr-find-file-other-window fiplr-find-file) "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr"
+;;;;;;  "fiplr.el" "cc9a8070a3008ef878199e694e5055f7")
 ;;; Generated autoloads from fiplr.el
+
+(autoload 'fiplr-find-file "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a file from the project.
+The root of the project is the return value of `fiplr-root'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-find-file-other-window "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a file from the project.
+The root of the project is the return value of `fiplr-root'.  The
+file is opened using `find-file-other-window'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-find-file-other-frame "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a file from the project.
+The root of the project is the return value of `fiplr-root'.  The
+file is opened using `find-file-other-frame'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-find-directory "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a directory from the project.
+The root of the project is the return value of `fiplr-root'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-find-directory-other-window "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a directory from the project.
+The root of the project is the return value of `fiplr-root'.  The
+directory is opened using `dired-other-window'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-find-directory-other-frame "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Runs a completing prompt to find a directory from the project.
+The root of the project is the return value of `fiplr-root'.  The
+directory is opened using `dired-other-frame'.
+
+\(fn)" t nil)
+
+(autoload 'fiplr-clear-cache "../../../Tools/dotfiles/.emacs.d/elpa/fiplr-20140723.2345/fiplr" "\
+Clears the internal caches used by fiplr so the project is searched again.
+
+\(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads (fiplr-clear-cache fiplr-find-directory-other-frame
+;;;;;;  fiplr-find-directory-other-window fiplr-find-directory fiplr-find-file-other-frame
+;;;;;;  fiplr-find-file-other-window fiplr-find-file) "fiplr" "../../../../../.emacs.d/elpa/fiplr-20140723.2345/fiplr.el"
+;;;;;;  "cc9a8070a3008ef878199e694e5055f7")
+;;; Generated autoloads from ../../../../../.emacs.d/elpa/fiplr-20140723.2345/fiplr.el
 
 (autoload 'fiplr-find-file "fiplr" "\
 Runs a completing prompt to find a file from the project.
@@ -56,7 +109,10 @@ Clears the internal caches used by fiplr so the project is searched again.
 
 ;;;***
 
-;;;### (autoloads nil nil ("fiplr-pkg.el") (21724 63359 359501 0))
+;;;### (autoloads nil nil ("../../../../../.emacs.d/elpa/fiplr-20140723.2345/fiplr-autoloads.el"
+;;;;;;  "../../../../../.emacs.d/elpa/fiplr-20140723.2345/fiplr-pkg.el"
+;;;;;;  "../../../../../.emacs.d/elpa/fiplr-20140723.2345/fiplr.el"
+;;;;;;  "fiplr.el") (22221 60764 387866 78000))
 
 ;;;***
 

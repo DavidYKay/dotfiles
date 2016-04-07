@@ -11,6 +11,7 @@ elseif has('unix')
     if hostname == "donkeyKong"
         "set guifont=Ubuntu\ Mono\ 14
         "set guifont=ProggyCleanTT\ 12
+        "set guifont=Droid\ Sans\ Mono\ 11
         set guifont=Droid\ Sans\ Mono\ 12
         "set guifont=Droid\ Sans\ Mono\ 14
         "set guifont=Droid\ Sans\ Mono\ 16
