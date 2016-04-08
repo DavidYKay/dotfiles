@@ -177,9 +177,12 @@
 (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 
 ;; Lisp / Clojure(script)
-(add-hook 'lisp-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'lisp-mode-hook '(lambda ()
+			     (local-set-key (kbd "RET") 'newline-and-indent)))
+
 (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
-(add-hook 'clojure-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'clojure-mode-hook '(lambda ()
+				(local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; Clojure(script)
 (add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
@@ -352,6 +355,7 @@
 ;; ---- Skeleton Mode / File Templates ----
 ;;----------------------------------------------------------
 
+
 (defun filename-no-extension (filename)
   (file-name-sans-extension (file-name-nondirectory filename)))
 
@@ -375,7 +379,7 @@
 	     (make-jekyll-title title)))
 
 (defun make-jekyll-title (title)
-	     (capitalize title)))
+	     (capitalize title))
 
 (defun make-jekyll-post (title)
   "Generate a Jekyll post"
@@ -429,6 +433,10 @@
        "{" \n
        > _ \n
        "}" > \n)))
+
+(require 'yasnippet)
+(yas-global-mode 1)
+
 ;; 
 ;; (eval-after-load 'autoinsert
 ;;   '(define-auto-insert '("\\.c\\'" . "C skeleton")
