@@ -348,7 +348,112 @@
 ;; ---- END Email client ----
 ;;----------------------------------------------------------
 
+;;----------------------------------------------------------
+;; ---- Skeleton Mode / File Templates ----
+;;----------------------------------------------------------
+
+(defun filename-no-extension (filename)
+  (file-name-sans-extension (file-name-nondirectory filename)))
+
+(define-skeleton jekyll-skeleton
+  "Generate the scaffolding of a Jekyll blog post"
+  nil
+  ;"Type title of post: "
+  "---"
+  \n >
+  "layout: post"
+  \n >
+  "title: " (filename-no-extension (buffer-file-name))
+  \n >
+  "---"
+  \n >)
+
+(define-auto-insert "\\.\\(md\\)\\'" 'jekyll-skeleton)
+
+(defun make-jekyll-filename (title)
+  (s-replace " " "-"
+	     (make-jekyll-title title)))
+
+(defun make-jekyll-title (title)
+	     (capitalize title)))
+
+(defun make-jekyll-post (title)
+  "Generate a Jekyll post"
+  (interactive "sTitle of blog post?")
+  (message "Converted title: %s" (make-jekyll-title title))
+  (let ((filename (make-jekyll-filename title))
+	(title (make-jekyll-title title)))
+    (generate-new-buffer filename)
+    (switch-to-buffer filename)
+    (jekyll-skeleton title)))
+
+;;(eval-after-load 'autoinsert
+;;  '(define-auto-insert
+;;     '("\\.\\(md\\)\\'" "jekyll blog post")
+;;     '(nil
+;;       "---" \n
+;;       "layout: post"
+;;       "title: " str
+;;       (file-name-nondirectory (buffer-file-name)) \n
+;;       "---" \n
+;;       > _ \n
+
+(eval-after-load 'autoinsert
+  '(define-auto-insert
+     '("\\.\\(clj\\)\\'" . "Clojure skeleton")
+     '(
+       nil
+       ;"Short description: "
+       ";;" \n
+       ";; " (filename-no-extension (buffer-file-name))
+       ";; " \n
+       ";;" > \n \n
+       "(ns myproject." (filename-no-extension (buffer-file-name)) \n 
+       "(:require [clojure.string :refer [join]]))" \n 
+       \n
+       "(defn -main []" \n
+       > _ \n
+       ")" > \n)))
+
+(eval-after-load 'autoinsert
+  '(define-auto-insert
+     '("\\.\\(CC?\\|cc\\|cxx\\|cpp\\|c++\\)\\'" . "C++ skeleton")
+     '("Short description: "
+       "/*" \n
+       (file-name-nondirectory (buffer-file-name))
+       " -- " str \n
+       " */" > \n \n
+       "#include <iostream>" \n \n
+       "using namespace std;" \n \n
+       "main()" \n
+       "{" \n
+       > _ \n
+       "}" > \n)))
+;; 
+;; (eval-after-load 'autoinsert
+;;   '(define-auto-insert '("\\.c\\'" . "C skeleton")
+;;      '(
+;;        "Short description: "
+;;        "/**\n * "
+;;        (file-name-nondirectory (buffer-file-name))
+;;        " -- " str \n
+;;        " *" \n
+;;        " * Written on " (format-time-string "%A, %e %B %Y.") \n
+;;        " */" > \n \n
+;;        "#include <stdio.h>" \n
+;;        "#include \""
+;;        (file-name-sans-extension
+;;         (file-name-nondirectory (buffer-file-name)))
+;;        ".h\"" \n \n
+;;        "int main()" \n
+;;        "{" > \n
+;;        > _ \n
+;;        "}" > \n)))
+
 ;; Plugins to try:
+
+; parinfer - infer parenthesis for lisp
+
 ; ido	similar to helm	
 ; magit	Everything about git	None
 ; git-gutter.el	Mark the VCS (git, subversion …) diff
