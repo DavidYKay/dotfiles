@@ -1,3 +1,6 @@
+;;----------------------------------------------------------
+;; System-specific Settings
+;;----------------------------------------------------------
 (cond
  ((string-equal system-type "gnu/linux")
   (defvar running-on-linux t)
@@ -22,6 +25,10 @@
   ;;(Set-default-font "VeraMono-14")
   ))
 
+;;----------------------------------------------------------
+;; Visual Style
+;;----------------------------------------------------------
+
 ; Set theme similar to gentooish
 (load-theme 'wombat t)
 ;(load-theme 'wheatgrass t)
@@ -35,6 +42,10 @@
 
 ;; disable startup message
 (setq inhibit-startup-message t)
+
+;;----------------------------------------------------------
+;; Package Management
+;;----------------------------------------------------------
 
 (require 'package)
 (add-to-list 'package-archives
@@ -58,10 +69,10 @@
 
 (ensure-packages-compiled)
 
+;;----------------------------------------------------------
 ; Backup management
+;;----------------------------------------------------------
 ; (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region)
-
-; Backup management
 
 (setq
    backup-by-copying t      ; don't clobber symlinks
@@ -75,15 +86,21 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
+;;----------------------------------------------------------
 ;; core keybindings
+;;----------------------------------------------------------
 (global-set-key "\M-w" 'backward-kill-word)
 
-; Helm: browrser
+;;----------------------------------------------------------
+; Helm: browser
+;;----------------------------------------------------------
 (global-set-key (kbd "C-c h") 'helm-mini)
 (helm-mode 1)
 
+;;----------------------------------------------------------
+; FIPLR (Emacs Ctrl-P)
+;;----------------------------------------------------------
 (require 'fiplr)
-; FIPLR (like Ctrl-P)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg"
 					  "bin" "target" "archive" "out" "ui-out" "build"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
@@ -91,7 +108,7 @@
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
 				    "*.xls" "*.xlsx" "*.XLS" "*.XLSX"
 				    "*.zip" "*.gz"
-				    "*.bin" "*.dll" 
+				    "*.bin" "*.dll" "*.o"
 				    "*.class" "*.jar" "*.pyc" 
 				    "*.pem" "*.cer" "*.p12" 
 				    ".*" "*~" ".#*" "#*#" ".gitignore"))))
@@ -102,11 +119,16 @@
 (global-set-key (kbd "C-\\") 'fiplr-find-file)
 (define-key *fiplr-keymap* (kbd "<f5>")   'fiplr-reload-list)
 
+;;----------------------------------------------------------
 ; CEDET
+;;----------------------------------------------------------
 ; (add-to-list 'load-path "~/.emacs.d/cedet-1.1")
 ; (load-file "~/.emacs.d/cedet-1.1/cedet-devel-load.el")
 
+;;----------------------------------------------------------
 ; Emacs Code Browser
+;;----------------------------------------------------------
+
 (setq stack-trace-on-error t)
 (require 'ecb)
 (add-to-list 'load-path "~/.emacs.d/elpa.ecb-2.40")
@@ -124,8 +146,10 @@
 (global-set-key (kbd "<f3>") 'my-toggle-ecb)
 (setq ecb-tip-of-the-day nil)
 
-
+;;----------------------------------------------------------
 ; Emacs Nav
+;;----------------------------------------------------------
+
 (add-to-list 'load-path "~/.emacs.d/emacs-nav-49")
 (require 'nav)
 (nav-disable-overeager-window-splitting)
@@ -147,11 +171,9 @@
 
 (show-paren-mode 1)
 
- 
- 
-(autoload 'markdown-mode "markdown-mode"
- "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+;;----------------------------------------------------------
+;; Emacs Code Browser
+;;----------------------------------------------------------
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -170,13 +192,49 @@
 ;; TODO: see if this works out. If not, make it language-specific
 (global-set-key (kbd "RET") 'newline-and-indent)
 
+;;----------------------------------------------------------
+;; Auto-Complete
+;; NOTE: does this conflict with Company? Should we get rid of this?
+;;----------------------------------------------------------
+
+(add-to-list 'load-path "/Users/dk/.emacs.d")
+(require 'auto-complete-config)
+(ac-config-default)
+
+;;----------------------------------------------------------
+;; Tab Completion / Company Mode
+;;----------------------------------------------------------
+
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
+(setq company-tooltip-align-annotations t)
+
+;;----------------------------------------------------------
+;; Evil Mode
+;;----------------------------------------------------------
+
+(setq evil-want-C-u-scroll t)
+(require 'evil)
+(define-key evil-normal-state-map "M-x" 'execute-extended-command)
+(evil-mode 1)
+
+(define-key evil-window-map "\C-h" 'evil-window-left)
+(define-key evil-window-map "\C-j" 'evil-window-down)
+(define-key evil-window-map "\C-k" 'evil-window-up)
+(define-key evil-window-map "\C-l" 'evil-window-right)
+
+;;----------------------------------------------------------
 ;; Java
+;;----------------------------------------------------------
 (setq jdee-server-dir "~/.emacs.d/java/")
 
+;;----------------------------------------------------------
 ;; Groovy
+;;----------------------------------------------------------
 (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 
+;;----------------------------------------------------------
 ;; Lisp / Clojure(script)
+;;----------------------------------------------------------
 (add-hook 'lisp-mode-hook '(lambda ()
 			     (local-set-key (kbd "RET") 'newline-and-indent)))
 
@@ -184,8 +242,12 @@
 (add-hook 'clojure-mode-hook '(lambda ()
 				(local-set-key (kbd "RET") 'newline-and-indent)))
 
+;; Cider
+(setq cider-lein-command "~/bin/lein")
+
 ;; Clojure(script)
 (add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
+
 (require 'cider)
 
 ; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
@@ -196,7 +258,12 @@
 ; ClojureScript
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
+;; flycheck clojure / squiggly
+;(eval-after-load 'flycheck '(flycheck-clojure-setup))
+
+;;----------------------------------------------------------
 ;; Python
+;;----------------------------------------------------------
 
 ; (pyenv-mode)
 (setq exec-path (append exec-path '("~/.pyenv/shims")))
@@ -212,34 +279,34 @@
 (global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+←
 (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
 
-; Evil Mode
-; (add-to-list 'load-path "~/.emacs.d/elpa/evil-1.0.8")
-(setq evil-want-C-u-scroll t)
-(require 'evil)
-(define-key evil-normal-state-map "M-x" 'execute-extended-command)
-(evil-mode 1)
 
-(define-key evil-window-map "\C-h" 'evil-window-left)
-(define-key evil-window-map "\C-j" 'evil-window-down)
-(define-key evil-window-map "\C-k" 'evil-window-up)
-(define-key evil-window-map "\C-l" 'evil-window-right)
-
-; Cider
-(setq cider-lein-command "~/bin/lein")
-
-; Auto-Complete
-(add-to-list 'load-path "/Users/dk/.emacs.d")
-(require 'auto-complete-config)
-(ac-config-default)
-
-; Flycheck
+;;----------------------------------------------------------
+;; Flycheck
+;;----------------------------------------------------------
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-; pos-tip for displaying error messages
+;; pos-tip for displaying error messages
 (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
+;;----------------------------------------------------------
+;; C
+;;----------------------------------------------------------
+
+;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
+ 
+;;----------------------------------------------------------
+;; SConstruct
+;;----------------------------------------------------------
+
+(define-derived-mode scons-mode python-mode
+  (setq mode-name "SConstruct"))
+
+(add-to-list 'auto-mode-alist '("\\SConstruct\\'" . scons-mode))
+
+;;----------------------------------------------------------
 ;; Rust
+;;----------------------------------------------------------
 
 (setq racer-cmd "~/.multirust/toolchains/stable/cargo/bin/racer")
 (setq racer-rust-src-path "~/Tools/rust/lang/latest/src")
@@ -248,20 +315,22 @@
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
 
-
-(global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
-(setq company-tooltip-align-annotations t)
-
 ;; flycheck rust
-
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-;; flycheck clojure / squiggly
+;;----------------------------------------------------------
+;; Markdown
+;;----------------------------------------------------------
+ 
+(autoload 'markdown-mode "markdown-mode"
+ "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 
-;(eval-after-load 'flycheck '(flycheck-clojure-setup))
 
-; string manip
+;;----------------------------------------------------------
+; String Manipulation
+;;----------------------------------------------------------
 
 (defun to-kebab-case (start end)
   "convert to lispy case. Note that this does not current filter out symbols like [ ] { }"
@@ -355,7 +424,6 @@
 ;; ---- Skeleton Mode / File Templates ----
 ;;----------------------------------------------------------
 
-
 (defun filename-no-extension (filename)
   (file-name-sans-extension (file-name-nondirectory filename)))
 
@@ -434,6 +502,10 @@
        > _ \n
        "}" > \n)))
 
+;;----------------------------------------------------------
+;; Yasnippet
+;;----------------------------------------------------------
+
 (require 'yasnippet)
 (yas-global-mode 1)
 
@@ -458,7 +530,9 @@
 ;;        > _ \n
 ;;        "}" > \n)))
 
-;; Plugins to try:
+;;----------------------------------------------------------
+;; Plugins to try
+;;----------------------------------------------------------
 
 ; parinfer - infer parenthesis for lisp
 
