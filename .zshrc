@@ -297,6 +297,8 @@ promptinit;
 #* Also, if you want to enable cache for the completions, add
 zstyle ':completion::complete:*' use-cache 1
 
+# Rust
+export PATH="$HOME/.multirust/toolchains/stable/cargo/bin:$PATH"
 
 # RVM System
 #[[ -s '/usr/local/lib/rvm' ]] && source '/usr/local/lib/rvm'
