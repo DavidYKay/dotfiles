@@ -243,6 +243,24 @@
 (define-key evil-window-map "\C-l" 'evil-window-right)
 
 ;;----------------------------------------------------------
+;; Flycheck
+;;----------------------------------------------------------
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; pos-tip for displaying error messages
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+;;----------------------------------------------------------
+;; C
+;;----------------------------------------------------------
+(defun my-flycheck-c-setup ()
+  (setq flycheck-clang-language-standard "gnu99")
+  (setq flycheck-gcc-language-standard "gnu99"))
+
+(add-hook 'c-mode-hook #'my-flycheck-c-setup)
+
+;;----------------------------------------------------------
 ;; Java
 ;;----------------------------------------------------------
 (setq jdee-server-dir "~/.emacs.d/java/")
@@ -299,15 +317,6 @@
 (global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+←
 (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
 
-
-;;----------------------------------------------------------
-;; Flycheck
-;;----------------------------------------------------------
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; pos-tip for displaying error messages
-(eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;;----------------------------------------------------------
 ;; C
