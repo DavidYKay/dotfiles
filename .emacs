@@ -273,20 +273,28 @@
 ;;----------------------------------------------------------
 ;; Lisp / Clojure(script)
 ;;----------------------------------------------------------
+
+;; Cider
+(add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
+(require 'cider)
+(setq cider-lein-command "~/bin/lein")
+
 (add-hook 'lisp-mode-hook '(lambda ()
 			     (local-set-key (kbd "RET") 'newline-and-indent)))
 
-(add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+;; (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+;; (add-hook 'cider-mode-hook 'eldoc-mode)
+;; (add-hook 'clojure-mode-hook 'eldoc-mode)
+;; (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
 (add-hook 'clojure-mode-hook '(lambda ()
 				(local-set-key (kbd "RET") 'newline-and-indent)))
 
-;; Cider
-(setq cider-lein-command "~/bin/lein")
 
 ;; Clojure(script)
-(add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
 
-(require 'cider)
+;; (define-key map "C-l" #'cider-inspector-pop)
+(define-key cider-inspector-mode-map "\C-l" 'cider-inspector-pop)
 
 ; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
