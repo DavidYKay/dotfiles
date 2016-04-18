@@ -527,7 +527,7 @@
        "(ns myproject." (filename-no-extension (buffer-file-name)) \n 
        "(:require [clojure.string :refer [join]]))" \n 
        \n
-       "(defn -main []" \n
+       "(defn main []" \n
        > _ \n
        ")" > \n)))
 
