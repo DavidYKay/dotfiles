@@ -258,6 +258,34 @@
 (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
+(require 'pyvenv)
+
+(defun get-current-buffer-flake8 ()
+  (if pyvenv-virtual-env
+      (concat pyvenv-virtual-env "/bin/flake8")
+    nil))
+
+(defun get-current-buffer-pylint ()
+  (if pyvenv-virtual-env
+      (concat pyvenv-virtual-env "/bin/pylint")
+    nil))
+
+;;pyvenv-virtual-env
+
+(defun set-flychecker-executables ()
+  "Configure virtualenv for flake8 and lint."
+  (when (get-current-buffer-flake8)
+    (flycheck-set-checker-executable (quote python-flake8)
+				     (get-current-buffer-flake8)))
+  (when (get-current-buffer-pylint)
+    (flycheck-set-checker-executable (quote python-pylint)
+				     (get-current-buffer-pylint))))
+
+(add-hook 'flycheck-before-syntax-check-hook
+      #'set-flychecker-executables 'local)
+
+(add-hook 'pyvenv-post-activate-hooks 'set-flychecker-executables)
+
 ;;----------------------------------------------------------
 ;; C
 ;;----------------------------------------------------------
@@ -317,6 +345,7 @@
 ;;----------------------------------------------------------
 ;; Python
 ;;----------------------------------------------------------
+
 
 ; (pyenv-mode)
 (setq exec-path (append exec-path '("~/.pyenv/shims")))
