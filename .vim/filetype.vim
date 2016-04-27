@@ -26,6 +26,7 @@ au BufRead,BufNewFile *.edn set filetype=clojure
 au BufRead,BufNewFile .lein-env set filetype=clojure
 
 au BufRead,BufNewFile Podfile set filetype=ruby
+au BufRead,BufNewFile Guardfile set filetype=ruby
 au BufRead,BufNewFile *.m set filetype=objc
 
 au BufRead,BufNewFile BUCK set filetype=python
