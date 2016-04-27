@@ -1,0 +1,12 @@
+snippet prop
+@property (nonatomic, retain) $1 *$2;
+endsnippet
+
+snippet init
+- (id)init {
+	if (self = [super init]) {
+		${1}
+	}
+	return self;
+}
+endsnippet
