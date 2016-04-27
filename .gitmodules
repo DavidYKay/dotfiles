@@ -25,9 +25,6 @@
 [submodule ".vim/bundle/supertab"]
 	path = .vim/bundle/supertab
 	url = git://github.com/ervandew/supertab.git
-[submodule ".vim/bundle/vim-swift"]
-	path = .vim/bundle/vim-swift
-	url = git://github.com/toyamarinyon/vim-swift.git
 [submodule ".vim/bundle/fsharp"]
 	path = .vim/bundle/fsharp
 	url = git://github.com/kongo2002/fsharp-vim.git
@@ -49,3 +46,6 @@
 [submodule ".vim/bundle/vim-javascript"]
 	path = .vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
+[submodule ".vim/bundle/swift.vim"]
+	path = .vim/bundle/swift.vim
+	url = git@github.com:keith/swift.vim.git
