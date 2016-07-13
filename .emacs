@@ -311,7 +311,7 @@
 ;;----------------------------------------------------------
 
 ;; Cider
-(add-to-list 'load-path "~/.emacs.d/cider-0.11.0")
+(add-to-list 'load-path "~/.emacs.d/cider-0.12.0")
 (require 'cider)
 (setq cider-lein-command "~/bin/lein")
 
@@ -326,6 +326,7 @@
 (add-hook 'clojure-mode-hook '(lambda ()
 				(local-set-key (kbd "RET") 'newline-and-indent)))
 
+(setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
 ;; Clojure(script)
 
@@ -436,8 +437,8 @@
 ;; ---- BEGIN Email client ----
 ;;----------------------------------------------------------
 
-; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-
+;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+;;
 ;; (require 'mu4e)
 ;; 
 ;; ;; default
