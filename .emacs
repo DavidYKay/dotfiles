@@ -123,6 +123,7 @@
 (require 'fiplr)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg"
 					  "bin" "target" "archive" "out" "ui-out" "build"
+					  "lib"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
                             (files ("*.gif" "*.jpg" "*.pdf" "*.png" "*.tif" "*.amz"
