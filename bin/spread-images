@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+from sys import argv
+from os import listdir
+from os.path import isfile, join
+from shutil import move
+
+sizes = {
+    "48": "mdpi",
+    "72": "hdpi",
+    "96": "xhdpi",
+    "144": "xxhdpi",
+    "192": "xxxhdpi",
+}
+
+def remove_extension(f):
+    return f.split(".")[0]
+
+def destination_path(f, kind, name):
+    orig, extension = f.split(".")
+    size = sizes[orig]
+    return join("%s-%s" % (kind, size), "%s.%s" % (name, extension))
+
+_, kind, name = argv
+
+images = [f for f in listdir(".") if ".png" in f]
+for f in images:
+    #print(destination_path(f, kind, name))
+    move(f, destination_path(f, kind, name))
