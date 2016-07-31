@@ -261,15 +261,15 @@
 
 (require 'pyvenv)
 
-(defun get-current-buffer-flake8 ()
-  (if pyvenv-virtual-env
-      (concat pyvenv-virtual-env "/bin/flake8")
-    nil))
-
-(defun get-current-buffer-pylint ()
-  (if pyvenv-virtual-env
-      (concat pyvenv-virtual-env "/bin/pylint")
-    nil))
+;; (defun get-current-buffer-flake8 ()
+;;   (if pyvenv-virtual-env
+;;       (concat pyvenv-virtual-env "/bin/flake8")
+;;     nil))
+;; 
+;; (defun get-current-buffer-pylint ()
+;;   (if pyvenv-virtual-env
+;;       (concat pyvenv-virtual-env "/bin/pylint")
+;;     nil))
 
 ;;pyvenv-virtual-env
 
