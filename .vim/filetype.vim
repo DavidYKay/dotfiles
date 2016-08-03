@@ -7,6 +7,7 @@ autocmd BufRead *.java set suffixesadd=.java
 autocmd BufRead *.aidl set filetype=java
 
 autocmd BufRead *.applescript set filetype=applescript
+au BufRead,BufNewFile *.metal set filetype=cpp
 
 au! BufRead,BufNewFile *.json set filetype=json
 au! BufRead,BufNewFile *.jsbundle set filetype=javascript
