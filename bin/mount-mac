@@ -1,0 +1,3 @@
+#!/bin/bash
+#sshfs dk@iKong.local:/Users/dk/workspace/current /home/dk/workspace/mac/ 
+gvfs-mount afp://iKong.local/current      
