@@ -313,7 +313,7 @@
 ;;----------------------------------------------------------
 
 ;; Cider
-(add-to-list 'load-path "~/.emacs.d/cider-0.12.0")
+(add-to-list 'load-path "~/.emacs.d/cider-0.13.0")
 (require 'cider)
 (setq cider-lein-command "~/bin/lein")
 
