@@ -334,6 +334,8 @@
 
 ;; (define-key map "C-l" #'cider-inspector-pop)
 (define-key cider-inspector-mode-map "\C-l" 'cider-inspector-pop)
+(define-key cider-mode-map (kbd "M-.") #'cider-find-var)
+(define-key evil-normal-state-map (kbd "M-.") #'cider-find-var)
 
 ; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
