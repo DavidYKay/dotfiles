@@ -292,6 +292,9 @@
 ;;----------------------------------------------------------
 ;; C
 ;;----------------------------------------------------------
+
+;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
+
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99")
   (setq flycheck-gcc-language-standard "gnu99"))
@@ -367,12 +370,16 @@
 (global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+←
 (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
 
-
 ;;----------------------------------------------------------
-;; C
+;; VHDL
 ;;----------------------------------------------------------
 
-;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
+(add-to-list 'load-path "~/.emacs.d/vhdl-mode-3.38.1")
+
+(autoload 'vhdl-mode "vhdl-mode" "VHDL Mode" t)
+(add-to-list 'auto-mode-alist '("\\.vhdl?\\'" . vhdl-mode))
+(add-to-list 'auto-mode-alist '("\\.hdl?\\'" . vhdl-mode))
+
  
 ;;----------------------------------------------------------
 ;; SConstruct
