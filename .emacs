@@ -321,6 +321,8 @@
 (add-hook 'lisp-mode-hook '(lambda ()
 			     (local-set-key (kbd "RET") 'newline-and-indent)))
 
+(setq cider-prompt-for-symbol nil)
+
 ;; (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 ;; (add-hook 'cider-mode-hook 'eldoc-mode)
 ;; (add-hook 'clojure-mode-hook 'eldoc-mode)
@@ -330,6 +332,7 @@
 				(local-set-key (kbd "RET") 'newline-and-indent)))
 
 (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
+(cider-repl-toggle-pretty-printing)
 
 ;; Clojure(script)
 
