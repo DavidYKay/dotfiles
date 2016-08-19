@@ -4,7 +4,7 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:/usr/bin/:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/
+export PATH=$PATH:/usr/bin/:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin
 
 
 #OCTAVE
