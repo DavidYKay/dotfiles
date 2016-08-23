@@ -43,6 +43,10 @@
 ;; disable startup message
 (setq inhibit-startup-message t)
 
+;; Needed for go-mode
+(setq default-tab-width 4)
+(setq tab-width 4)
+
 ;;----------------------------------------------------------
 ;; Package Management
 ;;----------------------------------------------------------
