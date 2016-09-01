@@ -227,7 +227,7 @@
 ;; NOTE: does this conflict with Company? Should we get rid of this?
 ;;----------------------------------------------------------
 
-(add-to-list 'load-path "/Users/dk/.emacs.d")
+;;(add-to-list 'load-path "/Users/dk/.emacs.d")
 (require 'auto-complete-config)
 (ac-config-default)
 
