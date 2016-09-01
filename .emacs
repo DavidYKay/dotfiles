@@ -400,6 +400,15 @@
 (add-to-list 'auto-mode-alist '("\\SConstruct\\'" . scons-mode))
 
 ;;----------------------------------------------------------
+;; GLSL
+;;----------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/glsl-mode")
+(autoload 'glsl-mode "glsl-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.glsl\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.geom\\'" . glsl-mode))
+;;----------------------------------------------------------
 ;; Metal
 ;;----------------------------------------------------------
 (add-to-list 'load-path "~/.emacs.d/metal-mode")
