@@ -237,6 +237,10 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
 (setq company-tooltip-align-annotations t)
+(eval-after-load 'company
+                 '(progn
+                    (define-key company-active-map (kbd "TAB") 'company-select-next)
+                    (define-key company-active-map [tab] 'company-select-next)))
 
 ;;----------------------------------------------------------
 ;; Evil Mode
