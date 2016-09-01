@@ -227,7 +227,6 @@
 ;; NOTE: does this conflict with Company? Should we get rid of this?
 ;;----------------------------------------------------------
 
-;;(add-to-list 'load-path "/Users/dk/.emacs.d")
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -235,6 +234,7 @@
 ;; Tab Completion / Company Mode
 ;;----------------------------------------------------------
 
+(add-hook 'after-init-hook 'global-company-mode)
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
 (setq company-tooltip-align-annotations t)
 
@@ -630,7 +630,6 @@
 ; ido	similar to helm	
 ; magit	Everything about git	None
 ; git-gutter.el	Mark the VCS (git, subversion …) diff
-; company-mode	code completion	auto-complete
 
 ; Org	Get Things Done (GTD)	none
 ; expand-region	selection region efficiently	none
