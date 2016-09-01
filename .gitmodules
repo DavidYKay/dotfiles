@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/vim-fireplace"]
 	path = .vim/bundle/vim-fireplace
 	url = git://github.com/tpope/vim-fireplace.git
+[submodule ".vim/bundle/syntax_hlsl"]
+	path = .vim/bundle/syntax_hlsl
+	url = https://github.com/beyondmarc/hlsl.vim.git
