@@ -4,8 +4,7 @@ set -o vi
 # System
 #source "/etc/environment"
 
-export PATH=$PATH:/usr/bin/:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin
-
+export PATH=/usr/bin/:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin:$PATH
 
 #OCTAVE
 #export PATH=$PATH:/Applications/Octave.app/Contents/Resources/bin
@@ -30,11 +29,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-alias ls='ls --color=auto'
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias xclip='pbcopy'
 fi
+
+alias ll='ls -l --color=auto'
+alias ls='ls --color=auto'
 
 #****************************************
 # The following lines were added by compinstall
@@ -61,7 +62,6 @@ bindkey '^R' history-incremental-search-backward
 #automagically go to a directory, eg type $/etc and hit enter, zsh will chage to /etc
 setopt AUTO_CD
 
-alias ll='ls -l --color=auto'
 
 #keep history file between sessions
 HISTSIZE=1000
