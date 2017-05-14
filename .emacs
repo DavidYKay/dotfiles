@@ -77,16 +77,15 @@
 ; (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region)
 
 (setq
+   auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
    backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '(("." . "~/.saves"))    ; don't litter my fs tree
+   ;; backup-directory-alist '(("." . "~/.saves"))    ; don't litter my fs tree
+   backup-directory-alist '((".*" . "~/.saves"))    ; don't litter my fs tree
+   ;;backup-directory-alist `((".*" . ,temporary-file-directory))
    delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
    version-control t)       ; use versioned backups
-
-(setq backup-directory-alist `((".*" . ,temporary-file-directory))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;;----------------------------------------------------------
 ;; Buffer Management
@@ -124,7 +123,7 @@
 ;;----------------------------------------------------------
 (require 'fiplr)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" ".hg"
-					  "bin" "target" "archive" "out" "ui-out" "build"
+					  "bin" "target" "archive" "out" "ui-out" "build" "release-out"
 					  "lib"
 					  "repl" ".repl" ".cljs_node_repl" ".cljs_rhino_repl" ".lein-git-deps" 
 					  ".gradle" ".cabal-sandbox" "venv" "node_modules" "Pods"))
