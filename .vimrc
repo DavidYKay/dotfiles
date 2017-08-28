@@ -32,7 +32,7 @@ set number
 "store swap files centrally
 set directory=~/.vim/tmp
 
-set wildignore+=*/tmp/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*
+set wildignore+=*/tmp/*,*/venv/*,*/packages/*,*/node_modules/*,*/bower_packages/*,*/_site/*,*/data/*
 set wildignore+=*/xcuserdata/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/ui-out/*
 set wildignore+=*/dist/*,*/Pods/*
