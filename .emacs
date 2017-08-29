@@ -44,7 +44,9 @@
 (setq inhibit-startup-message t)
 
 ;; Needed for go-mode
-(setq tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq indent-line-function 'insert-tab)
 
 ;;----------------------------------------------------------
 ;; Package Management
