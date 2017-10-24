@@ -330,7 +330,7 @@
 ;;----------------------------------------------------------
 
 ;; Cider
-(add-to-list 'load-path "~/.emacs.d/cider-0.13.0")
+(add-to-list 'load-path "~/.emacs.d/cider-0.15.1")
 (require 'cider)
 (setq cider-lein-command "~/bin/lein")
 
@@ -363,7 +363,7 @@
 ;(local-set-key (kbd "RET") 'newline-and-indent)
 
 ; ClojureScript
-(add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
+;;(add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 
 ;; flycheck clojure / squiggly
 ;(eval-after-load 'flycheck '(flycheck-clojure-setup))
