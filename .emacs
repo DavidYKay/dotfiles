@@ -8,9 +8,9 @@
   (setq x-super-keysym 'meta)
 
   (if (string-prefix-p "mobileKong" system-name)
-      (set-frame-font "ProggyCleanTT-12")
-      ;;(set-default-font "Mono-13"))
-    (set-frame-font "Droid Sans Mono-12")))
+	  (set-frame-font "ProggyCleanTT-12")
+  ;; (set-default-font "Mono-13")  )
+    (set-frame-font "Droid Sans Mono-11")))
 
  ((string-equal system-type "darwin")
   (defvar running-on-mac t)
