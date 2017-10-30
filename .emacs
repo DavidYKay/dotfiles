@@ -141,6 +141,8 @@
 (setq fiplr-root-markers '(".git" ".svn" ".fiplr-root"))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
 (global-set-key (kbd "C-\\") 'fiplr-find-file)
+(global-set-key (kbd "C--") 'helm-ag)
+
 (define-key *fiplr-keymap* (kbd "<f5>")   'fiplr-reload-list)
 
 ;;----------------------------------------------------------
