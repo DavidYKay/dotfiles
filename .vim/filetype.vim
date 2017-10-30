@@ -33,3 +33,4 @@ au BufRead,BufNewFile *.m set filetype=objc
 au BufRead,BufNewFile BUCK set filetype=python
 
 au BufRead,BufNewFile *.gradle set filetype=groovy
+au BufRead,BufNewFile *.gant set filetype=groovy
