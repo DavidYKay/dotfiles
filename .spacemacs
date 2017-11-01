@@ -38,11 +38,12 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
+     better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
+     clojure
+     git
+     markdown
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -59,7 +60,9 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(smartparens
+                                   highlight-parentheses
+                                   )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -127,15 +130,16 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(wombat
+                         wheatgrass
+                         dichromacy)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
+                               :size 14
+                               :weight bold
                                :width normal
                                :powerline-scale 1.1)
    ;; The leader key
@@ -260,7 +264,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -310,9 +314,23 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (message "foo")
   (global-hl-line-mode -1)
-  (set-frame-font "Droid Sans Mono-11")
-  (global-linum-mode))
+  (global-set-key (kbd "C-\\") 'helm-projectile)
+  ;; shift left and right for next/prev buffer
+  (global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+← 
+  (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
+
+  (message "bar")
+  (show-paren-mode)
+  (setq  x-meta-keysym 'super
+         x-super-keysym 'meta) 
+  (setq clojure-enable-fancify-symbols nil)
+  (setq cider-cljs-lein-repl
+        "(do (require 'figwheel-sidecar.repl-api)
+           (figwheel-sidecar.repl-api/start-figwheel!)
+           (figwheel-sidecar.repl-api/cljs-repl))")
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
