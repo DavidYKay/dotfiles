@@ -1,5 +1,4 @@
-;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
+;; -*- mode: emacs-lisp -*- ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
 ;; (defun hello ()
@@ -46,14 +45,13 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     csv
+     html
+     javascript
+     ruby
      rust
      shaders
-     ;; elixir
-     javascript
-     csv
-     ruby
      yaml
-     html
      python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -65,6 +63,7 @@ values."
      better-defaults
      emacs-lisp
      clojure
+     scala
      git
      markdown
      ;; org
@@ -79,7 +78,10 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(ag)
+   dotspacemacs-additional-packages '(
+                                      ag
+                                      ;;floobits
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -330,6 +332,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
+  (push '(helm . "melpa-stable") package-pinned-packages)
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -345,6 +350,10 @@ you should place your code here."
   ;; shift left and right for next/prev buffer
   (global-set-key (kbd "S-<left>") 'previous-buffer)  ; Shift+← 
   (global-set-key (kbd "S-<right>") 'next-buffer)  ; Shift+←
+
+  (add-hook 'go-mode-hook (lambda ()
+                            (setq tab-width 2)
+                            (setq indent-tabs-mode nil) ))
 
   (message "bar")
   (show-paren-mode)
