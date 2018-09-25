@@ -29,6 +29,7 @@ set showcmd
 "Line numbers
 set number
 
+
 "store swap files centrally
 set directory=~/.vim/tmp
 
@@ -190,13 +191,17 @@ let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:functi
 "********************************
 " Clojure
 "********************************
-let g:vimclojure#HighlightBuiltins = 1
-let g:vimclojure#ParenRainbow = 1
+" Treat / and . as a keyword. Makes Clojure editing nicer.
+au FileType clojure set iskeyword=@,48-57,_,191-255
+au FileType clojure set iskeyword-=.
+
+" let g:vimclojure#HighlightBuiltins = 1
+" let g:vimclojure#ParenRainbow = 1
 
 " this should only be necessary if you don't have the ng client in your PATH
 " let vimclojure#NailgunClient = "$HOME/bin/ng"
-let vimclojure#WantNailgun = 1
-let vimclojure#FuzzyIndent = 1
+" let vimclojure#WantNailgun = 1
+" let vimclojure#FuzzyIndent = 1
 
 "let classpath = join(
    "\[".",
