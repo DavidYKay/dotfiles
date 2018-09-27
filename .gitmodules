@@ -61,3 +61,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = https://github.com/syl20bnr/spacemacs
+[submodule ".vim/bundle/vim-opencl"]
+	path = .vim/bundle/vim-opencl
+	url = git://github.com/petRUShka/vim-opencl.git
