@@ -48,7 +48,8 @@ values."
      csv
      html
      javascript
-     ruby
+     gpu
+     kotlin
      rust
      shaders
      yaml
@@ -385,3 +386,23 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (symon string-inflection powerline sayid password-generator noflet meghanada flycheck info+ impatient-mode htmlize parent-mode hide-comnt help-fns+ helm-purpose window-purpose imenu-list projectile gradle-mode flx smartparens evil-lion iedit anzu evil goto-chg undo-tree ensime sbt-mode scala-mode editorconfig company-emacs-eclim eclim company hydra highlight spinner pkg-info epl bind-map bind-key pythonic f dash s helm avy helm-core async auto-complete popup glsl-mode yapfify yaml-mode web-mode web-beautify unfill toml-mode tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer pos-tip pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mwim mmm-mode minitest markdown-toc magit-gitflow macrostep livid-mode skewer-mode simple-httpd live-py-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc hy-mode helm-pydoc helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode elisp-slime-nav cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-anaconda coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode chruby cargo markdown-mode rust-mode bundler inf-ruby auto-yasnippet yasnippet auto-compile ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox packed org-plus-contrib org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol anaconda-mode alchemist aggressive-indent ag adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)

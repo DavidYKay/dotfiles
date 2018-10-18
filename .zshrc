@@ -315,7 +315,13 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export PYTHONPATH=$PYTHONPATH:./lib
 
-export GOPATH=~/Tools/go
+#export GOPATH=~/Tools/go/lib
+#export GOROOT=~/Tools/go
+#export PATH="$PATH:$GOROOT/bin"
+
+export GOROOT=/usr/lib/go-1.10
+export GOPATH=~/Tools/go/
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # env-zsh
 autoload -U add-zsh-hook
@@ -329,3 +335,7 @@ add-zsh-hook chpwd load-local-conf
 
 export NVM_DIR="/Users/dk/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/dk/.sdkman"
+[[ -s "/home/dk/.sdkman/bin/sdkman-init.sh" ]] && source "/home/dk/.sdkman/bin/sdkman-init.sh"

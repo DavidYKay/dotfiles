@@ -37,6 +37,7 @@ set wildignore+=*/tmp/*,*/venv/*,*/node_modules/*,*/bower_packages/*,*/_site/*,*
 set wildignore+=*/xcuserdata/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/ui-out/*
 set wildignore+=*/dist/*,*/Pods/*
+set wildignore+=*/deps/*
 set wildignore+=*.swp,#*
 set wildignore+=*.o,*.so,*.class,*.dex,*.apk,*.dll,*.pyc,*.xib
 set wildignore+=*.zip,*.mdb,*.sqlite
@@ -191,7 +192,7 @@ let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:functi
 "********************************
 " Clojure
 "********************************
-" Treat / and . as a keyword. Makes Clojure editing nicer.
+" Treat / and . as a keyword. Makes Clojure editing nicer. Althouh
 au FileType clojure set iskeyword=@,48-57,_,191-255
 au FileType clojure set iskeyword-=.
 

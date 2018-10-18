@@ -11,12 +11,17 @@ elseif has('unix')
     if hostname == "donkeyKong"
         "set guifont=Ubuntu\ Mono\ 14
         "set guifont=ProggyCleanTT\ 12
+        "set guifont=Droid\ Sans\ Mono\ 10
         "set guifont=Droid\ Sans\ Mono\ 11
-        set guifont=Droid\ Sans\ Mono\ 12
+        "set guifont=Droid\ Sans\ Mono\ 12
+        "set guifont=Droid\ Sans\ Mono\ 13
         "set guifont=Droid\ Sans\ Mono\ 14
+        set guifont=Source\ Code\ Pro\ 14
+        "set guifont=Source\ Code\ Pro\ 15
+        "set guifont=Source\ Code\ Pro\ 13
         "set guifont=Droid\ Sans\ Mono\ 16
         "set guifont=Droid\ Sans\ Mono\ 18
-        "set guifont=Droid\ Sans\ Mono\ 18
+        "set guifont=Droid\ Sans\ Mono\ 20
         "colo slack
         colo gentooish
     else
