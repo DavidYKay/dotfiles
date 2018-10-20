@@ -28,6 +28,7 @@ set number
 set directory=~/.vim/tmp
 
 set wildignore+=*/tmp/*,*/venv/*,*/node_modules/*,*/bower_packages/*,*/_site/*,*/data/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,*/build/*     " MacOSX/Linux
 set wildignore+=*/xcuserdata/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/ui-out/*
 set wildignore+=*/dist/*,*/Pods/*
@@ -89,15 +90,12 @@ map gc gdb<C-W>f
 map gf <C-W>f
 
 "********************************
-"MACROS
+" Search
 "********************************
 
-"map <F5> :!./run<CR>
-map <F5> :Errors<cr>
-
-" map ":make" to the F9 key
-imap <F6> <ESC>:mak<CR>
-nmap <F6> :mak<CR>
+"----------
+" Ctrl-p
+"----------
 
 " Tag search
 noremap <c-p> :CtrlPBufTagAll<CR>
@@ -106,7 +104,20 @@ noremap <c-p> :CtrlPBufTagAll<CR>
 let g:ctrlp_map = '<c-\>'
 "let g:ctrlp_map = '<c-p>'
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,*/build/*     " MacOSX/Linux
+"----------
+" fzf
+"----------
+
+
+"********************************
+" Hotkeys - Core
+"********************************
+
+"map <F5> :!./run<CR>
+map <F5> :Errors<cr>
+
+imap <F6> <ESC>:mak<CR>
+nmap <F6> :mak<CR>
 
 "map <F10> :Errors<cr>
 "map <F10> :CtrlPBufTagAll<cr>
@@ -126,19 +137,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,*/build/*     " Mac
 "Shorted command prompt interruptions
 "i.e. Press ENTER or type command to continue
 set shortmess=atI
-
-"Use ANT for compilation, rather than make
-"NOT currently working
-"autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-"autocmd BufRead set makeprg=ant\ -find\ build.xml
-"
-"REBIND Qwerty to DVORAK
-"set langmap='q,\,w,.e,pr,yt,fy,gu,ci,ro,lp,/[,=],aa,os,ed,uf,ig,dh,hj,tk,nl,s\\;,-',\\;z,qx,jc,kv,xb,bn,mm,w\,,v.,z/,[-,]=,\"Q,<W,>E,PR,YT,FY,GU,CI,RO,LP,?{,+},AA,OS,ED,UF,IG,DH,HJ,TK,NL,S:,_\",:Z,QX,JC,KV,XB,BN,MM,W<,V>,Z?
-"
-"Do it using MACROS:
-" Key to go into dvorak mode:
-"
-"map ,d :source ~/.dvorak Key to get out of dvorak mode: map ,q :source ~/.qwerty
 
 "Buffer management
 map <C-Tab> <C-W><C-W>
@@ -234,12 +232,6 @@ set statusline=%F%m%r%h%w\ [TYPE=%Y]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-"********************************
-" Compilers
-"********************************
-" Use scons instead of GNU Make
-" set makeprg=scons
 
 "********************************
 "autocmd
