@@ -247,13 +247,11 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-
-
 "********************************
 " Compilers
 "********************************
 " Use scons instead of GNU Make
-set makeprg=scons
+" set makeprg=scons
 
 "********************************
 "autocmd
