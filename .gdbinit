@@ -1,5 +1,6 @@
 python
 
+
 # GDB dashboard - Modular visual interface for GDB in Python.
 #
 # https://github.com/cyrus-and/gdb-dashboard
@@ -220,7 +221,8 @@ class Beautifier():
         except ImportError:
             # Pygments not available
             pass
-        except pygments.util.ClassNotFound:
+        #except pygments.util.ClassNotFound:
+        except Exception: # Changed to this because ClassNotFound wasn't catching.
             # no lexer for this file or invalid style
             pass
 
