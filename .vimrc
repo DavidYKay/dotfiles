@@ -64,16 +64,9 @@ set guioptions-=T
 " QuickFix
 "********************************
 
-map <C-i> :cc<CR>
-map <C-j> :cn<CR>
-map <C-k> :cp<CR>
-
-"********************************
-" ZigLang
-"********************************
-
-" TODO: integrate this with the make command
-map <C-x> :AsyncRun ./build.sh<CR>
+" map <C-i> :cc<CR>
+" map <C-j> :cn<CR>
+" map <C-k> :cp<CR>
 
 "********************************
 "PLUGINS
@@ -83,6 +76,13 @@ set nocompatible
 
 "PLUGIN enablers
 set nocp 
+
+"********************************
+" Zig
+"********************************
+
+imap <C-x> :AsyncRun ./build.sh<CR>
+
 "********************************
 " Java
 "********************************
@@ -176,7 +176,6 @@ set wildmenu
 "********************************
 filetype plugin on 
 filetype indent on 
-
 
 "********************************
 "ABBREVIATIONS
@@ -281,5 +280,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'https://github.com/romainl/vim-qf.git'
 
 call plug#end()

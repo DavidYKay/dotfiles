@@ -339,3 +339,5 @@ export NVM_DIR="/Users/dk/.nvm"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/dk/.sdkman"
 [[ -s "/home/dk/.sdkman/bin/sdkman-init.sh" ]] && source "/home/dk/.sdkman/bin/sdkman-init.sh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
