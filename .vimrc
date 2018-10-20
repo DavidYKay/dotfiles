@@ -271,7 +271,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 " Plug 'https://github.com/romainl/vim-qf.git'
 
-Plug 'vim-syntastic/syntastic'
+"Plug 'vim-syntastic/syntastic'
+Plug 'DavidYKay/syntastic'
 Plug 'SirVer/ultisnips'
 
 call plug#end()
