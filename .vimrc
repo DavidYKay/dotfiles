@@ -1,5 +1,4 @@
 syntax on
-
 set t_Co=256
 "
 colo gentooish
@@ -61,6 +60,21 @@ set guioptions-=m
 
 " Remove toolbar
 set guioptions-=T
+
+"********************************
+" QuickFix
+"********************************
+
+map <C-i> :cc<CR>
+map <C-j> :cn<CR>
+map <C-k> :cp<CR>
+
+"********************************
+" ZigLang
+"********************************
+
+" TODO: integrate this with the make command
+map <C-x> :AsyncRun ./build.sh<CR>
 
 "********************************
 "PLUGINS
