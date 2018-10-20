@@ -84,7 +84,7 @@ set nocompatible
 "PLUGIN enablers
 set nocp 
 "********************************
-"JAVA
+" Java
 "********************************
 "Set up Java + Ant for QuickFix
 "autocmd BufRead *.java set makeprg=ant\ -f\ /home/demian/code/jim/build.xml   
@@ -281,5 +281,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 call plug#end()
