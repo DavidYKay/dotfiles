@@ -273,3 +273,14 @@ let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/
 let g:syntastic_python_checkers=['pylint']
 let g:syntastic_java_javac_config_file_enabled=1
 let g:syntastic_java_javac_classpath = "build/intermediates/classes/debug:~/Tools/android/sdk/platforms/android-22/*.jar"
+
+"********************************
+" Vim-Plug
+"********************************
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+call plug#end()
