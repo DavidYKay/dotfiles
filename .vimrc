@@ -1,11 +1,9 @@
 syntax on
 set t_Co=256
-"
+
 colo gentooish
 "colo summerfruit256
-
 "colo morning
-
 
 "********************************
 "BASICS
@@ -16,8 +14,7 @@ set expandtab
 set softtabstop=2
 set tabstop=2
 set shiftwidth=2
-"set tabstop=4
-"set noexpandtab
+
 "set foldmethod=indent
 set foldmethod=syntax
 
@@ -26,7 +23,6 @@ set backspace=eol,start,indent
 set showcmd
 "Line numbers
 set number
-
 
 "store swap files centrally
 set directory=~/.vim/tmp
@@ -61,14 +57,6 @@ set guioptions-=m
 set guioptions-=T
 
 "********************************
-" QuickFix
-"********************************
-
-" map <C-i> :cc<CR>
-" map <C-j> :cn<CR>
-" map <C-k> :cp<CR>
-
-"********************************
 "PLUGINS
 "********************************
 "Required for Project.vim
@@ -99,10 +87,11 @@ autocmd BufRead *.java set includeexpr=substitute(v:fname,'\\.','/','g')
 map gc gdb<C-W>f
 "Map gf to open file in new buffer
 map gf <C-W>f
+
 "********************************
 "MACROS
 "********************************
-"
+
 "map <F5> :!./run<CR>
 map <F5> :Errors<cr>
 
@@ -264,6 +253,14 @@ autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 " Syntastic
 "********************************
 
+map <C-j> :lnext<CR>
+map <C-k> :lprev<CR>
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
 "let g:syntastic_c_include_dirs
 let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/include/jsoncpp']
 let g:syntastic_python_checkers=['pylint']
@@ -280,6 +277,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-Plug 'https://github.com/romainl/vim-qf.git'
+" Plug 'https://github.com/romainl/vim-qf.git'
+
+Plug 'vim-syntastic/syntastic'
+Plug 'SirVer/ultisnips'
 
 call plug#end()
