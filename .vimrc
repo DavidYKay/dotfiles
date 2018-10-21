@@ -93,6 +93,27 @@ map gf <C-W>f
 " Search
 "********************************
 
+function! FindProjectRoot(buffer) abort
+    for l:path in ale#path#Upwards(expand('#' . a:buffer . ':p:h'))
+        if isdirectory(l:path . '/.git')
+        \|| filereadable(l:path . '/.fiplr-root')
+            return l:path
+        endif
+    endfor
+
+    return ''
+endfunction
+
+function! SetBufferDirToProjectRoot() 
+  let current_buff = bufnr("%")
+  let root = FindProjectRoot(l:current_buff)
+  execute "normal!" ":lcd" root "\<cr>"
+endfunction
+
+" Set current buffer's root directory to project root
+map <C-h> :.call SetBufferDirToProjectRoot()<CR>
+map <C-s> :source %<CR>
+
 "----------
 " Ctrl-p
 "----------
@@ -100,7 +121,6 @@ map gf <C-W>f
 " Tag search
 noremap <c-p> :CtrlPBufTagAll<CR>
 "noremap <s-c-w> :CtrlPBufTagAll<CR>
-"let g:ctrlp_map = '<s-c-e>'
 let g:ctrlp_map = '<c-\>'
 "let g:ctrlp_map = '<c-p>'
 
@@ -230,7 +250,6 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [TYPE=%Y]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 "********************************
@@ -242,22 +261,12 @@ autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xm
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 
 "********************************
-" Syntastic
+" Location List (Ale / Syntastic)
 "********************************
 
+map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-
-"let g:syntastic_c_include_dirs
-let g:syntastic_cpp_include_dirs = [ 'includes', 'headers', 'src', 'lib', '/usr/include/jsoncpp']
-let g:syntastic_python_checkers=['pylint']
-let g:syntastic_java_javac_config_file_enabled=1
-let g:syntastic_java_javac_classpath = "build/intermediates/classes/debug:~/Tools/android/sdk/platforms/android-22/*.jar"
 
 "********************************
 " Vim-Plug
@@ -271,8 +280,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 " Plug 'https://github.com/romainl/vim-qf.git'
 
-"Plug 'vim-syntastic/syntastic'
-Plug 'DavidYKay/syntastic'
 Plug 'SirVer/ultisnips'
+
+Plug 'DavidYKay/ale'
+"Plug 'w0rp/ale'
 
 call plug#end()

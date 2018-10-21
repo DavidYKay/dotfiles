@@ -16,12 +16,19 @@ elseif has('unix')
         "set guifont=Droid\ Sans\ Mono\ 12
         "set guifont=Droid\ Sans\ Mono\ 13
         "set guifont=Droid\ Sans\ Mono\ 14
-        set guifont=Source\ Code\ Pro\ 14
-        "set guifont=Source\ Code\ Pro\ 15
-        "set guifont=Source\ Code\ Pro\ 13
         "set guifont=Droid\ Sans\ Mono\ 16
         "set guifont=Droid\ Sans\ Mono\ 18
         "set guifont=Droid\ Sans\ Mono\ 20
+        "set guifont=Source\ Code\ Pro\ 12
+        "set guifont=Source\ Code\ Pro\ 13
+        "
+        "set guifont=Source\ Code\ Pro\ 13
+        set guifont=Fira\ Code\ Bold\ 13
+        "set guifont=Source\ Code\ Pro\ 14
+        "set guifont=Fira\ Code\ Regular\ 14
+        "set guifont=Fira\ Code\ Retina\ 13
+        "set guifont=Source\ Code\ Pro\ 15
+        "set guifont=Source\ Code\ Pro\ 13
         "colo slack
         colo gentooish
     else
