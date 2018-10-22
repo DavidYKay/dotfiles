@@ -265,6 +265,8 @@ autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 " Location List (Ale / Syntastic)
 "********************************
 
+map <S-t> :ALEToggle<CR>
+
 map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
