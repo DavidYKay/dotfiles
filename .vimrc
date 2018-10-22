@@ -134,7 +134,8 @@ map <C-l> :Ag<CR>
 "********************************
 
 "map <F5> :!./run<CR>
-map <F5> :Errors<cr>
+"map <F5> :Errors<cr>
+map <F5> :Buffers<cr>
 
 imap <F6> <ESC>:mak<CR>
 nmap <F6> :mak<CR>
