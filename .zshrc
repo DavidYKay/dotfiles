@@ -306,8 +306,10 @@ export PATH="$HOME/.multirust/toolchains/stable/cargo/bin:$PATH"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # PyEnv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
+if hash pyenv 2>/dev/null; then
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
 
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
 ### Added by the Heroku Toolbelt
