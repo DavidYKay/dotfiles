@@ -39,6 +39,7 @@ alias ls='ls --color=auto'
 
 alias gb='git branch'
 alias gc='git commit'
+alias gcam='git commit -am'
 alias gp='git pull'
 alias ga='git add'
 alias gd='git diff'
