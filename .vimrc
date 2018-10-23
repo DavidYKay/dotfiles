@@ -145,9 +145,7 @@ map <C-s> :source %<CR>
 
 " Tag search
 noremap <c-p> :CtrlPBufTagAll<CR>
-"noremap <s-c-w> :CtrlPBufTagAll<CR>
 let g:ctrlp_map = '<c-\>'
-"let g:ctrlp_map = '<c-p>'
 
 "----------
 " fzf
@@ -158,16 +156,18 @@ map <C-l> :Ag<CR>
 " Hotkeys - Core
 "********************************
 
-"map <F5> :!./run<CR>
-"map <F5> :Errors<cr>
+function! NewFileInDir()
+  call inputsave()
+  let filename = input('Enter filename: ')
+  call inputrestore()
+  execute "normal! :vs %:h/" . filename . "\<cr>"
+endfunction
+
+" Custom nav
+map <C-n> :.call NewFileInDir()<CR>
 map <F5> :Buffers<cr>
 
-imap <F6> <ESC>:mak<CR>
-nmap <F6> :mak<CR>
-
 "map <F10> :Errors<cr>
-"map <F10> :CtrlPBufTagAll<cr>
-"map <c-,> :CtrlPBufTagAll<cr>
 
 " Strip whitespace
 ":nnoremap <silent> <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -263,6 +263,7 @@ au FileType clojure set iskeyword-=.
 "********************************
 "PATHOGEN
 "********************************
+" TODO: nix Pathogen for Vim-Plug
 call pathogen#infect()
 
 "********************************
@@ -287,9 +288,15 @@ autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xm
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 
 "********************************
-" Location List (Ale / Syntastic)
+" Compile / Lint
 "********************************
 
+"map <F5> :Errors<cr>
+
+imap <F6> <ESC>:mak<CR>
+nmap <F6> :mak<CR>
+
+" Ale / Syntastic
 map <S-t> :ALEToggle<CR>
 
 map <C-i> :ll<CR>
