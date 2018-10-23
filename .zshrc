@@ -37,6 +37,12 @@ fi
 alias ll='ls -l --color=auto'
 alias ls='ls --color=auto'
 
+alias gb='git branch'
+alias gc='git commit'
+alias gp='git pull'
+alias ga='git add'
+alias gd='git diff'
+
 #****************************************
 # The following lines were added by compinstall
 #****************************************
