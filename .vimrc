@@ -1,7 +1,32 @@
+"********************************
+" Vim-Plug
+"********************************
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+" Plug 'https://github.com/romainl/vim-qf.git'
+
+Plug 'SirVer/ultisnips'
+
+Plug 'DavidYKay/ale'
+Plug 'morhetz/gruvbox'
+Plug 'drewtempelmeyer/palenight.vim'
+
+"Plug 'w0rp/ale'
+
+call plug#end()
+
+" Core Config
 syntax on
 set t_Co=256
 
-colo gentooish
+colo palenight
+"colo gruvbox
+"colo gentooish
 "colo summerfruit256
 "colo morning
 
@@ -271,21 +296,3 @@ map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
 
-"********************************
-" Vim-Plug
-"********************************
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-" Plug 'https://github.com/romainl/vim-qf.git'
-
-Plug 'SirVer/ultisnips'
-
-Plug 'DavidYKay/ale'
-"Plug 'w0rp/ale'
-
-call plug#end()
