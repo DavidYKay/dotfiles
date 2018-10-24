@@ -53,6 +53,7 @@ alias gd='git diff'
 alias gf='git fetch'
 alias gm='git merge'
 alias gp='git push'
+alias grm='git rebase -i master'
 alias gs='git status'
 
 git_rebase_origin () {
