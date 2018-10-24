@@ -38,11 +38,11 @@ alias ll='ls -l --color=auto'
 alias ls='ls --color=auto'
 
 
-" APT
-" alias acs='apt-cache search'
-" alias agi='sudo apt-get install'
-" alias dpq='dpkg-query -L'
-" alias sdi='sudo dpkg -i'
+# APT
+# alias acs='apt-cache search'
+# alias agi='sudo apt-get install'
+# alias dpq='dpkg-query -L'
+# alias sdi='sudo dpkg -i'
 
 alias ga='git add'
 alias gb='git branch'
@@ -51,11 +51,19 @@ alias gcam='git commit -am'
 alias gcm='git commit -m'
 alias gd='git diff'
 alias gf='git fetch'
-" TODO: this would be sweet
-" alias gfr='git fetch && git rebase BRANCHNAME'
 alias gm='git merge'
 alias gp='git push'
 alias gs='git status'
+
+git_rebase_origin () {
+    branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || branch_name="(unnamed branch)"
+    branch_name=${branch_name##refs/heads/}
+    if [ -n "$branch_name" ]; then
+      git rebase origin/$branch_name
+    fi
+}
+
+alias gfr='git fetch && git_rebase_origin'
 
 #****************************************
 # The following lines were added by compinstall
