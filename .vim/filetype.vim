@@ -20,6 +20,9 @@ au BufRead,BufNewFile SConstruct,SConscript,*.scons setfiletype python
 au BufRead,BufNewFile *.thrift set filetype=thrift
 au! Syntax thrift source ~/.vim/syntax/thrift.vim
 
+" BGFX Shader Language
+au BufRead,BufNewFile *.sc set filetype=glsl
+
 au BufRead,BufNewFile *.dtm set filetype=clojure
 au BufRead,BufNewFile *.cljs set filetype=clojure
 au BufRead,BufNewFile *.cljc set filetype=clojure
