@@ -37,13 +37,25 @@ fi
 alias ll='ls -l --color=auto'
 alias ls='ls --color=auto'
 
-alias gb='git branch'
-alias gc='git commit'
-alias gcam='git commit -am'
-alias gf='git fetch'
-alias gp='git push'
+
+" APT
+" alias acs='apt-cache search'
+" alias agi='sudo apt-get install'
+" alias dpq='dpkg-query -L'
+" alias sdi='sudo dpkg -i'
+
 alias ga='git add'
+alias gb='git branch'
+alias gc='git checkout'
+alias gcam='git commit -am'
+alias gcm='git commit -m'
 alias gd='git diff'
+alias gf='git fetch'
+" TODO: this would be sweet
+" alias gfr='git fetch && git rebase BRANCHNAME'
+alias gm='git merge'
+alias gp='git push'
+alias gs='git status'
 
 #****************************************
 # The following lines were added by compinstall
