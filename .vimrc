@@ -64,7 +64,7 @@ set wildignore+=*.zip,*.mdb,*.sqlite
 set wildignore+=*.png,*.jpg,*.pdf,*.xls,*.xlsx
 
 let g:ctrlp_root_markers =  ['.fiplr-root']
-"let g:ctrlp_custom_ignore = 'lib/'
+let g:ctrlp_custom_ignore = '3rdparty/'
 "let g:ctrlp_custom_ignore = 'archive/'
 "let g:ctrlp_custom_ignore = {
   "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
