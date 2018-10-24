@@ -92,12 +92,6 @@ set nocompatible
 set nocp 
 
 "********************************
-" Zig
-"********************************
-
-imap <C-x> :AsyncRun ./build.sh<CR>
-
-"********************************
 " Java
 "********************************
 "Set up Java + Ant for QuickFix
@@ -288,10 +282,8 @@ autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xm
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 
 "********************************
-" Compile / Lint
+" Compile / Lint (ALE, et al.)
 "********************************
-
-"map <F5> :Errors<cr>
 
 "nmap <F6> :mak<CR>
 nmap <C-b> :silent exec "!dkBuild"<CR>
