@@ -29,8 +29,6 @@ elseif has('unix')
         "set guifont=Fira\ Code\ Retina\ 13
         "set guifont=Source\ Code\ Pro\ 15
         "set guifont=Source\ Code\ Pro\ 13
-        "colo slack
-        colo gentooish
     else
         if hostname == "neoKong"
             "set guifont=Droid\ Sans\ Mono\ 11
@@ -42,11 +40,9 @@ elseif has('unix')
         else
             set guifont=ProggyCleanTT\ 12
             "set guifont=ProggyCleanTT\ 14
-            colo gentooish
         endif
     endif
 elseif has('mac')
     set gfn=Monaco:h10
-    colo gentooish
 endif
 
