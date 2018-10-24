@@ -164,7 +164,7 @@ map <F5> :Buffers<cr>
 "map <F10> :Errors<cr>
 
 " Strip whitespace
-":nnoremap <silent> <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+:nnoremap <silent> <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Poor man's make for individual file
 "imap <F10> <ESC>:!javac .java && java <CR>
