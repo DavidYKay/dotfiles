@@ -294,7 +294,7 @@ autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 "map <F5> :Errors<cr>
 
 "nmap <F6> :mak<CR>
-nmap <F6> :silent exec "!dkBuild"<CR>
+nmap <C-b> :silent exec "!dkBuild"<CR>
 
 " Ale / Syntastic
 map <S-t> :ALEToggle<CR>
