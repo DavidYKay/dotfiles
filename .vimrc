@@ -282,6 +282,13 @@ autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xm
 
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
 
+
+"********************************
+" D-lang
+"********************************
+
+autocmd FileType d setlocal shiftwidth=2 tabstop=2
+
 "********************************
 " Compile / Lint (ALE, et al.)
 "********************************
