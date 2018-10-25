@@ -12,7 +12,8 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 Plug 'SirVer/ultisnips'
 
-Plug 'DavidYKay/ale'
+Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
+
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
 
@@ -295,3 +296,6 @@ map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
 
+let g:ale_linters = {
+\   'd': ['meson'],
+\}
