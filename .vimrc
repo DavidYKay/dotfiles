@@ -8,16 +8,15 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-" Plug 'https://github.com/romainl/vim-qf.git'
 
 Plug 'SirVer/ultisnips'
 
+" Plug 'w0rp/ale'
+" Plug 'https://github.com/romainl/vim-qf.git'
 Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
 
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
-
-"Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -299,6 +298,8 @@ nmap <C-b> :silent exec "!dkBuild"<CR>
 " Ale / Syntastic
 map <S-t> :ALEToggle<CR>
 
+map <C-a> :lopen<CR>
+map <C-x> :lclose<CR>
 map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
