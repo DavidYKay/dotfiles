@@ -89,18 +89,18 @@ set guioptions-=T
 set nocompatible
 
 "PLUGIN enablers
-set nocp 
+set nocp
 
 "********************************
 " Java
 "********************************
 "Set up Java + Ant for QuickFix
-"autocmd BufRead *.java set makeprg=ant\ -f\ /home/demian/code/jim/build.xml   
+"autocmd BufRead *.java set makeprg=ant\ -f\ /home/demian/code/jim/build.xml
 autocmd BufRead *.java set makeprg=ant\ -f\ ./build.xml
 autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
 "Make import statements work with gf 'goto file'
-autocmd BufRead *.java set include=^#\s*import 
+autocmd BufRead *.java set include=^#\s*import
 autocmd BufRead *.java set includeexpr=substitute(v:fname,'\\.','/','g')
 
 "Map gc to go to class definition in file
@@ -123,16 +123,15 @@ function! FindProjectRoot(buffer) abort
     return ''
 endfunction
 
-function! SetBufferDirToProjectRoot() 
+function! SetBufferDirToProjectRoot()
   let current_buff = bufnr("%")
   let root = FindProjectRoot(l:current_buff)
   execute "normal!" ":lcd" root "\<cr>"
 endfunction
-
 " Set current buffer's root directory to project root
+map <C-c> :lcd %:p:h <CR>
 map <C-h> :.call SetBufferDirToProjectRoot()<CR>
 map <C-s> :source %<CR>
-
 "----------
 " Ctrl-p
 "----------
@@ -201,8 +200,8 @@ set wildmenu
 "********************************
 "OMNI COMPLETION
 "********************************
-filetype plugin on 
-filetype indent on 
+filetype plugin on
+filetype indent on
 
 "********************************
 "ABBREVIATIONS
