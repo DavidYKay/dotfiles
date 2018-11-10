@@ -12,7 +12,7 @@ export PATH=/usr/bin:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platfo
 #RVM
 export PATH=$PATH:~/.rvm/bin
 
-export CLASSPATH=$CLASSPATH:.:..
+#export CLASSPATH=$CLASSPATH:.:..
 export TERM=xterm-256color
 export EDITOR=/usr/bin/vim
 
