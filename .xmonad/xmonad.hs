@@ -1,6 +1,7 @@
 import XMonad
 import XMonad.Layout.Spiral
 import XMonad.Layout.Mosaic
+import XMonad.Util.EZConfig
 
 myLayout = tiled ||| Mirror tiled ||| spiral (6/7) ||| mosaic 2 [3,2] ||| Full
   where
@@ -16,7 +17,8 @@ myLayout = tiled ||| Mirror tiled ||| spiral (6/7) ||| mosaic 2 [3,2] ||| Full
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
 
-main = xmonad def
+main = xmonad $ def
     { terminal = "gnome-terminal",
-      layoutHook = myLayout
-    }
+      layoutHook = myLayout }
+    `additionalKeys`
+     [ ((controlMask, xK_space), spawn "xdotool click 2") ]
