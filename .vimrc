@@ -303,6 +303,7 @@ map <C-i> :ll<CR>
 map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
 map <C-space> :r !xclip -o<CR>
+imap <C-space> <ESC>:r !xclip -o<CR>
 
 let g:ale_linters = {
 \   'd': ['meson'],
