@@ -60,6 +60,7 @@ alias gp='git push'
 alias grm='git rebase -i master'
 alias gs='git status'
 alias gss='git stash save'
+alias gsp='git stash pop'
 
 git_rebase_origin () {
     branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || branch_name="(unnamed branch)"
