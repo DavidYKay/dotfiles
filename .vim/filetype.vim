@@ -39,3 +39,5 @@ au BufRead,BufNewFile *.gradle set filetype=groovy
 au BufRead,BufNewFile *.gant set filetype=groovy
 
 au BufRead,BufNewFile .spacemacs set filetype=lisp
+au BufRead,BufNewFile *.pxi set filetype=clojure
+au BufRead,BufNewFile meson.build set filetype=python
