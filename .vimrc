@@ -308,3 +308,11 @@ imap <C-space> <ESC>:r !xclip -o<CR>
 let g:ale_linters = {
 \   'd': ['meson'],
 \}
+
+
+" Paste functionality
+" Ctrl-PageUp as a holdover
+nmap <C-PageUp> "*p
+" Having trouble getting Ctrl-Space to work:
+" nmap <C-@> "*p
+" nmap <c-space> "*p
