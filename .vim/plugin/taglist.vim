@@ -396,7 +396,7 @@ let s:tlist_def_cobol_settings = 'cobol;d:data;f:file;g:group;p:paragraph;' .
                                \ 'P:program;s:section'
 
 " d language
-let s:tlist_def_d_settings = 'd;a:alias;c:class;e:enumitem;f:function;g:enum;' .
+let s:tlist_def_d_settings = 'd;a:alias;c:class;e:enum_item;f:function;g:enum;' .
                            \ 'i:interface;m:member;M:module;s:struct;' .
                            \ 'T:template;u:union;v:variable'
 
