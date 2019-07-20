@@ -395,6 +395,11 @@ let s:tlist_def_cs_settings = 'c#;d:macro;t:typedef;n:namespace;c:class;' .
 let s:tlist_def_cobol_settings = 'cobol;d:data;f:file;g:group;p:paragraph;' .
                                \ 'P:program;s:section'
 
+" d language
+let s:tlist_def_d_settings = 'd;a:alias;c:class;e:enumitem;f:function;g:enum;' .
+                           \ 'i:interface;m:member;M:module;s:struct;' .
+                           \ 'T:template;u:union;v:variable'
+
 " eiffel language
 let s:tlist_def_eiffel_settings = 'eiffel;c:class;f:feature'
 
