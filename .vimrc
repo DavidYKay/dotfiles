@@ -305,7 +305,7 @@ let g:ale_linters = {
 
 " Paste functionality
 " Ctrl-PageUp as a holdover
-nmap <C-PageUp> "*p
+" nmap <C-PageUp> "*p
 " Having trouble getting Ctrl-Space to work:
 " nmap <C-@> "*p
 " nmap <c-space> "*p
