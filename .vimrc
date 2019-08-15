@@ -298,8 +298,9 @@ map <C-k> :lprev<CR>
 map <C-space> :r !xclip -o<CR>
 imap <C-space> <ESC>:r !xclip -o<CR>
 
+"\   'd': ['meson'],
 let g:ale_linters = {
-\   'd': ['meson'],
+\   'd': ['dmd'],
 \}
 
 
