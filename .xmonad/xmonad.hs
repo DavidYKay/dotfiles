@@ -2,6 +2,7 @@ import XMonad
 import XMonad.Layout.Spiral
 import XMonad.Layout.Mosaic
 import XMonad.Util.EZConfig
+import XMonad.Hooks.SetWMName
 
 myLayout = tiled ||| Mirror tiled ||| spiral (6/7) ||| mosaic 2 [3,2] ||| Full
   where
@@ -19,6 +20,7 @@ myLayout = tiled ||| Mirror tiled ||| spiral (6/7) ||| mosaic 2 [3,2] ||| Full
 
 main = xmonad $ def
     { terminal = "gnome-terminal",
+      startupHook = setWMName "LG3D",
       layoutHook = myLayout }
     `additionalKeys`
      [ ((controlMask, xK_space), spawn "xdotool click 2") ]
