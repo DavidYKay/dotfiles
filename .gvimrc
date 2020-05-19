@@ -22,8 +22,12 @@ elseif has('unix')
         "set guifont=Source\ Code\ Pro\ 12
         "set guifont=Source\ Code\ Pro\ 13
         "
-        "set guifont=Source\ Code\ Pro\ 13
-        set guifont=Fira\ Code\ Bold\ 13
+        "set guifont=Source\ Code\ Pro\ 11
+        set guifont=Fira\ Code\ 11
+        "set guifont=Fira\ Code\ Bold\ 11
+        "set guifont=Fira\ Code\ Bold\ 13
+        "set guifont=Fira\ Code\ 13
+        "set guifont=Fira\ Code\ Bold\ 20
         "set guifont=Source\ Code\ Pro\ 14
         "set guifont=Fira\ Code\ Regular\ 14
         "set guifont=Fira\ Code\ Retina\ 13
