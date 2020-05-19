@@ -303,6 +303,8 @@ let g:ale_linters = {
 \   'd': ['dmd'],
 \}
 
+nmap <silent> <Tab> :ALEDetail<CR>
+nmap <silent> <S-Tab> :pclose<CR>
 
 " Paste functionality
 " Ctrl-PageUp as a holdover
