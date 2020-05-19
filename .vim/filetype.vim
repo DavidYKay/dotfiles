@@ -42,3 +42,6 @@ au BufRead,BufNewFile *.gant set filetype=groovy
 au BufRead,BufNewFile .spacemacs set filetype=lisp
 au BufRead,BufNewFile *.pxi set filetype=clojure
 au BufRead,BufNewFile meson.build set filetype=python
+
+au BufRead,BufNewFile *.any set filetype=glsl
+au BufRead,BufNewFile *.bazel set filetype=python
