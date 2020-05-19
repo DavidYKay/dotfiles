@@ -301,10 +301,12 @@ imap <C-space> <ESC>:r !xclip -o<CR>
 "\   'd': ['meson'],
 let g:ale_linters = {
 \   'd': ['dmd'],
+\   'cpp': ['clang'],
 \}
 
 nmap <silent> <Tab> :ALEDetail<CR>
 nmap <silent> <S-Tab> :pclose<CR>
+nmap <silent> <C-F2> :source %<CR>
 
 " Paste functionality
 " Ctrl-PageUp as a holdover
