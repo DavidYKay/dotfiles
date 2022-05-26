@@ -15,6 +15,11 @@ Plug 'SirVer/ultisnips'
 " Plug 'https://github.com/romainl/vim-qf.git'
 Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
 
+Plug 'fsharp/vim-fsharp', {
+      \ 'for': 'fsharp',
+      \ 'do':  'make fsautocomplete',
+      \}
+
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
 
@@ -52,9 +57,10 @@ set number
 "store swap files centrally
 set directory=~/.vim/tmp
 
-set wildignore+=*/tmp/*,*/venv/*,*/node_modules/*,*/bower_packages/*,*/_site/*,*/data/*
+set wildignore+=*/tmp/*,*/venv/*,*/node_modules/*,*/bower_packages/*,*/_site/*
+"*/data/*
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,*/build/*     " MacOSX/Linux
-set wildignore+=*/xcuserdata/*
+set wildignore+=*/xcuserdata/*,*/packages/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/ui-out/*,*/builddir/*
 set wildignore+=*/dist/*,*/Pods/*
 set wildignore+=*/deps/*

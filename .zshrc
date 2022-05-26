@@ -16,7 +16,9 @@ export PATH=$PATH:~/.rvm/bin
 export TERM=xterm-256color
 export EDITOR=/usr/bin/vim
 
-export ANDROID_HOME=~/Tools/android/sdk
+#export ANDROID_HOME=~/Tools/android/sdk
+export ANDROID_HOME=~/Library/Android/sdk
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH 
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -53,6 +55,8 @@ alias gca='git commit --amend'
 alias gcam='git commit -am'
 alias gcm='git commit -m'
 alias gd='git diff'
+alias gbg='git bisect good'
+alias gbb='git bisect bad'
 alias gf='git fetch'
 alias gl='git log'
 alias gm='git merge'

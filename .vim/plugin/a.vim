@@ -71,10 +71,10 @@ endfunction
 
 " Add all the default extensions
 " Mappings for Objective C
-"call <SID>AddAlternateExtensionMapping('h',"m,c,cpp,cxx,cc,CC")
-"call <SID>AddAlternateExtensionMapping('H',"m,C,CPP,CXX,CC")
-"call <SID>AddAlternateExtensionMapping('m',"h")
-"call <SID>AddAlternateExtensionMapping('M',"H")
+call <SID>AddAlternateExtensionMapping('h',"m,c,cpp,cxx,cc,CC")
+call <SID>AddAlternateExtensionMapping('H',"m,C,CPP,CXX,CC")
+call <SID>AddAlternateExtensionMapping('m',"h")
+call <SID>AddAlternateExtensionMapping('M',"H")
 " Mappings for Objective C++
 " call <SID>AddAlternateExtensionMapping('h',"mm,c,cpp,cxx,cc,CC")
 " call <SID>AddAlternateExtensionMapping('H',"MM,C,CPP,CXX,CC")
@@ -82,18 +82,18 @@ endfunction
 " call <SID>AddAlternateExtensionMapping('MM',"H")
 
 " Mappings for C and C++
-call <SID>AddAlternateExtensionMapping('h',"c,cpp,cxx,cc,CC")
-call <SID>AddAlternateExtensionMapping('H',"C,CPP,CXX,CC")
-call <SID>AddAlternateExtensionMapping('hpp',"cpp,c")
-call <SID>AddAlternateExtensionMapping('HPP',"CPP,C")
-call <SID>AddAlternateExtensionMapping('c',"h")
-call <SID>AddAlternateExtensionMapping('C',"H")
-call <SID>AddAlternateExtensionMapping('cpp',"h,hpp")
-call <SID>AddAlternateExtensionMapping('CPP',"H,HPP")
-call <SID>AddAlternateExtensionMapping('cc',"h")
-call <SID>AddAlternateExtensionMapping('CC',"H,h")
-call <SID>AddAlternateExtensionMapping('cxx',"h")
-call <SID>AddAlternateExtensionMapping('CXX',"H")
+"call <SID>AddAlternateExtensionMapping('h',"c,cpp,cxx,cc,CC")
+"call <SID>AddAlternateExtensionMapping('H',"C,CPP,CXX,CC")
+"call <SID>AddAlternateExtensionMapping('hpp',"cpp,c")
+"call <SID>AddAlternateExtensionMapping('HPP',"CPP,C")
+"call <SID>AddAlternateExtensionMapping('c',"h")
+"call <SID>AddAlternateExtensionMapping('C',"H")
+"call <SID>AddAlternateExtensionMapping('cpp',"h,hpp")
+"call <SID>AddAlternateExtensionMapping('CPP',"H,HPP")
+"call <SID>AddAlternateExtensionMapping('cc',"h")
+"call <SID>AddAlternateExtensionMapping('CC',"H,h")
+"call <SID>AddAlternateExtensionMapping('cxx',"h")
+"call <SID>AddAlternateExtensionMapping('CXX',"H")
 " Mappings for PSL7
 call <SID>AddAlternateExtensionMapping('psl',"ph")
 call <SID>AddAlternateExtensionMapping('ph',"psl")

@@ -45,3 +45,5 @@ au BufRead,BufNewFile meson.build set filetype=python
 
 au BufRead,BufNewFile *.any set filetype=glsl
 au BufRead,BufNewFile *.bazel set filetype=python
+au BufRead,BufNewFile *.fs set filetype=fsharp
+au BufRead,BufNewFile *.xaml.fs set filetype=fsharp
