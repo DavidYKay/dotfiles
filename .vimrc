@@ -22,6 +22,8 @@ Plug 'fsharp/vim-fsharp', {
 
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
+Plug 'hdiniz/vim-gradle'
+
 Plug 'tpope/vim-abolish'
 
 call plug#end()
