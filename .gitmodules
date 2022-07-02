@@ -10,9 +10,6 @@
 [submodule ".vim/bundle/vim-classpath"]
 	path = .vim/bundle/vim-classpath
 	url = git://github.com/tpope/vim-classpath.git
-[submodule ".vim/bundle/abolish"]
-	path = .vim/bundle/abolish
-	url = git://github.com/tpope/vim-abolish.git
 [submodule ".vim/bundle/vim-gradle"]
 	path = .vim/bundle/vim-gradle
 	url = git://github.com/tpope/vim-abolish.git
