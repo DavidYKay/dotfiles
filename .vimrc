@@ -26,6 +26,7 @@ Plug 'hdiniz/vim-gradle'
 
 Plug 'tpope/vim-abolish'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'rodjek/vim-puppet'
 
 call plug#end()
 
