@@ -25,6 +25,7 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'hdiniz/vim-gradle'
 
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-markdown'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
