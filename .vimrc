@@ -20,14 +20,14 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
+" Plug 'kongo2002/fsharp-vim'
 Plug 'beyondmarc/hlsl.vim'
 Plug 'cespare/vim-toml'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
-Plug 'udalov/kotlin-vim'
-" Plug 'kongo2002/fsharp-vim'
+Plug 'keith/swift.vim'
 Plug 'morhetz/gruvbox'
 Plug 'petRUShka/vim-opencl'
 Plug 'rodjek/vim-puppet'
@@ -36,6 +36,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
+Plug 'udalov/kotlin-vim'
 
 call plug#end()
 
