@@ -28,6 +28,7 @@ Plug 'udalov/kotlin-vim'
 " Plug 'kongo2002/fsharp-vim'
 Plug 'morhetz/gruvbox'
 Plug 'rodjek/vim-puppet'
+Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
