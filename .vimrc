@@ -25,6 +25,7 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'hdiniz/vim-gradle'
 
 Plug 'tpope/vim-abolish'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 
