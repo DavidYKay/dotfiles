@@ -23,6 +23,7 @@ Plug 'fsharp/vim-fsharp', {
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'hdiniz/vim-gradle'
+# Plug 'kongo2002/fsharp-vim'
 Plug 'morhetz/gruvbox'
 Plug 'rodjek/vim-puppet'
 Plug 'tpope/vim-abolish'
