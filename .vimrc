@@ -40,6 +40,7 @@ Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
 Plug 'udalov/kotlin-vim'
+Plug 'ziglang/zig.vim'
 
 call plug#end()
 
