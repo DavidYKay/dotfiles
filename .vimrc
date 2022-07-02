@@ -22,6 +22,7 @@ Plug 'fsharp/vim-fsharp', {
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
 Plug 'udalov/kotlin-vim'
 " Plug 'kongo2002/fsharp-vim'
