@@ -20,6 +20,7 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
+Plug 'cespare/vim-toml'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ekalinin/Dockerfile.vim'
