@@ -7,7 +7,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'ervandew/supertab'
 
 Plug 'SirVer/ultisnips'
 
@@ -20,15 +20,15 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
-Plug 'morhetz/gruvbox'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'hdiniz/vim-gradle'
-
+Plug 'morhetz/gruvbox'
+Plug 'rodjek/vim-puppet'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'rodjek/vim-puppet'
 
 call plug#end()
 
