@@ -32,6 +32,7 @@ Plug 'morhetz/gruvbox'
 Plug 'petRUShka/vim-opencl'
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
+Plug 'tikhomirov/vim-glsl'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
