@@ -20,6 +20,7 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
+Plug 'beyondmarc/hlsl.vim'
 Plug 'cespare/vim-toml'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'

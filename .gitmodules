@@ -7,9 +7,6 @@
 [submodule ".vim/bundle/swift.vim"]
 	path = .vim/bundle/swift.vim
 	url = git@github.com:keith/swift.vim.git
-[submodule ".vim/bundle/syntax_hlsl"]
-	path = .vim/bundle/syntax_hlsl
-	url = https://github.com/beyondmarc/hlsl.vim.git
 [submodule ".vim/bundle/vim-glsl"]
 	path = .vim/bundle/vim-glsl
 	url = https://github.com/tikhomirov/vim-glsl
