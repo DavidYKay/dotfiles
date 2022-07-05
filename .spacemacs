@@ -45,16 +45,21 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     vimscript
+     clojure
      csv
+     d
+     emacs-lisp
+     gpu
      html
      javascript
-     gpu
      kotlin
-     rust
-     shaders
-     yaml
+     markdown
      python
+     rust
+     scala
+     shaders
+     vimscript
+     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -63,11 +68,7 @@ values."
      helm
      auto-completion
      better-defaults
-     emacs-lisp
-     clojure
-     scala
      git
-     markdown
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
