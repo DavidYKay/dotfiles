@@ -8,7 +8,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'ervandew/supertab'
-
 Plug 'SirVer/ultisnips'
 
 " Plug 'w0rp/ale'
@@ -29,6 +28,7 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
 Plug 'keith/swift.vim'
+Plug 'leafgarland/typescript-vim'
 Plug 'morhetz/gruvbox'
 Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
@@ -41,6 +41,8 @@ Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
 Plug 'udalov/kotlin-vim'
+Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-misc'
 Plug 'ziglang/zig.vim'
 
 call plug#end()
