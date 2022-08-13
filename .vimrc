@@ -29,6 +29,7 @@ Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'morhetz/gruvbox'
 Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
@@ -41,8 +42,8 @@ Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-markdown'
 Plug 'udalov/kotlin-vim'
-Plug 'xolox/vim-easytags'
-Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-easytags'
+" Plug 'xolox/vim-misc'
 Plug 'ziglang/zig.vim'
 
 call plug#end()
