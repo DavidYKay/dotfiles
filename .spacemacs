@@ -48,7 +48,9 @@ values."
      clojure
      csv
      d
+     dart
      emacs-lisp
+     go
      gpu
      html
      javascript
@@ -57,7 +59,7 @@ values."
      python
      rust
      scala
-     shaders
+     ;; shaders
      vimscript
      yaml
      ;; ----------------------------------------------------------------
