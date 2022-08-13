@@ -34,6 +34,7 @@ Plug 'morhetz/gruvbox'
 Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
 Plug 'preservim/nerdtree'
+Plug 'preservim/tagbar'
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
 Plug 'tikhomirov/vim-glsl'
@@ -191,6 +192,7 @@ map <F5> :Buffers<cr>
 
 "map <F10> :Errors<cr>
 
+nmap <F8> :TagbarToggle<CR>
 " Strip whitespace
 :nnoremap <silent> <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
