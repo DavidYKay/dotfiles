@@ -35,6 +35,13 @@ Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
 Plug 'preservim/nerdtree'
 Plug 'preservim/tagbar'
+
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'yaml', 'html'] }
+
+Plug 'Quramy/tsuquyomi'
+
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
 Plug 'tikhomirov/vim-glsl'
@@ -310,6 +317,18 @@ set statusline+=%*
 autocmd FileType clojure,c,cpp,go,objc,java,javascript,php,python,thrift,html,xml autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -s2pb\ --style=java
+
+"********************************
+" Prettier
+"********************************
+
+" Format on save
+let g:prettier#autoformat = 1
+" Auto-format without pragma
+let g:prettier#autoformat_require_pragma = 0
+
+" Default to async
+let g:prettier#exec_cmd_async = 1
 
 "********************************
 " Compile / Lint (ALE, et al.)
