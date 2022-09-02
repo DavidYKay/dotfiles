@@ -8,9 +8,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 
-" Plug 'w0rp/ale'
 " Plug 'https://github.com/romainl/vim-qf.git'
 Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
 
@@ -19,17 +18,16 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
-" Plug 'kongo2002/fsharp-vim'
 Plug 'beyondmarc/hlsl.vim'
-Plug 'cespare/vim-toml'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
 Plug 'keith/swift.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'hellerve/carp-vim'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
