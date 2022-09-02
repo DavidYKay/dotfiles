@@ -37,12 +37,10 @@ Plug 'petRUShka/vim-opencl'
 Plug 'preservim/nerdtree'
 Plug 'preservim/tagbar'
 
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'yaml', 'html'] }
-
-Plug 'Quramy/tsuquyomi'
-
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'npm install',
+"   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'yaml', 'html'] }
+"
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
 Plug 'Tetralux/odin.vim'
