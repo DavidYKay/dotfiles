@@ -55,6 +55,7 @@ values."
      gpu
      html
      javascript
+     lsp
      kotlin
      markdown
      python
@@ -87,7 +88,8 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
                                       ag
-                                      zig-mode
+                                      (odin-mode :location (recipe :fetcher github :repo "mattt-b/odin-mode"))
+                                      ;;lsp-mode
                                       ;;floobits
                                       )
    ;; A list of packages that cannot be updated.
@@ -340,7 +342,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
+  ;;(push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
   (push '(helm . "melpa-stable") package-pinned-packages)
 
   )
@@ -361,7 +363,17 @@ you should place your code here."
 
   (add-hook 'go-mode-hook (lambda ()
                             (setq tab-width 2)
-                            (setq indent-tabs-mode nil) ))
+                            (setq indent-tabs-mode nil)))
+
+  (require 'lsp-mode)
+  (setq-default lsp-auto-guess-root t) ;; if you work with Projectile/project.el this will help find the ols.json file.
+  (defvar lsp-language-id-configuration '((odin-mode . "odin")))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "/usr/bin/ols")
+                    :major-modes '(odin-mode)
+                    :server-id 'ols
+                    :multi-root t)) ;; This is just so lsp-mode sends the "workspaceFolders" param to the server.
+  (add-hook 'odin-mode-hook #'lsp)
 
   (message "bar")
   (show-paren-mode)
