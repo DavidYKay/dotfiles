@@ -31,6 +31,9 @@ Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'morhetz/gruvbox'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
 Plug 'preservim/nerdtree'
@@ -44,6 +47,7 @@ Plug 'Quramy/tsuquyomi'
 
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
+Plug 'Tetralux/odin.vim'
 Plug 'tikhomirov/vim-glsl'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
@@ -347,6 +351,15 @@ map <C-j> :lnext<CR>
 map <C-k> :lprev<CR>
 map <C-space> :r !xclip -o<CR>
 imap <C-space> <ESC>:r !xclip -o<CR>
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)>
 
 "\   'd': ['meson'],
 let g:ale_linters = {
