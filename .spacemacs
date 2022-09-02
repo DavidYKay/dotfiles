@@ -46,6 +46,7 @@ values."
    dotspacemacs-configuration-layers
    '(
      clojure
+     common-lisp
      csv
      d
      dart
@@ -60,6 +61,7 @@ values."
      rust
      scala
      ;; shaders
+     typescript
      vimscript
      yaml
      ;; ----------------------------------------------------------------
