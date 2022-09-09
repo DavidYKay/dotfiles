@@ -18,9 +18,11 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'beyondmarc/hlsl.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'dart-lang/dart-vim-plugin'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
