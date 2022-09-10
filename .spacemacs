@@ -375,6 +375,9 @@ you should place your code here."
                     :multi-root t)) ;; This is just so lsp-mode sends the "workspaceFolders" param to the server.
   (add-hook 'odin-mode-hook #'lsp)
 
+  (setq exec-path (append exec-path '("~/.nodenv/shims")))
+  (setq cider-shadow-cljs-command "shadow-cljs")
+
   (message "bar")
   (show-paren-mode)
   (setq  x-meta-keysym 'super
