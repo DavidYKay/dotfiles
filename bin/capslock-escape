@@ -1,4 +1,4 @@
 #!/bin/bash 
 
 # set caps lock as escape
-setxkbmap -option caps:swapescape 
+setxkbmap -option caps:escape
