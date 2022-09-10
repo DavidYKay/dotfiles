@@ -42,7 +42,11 @@ elseif has('unix')
             "set guifont=Source\ Code\ Pro\ 14
             "set guifont=Source\ Code\ Pro\ 16
         else
-            set guifont=ProggyCleanTT\ 12
+            "set guifont=Liberation\ Mono\ 10.2
+            set guifont=Liberation\ Mono\ 10.6
+            "set guifont=Liberation\ Mono\ 11
+            "set guifont=Source\ Code\ Pro\ 9.8
+            "set guifont=ProggyCleanTT\ 12
             "set guifont=ProggyCleanTT\ 14
         endif
     endif
