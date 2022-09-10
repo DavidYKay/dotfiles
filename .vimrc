@@ -104,8 +104,8 @@ set wildignore+=*.png,*.jpg,*.pdf,*.xls,*.xlsx
 
 let g:ctrlp_root_markers =  ['.fiplr-root']
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'dir':  '\v[\/](node_modules|build|target|dist)|(\.(swp|ico|git|svn))$',
+  \ 'file': '\v(tags)|\.(exe|so|dll)$',
   \ }
 
 "********************************
