@@ -28,10 +28,11 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
 Plug 'keith/swift.vim'
-
 Plug 'hellerve/carp-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
+
+Plug 'hankchiutw/flutter-reload.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
