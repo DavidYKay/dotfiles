@@ -19,7 +19,8 @@ Plug 'fsharp/vim-fsharp', {
       \}
 
 Plug 'drewtempelmeyer/palenight.vim'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
+" Relative line numbers
+" Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'beyondmarc/hlsl.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dart-lang/dart-vim-plugin'
