@@ -32,7 +32,8 @@ Plug 'hellerve/carp-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
 
-Plug 'hankchiutw/flutter-reload.vim'
+" Plug 'thosakwe/vim-flutter'
+" Plug 'hankchiutw/flutter-reload.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -195,7 +196,7 @@ function! NewFileInDir()
 endfunction
 
 " Custom nav
-map <C-n> :.call NewFileInDir()<CR>
+"map <C-n> :.call NewFileInDir()<CR>
 map <F5> :Buffers<cr>
 
 "map <F10> :Errors<cr>
@@ -291,6 +292,18 @@ au FileType clojure set iskeyword-=.
    "\ vimfiles."/lib/*"
    "\],
    "\ sep)
+   "
+   "
+
+"********************************
+" Flutter
+"********************************
+
+function! FlutterReload() abort
+	silent execute '!kill -s USR1 "$(pgrep -f flutter_tools.snapshot\ run)" &> /dev/null'
+endfunction
+
+map <C-n> :.call FlutterReload()<CR>
 
 "********************************
 "PATHOGEN
