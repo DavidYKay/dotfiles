@@ -253,15 +253,14 @@ abb excp Exception
 "CTAGS
 "********************************
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-"let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 let Tlist_WinWidth = 50
 
 " Alternate file
-map <F1> :A<cr>
+"map <F1> :A<cr>
+map <F1> :NERDTreeClose<cr>
 map <F2> :NERDTree<cr>
 map <F3> :Project<cr>
 map <F4> :TlistToggle<cr>
-"map <F1> :NERDTreeClose<cr>
 
 "set g:proj_flags=imstc
 
