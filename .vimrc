@@ -209,9 +209,9 @@ nmap <F8> :TagbarToggle<CR>
 "imap <F10> <ESC>:!javac .java && java <CR>
 "nmap <F10> :!javac .java && java <CR>
 
-"SHOW trailing whitespace
-"set listchars=tab:>-,trail:·,eol:$
-"nmap <silent> <leader>s :set nolist!<CR>
+" Show trailing whitespace
+:highlight ExtraWhitespace ctermbg=green guibg=#FFFFAA
+:match ExtraWhitespace /\s\+$/
 
 "Shorted command prompt interruptions
 "i.e. Press ENTER or type command to continue
