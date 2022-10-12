@@ -1,0 +1,14 @@
+{
+  "languageserver": {
+    "odin": {
+      "command": "/usr/bin/ols",
+      "filetypes": ["odin"],
+      "rootPatterns": ["ols.json"]
+    },
+    "beef": {
+      "command": "/home/dk/Tools/beef/Beef/IDE/dist/BeefLsp_d",
+      "filetypes": ["bf"],
+      "rootPatterns": ["BeefProj.toml"]
+    }
+  }
+}
