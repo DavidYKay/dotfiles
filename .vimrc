@@ -45,7 +45,9 @@ Plug 'preservim/tagbar'
 " Plug 'prettier/vim-prettier', {
 "   \ 'do': 'npm install',
 "   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'yaml', 'html'] }
-"
+Plug 'junegunn/vim-easy-align'
+
+
 Plug 'rodjek/vim-puppet'
 Plug 'rust-lang/rust.vim'
 Plug 'Tetralux/odin.vim'
@@ -386,3 +388,11 @@ nmap <silent> <C-F2> :source %<CR>
 " Having trouble getting Ctrl-Space to work:
 " nmap <C-@> "*p
 " nmap <c-space> "*p
+
+"********************************
+"Alignment
+"********************************
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+"" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
