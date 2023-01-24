@@ -45,7 +45,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     clojure
+    (clojure :variables
+             clojure-enable-linters 'clj-kondo)
      common-lisp
      csv
      d
@@ -79,7 +80,7 @@ values."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -89,7 +90,7 @@ values."
    dotspacemacs-additional-packages '(
                                       ag
                                       (odin-mode :location (recipe :fetcher github :repo "mattt-b/odin-mode"))
-                                      ;;lsp-mode
+                                      lsp-mode
                                       ;;floobits
                                       )
    ;; A list of packages that cannot be updated.
@@ -343,7 +344,7 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;;(push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
-  (push '(helm . "melpa-stable") package-pinned-packages)
+  ;;(push '(helm . "melpa-stable") package-pinned-packages)
 
   )
 
