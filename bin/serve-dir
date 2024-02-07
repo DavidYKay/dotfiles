@@ -1,2 +1,2 @@
 #!/bin/bash
-python2 -m SimpleHTTPServer 5000
+python3 -m http.server 5000
