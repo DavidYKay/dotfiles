@@ -44,15 +44,16 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-    (clojure :variables
+   '(protobuf
+     (clojure :variables
              clojure-enable-linters 'clj-kondo)
      common-lisp
      csv
      d
      dart
      emacs-lisp
-     go
+     (go :variables go-backend 'lsp
+                    go-tab-width 2)
      gpu
      html
      javascript
@@ -61,7 +62,10 @@ values."
      markdown
      python
      rust
-     scala
+     ;;zig
+    (zig :variables
+         zls-backend 'lsp)
+
      ;; shaders
      typescript
      vimscript
@@ -90,6 +94,7 @@ values."
    dotspacemacs-additional-packages '(
                                       ag
                                       (odin-mode :location (recipe :fetcher github :repo "mattt-b/odin-mode"))
+                                      flatbuffers-mode
                                       lsp-mode
                                       ;;floobits
                                       )
