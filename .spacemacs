@@ -109,8 +109,8 @@ values."
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(smartparens
-                                   highlight-parentheses
-                                   )
+                                    highlight-parentheses
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -189,7 +189,9 @@ values."
                                "Source Code Pro"
                                ;;"Liberation Mono"
                                ;;:size 12
-                               :size 20
+                               ;;:size 18
+                               :size 19
+                               ;;:size 20
                                ;;:size 26
                                :weight normal
                                :width normal
@@ -369,7 +371,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (message "hello world")
+  ;;(message "hello user config")
   (global-hl-line-mode -1)
   (global-set-key (kbd "C-\\") 'helm-projectile)
   ;; shift left and right for next/prev buffer
@@ -407,6 +409,32 @@ you should place your code here."
 
   (setq exec-path (append exec-path '("~/.nodenv/shims")))
   (setq cider-shadow-cljs-command "shadow-cljs")
+  ;;(setq cider-clojure-formatter 'zprint)
+
+  ;;(with-eval-after-load 'electric
+  ;;  (electric-indent-mode -1))
+  ;;(aggressive-indent-mode -1)
+  ;;(setq-default aggressive-indent-excluded-modes '(clojure-mode))
+
+  (setq cider-format-code-options
+    '(("indents" (
+                  ("<<sources" (("inner" 0)))
+                  ("<<query-topology" (("inner" 0)))
+                  ))))
+
+  (setq clojure-indent-style 'always-indent
+        clojure-indent-keyword-style 'always-indent
+        clojure-enable-indent-specs nil)
+
+  ;;(with-eval-after-load 'clojure-mode
+  ;;  (setq clojure-indent-style 'always-indent
+  ;;        clojure-indent-keyword-style 'always-indent
+  ;;        clojure-enable-indent-specs nil)
+  ;;  (message "hello clojure mode")
+  ;;  (define-clojure-indent
+  ;;    ;;(<<sources 1)
+  ;;    (<<sources :def)
+  ;;    ))
 
   (message "bar")
   (show-paren-mode)
@@ -439,25 +467,25 @@ you should place your code here."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(v-mode flycheck-rust flycheck-pos-tip lsp-mode powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree company hydra spinner lv pkg-info parseedn parseclj a epl bind-map bind-key pythonic f s dash helm avy helm-core async auto-complete popup vimrc-mode dactyl-mode zig-mode noflet ensime sbt-mode scala-mode glsl-mode yapfify yaml-mode web-mode web-beautify unfill toml-mode tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer pos-tip pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mwim mmm-mode minitest markdown-toc magit-gitflow macrostep livid-mode skewer-mode simple-httpd live-py-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc hy-mode helm-pydoc helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode elisp-slime-nav cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-anaconda coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode chruby cargo markdown-mode rust-mode bundler inf-ruby auto-yasnippet yasnippet auto-compile ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox packed org-plus-contrib org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol anaconda-mode alchemist aggressive-indent ag adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))
- '(safe-local-variable-values
-   '((cider-shadow-cljs-default-options . "app")
-     (cider-jack-in-default . "clojure-cli")
-     (typescript-backend . tide)
-     (typescript-backend . lsp)
-     (javascript-backend . tide)
-     (javascript-backend . tern)
-     (javascript-backend . lsp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(v-mode flycheck-rust flycheck-pos-tip lsp-mode powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree company hydra spinner lv pkg-info parseedn parseclj a epl bind-map bind-key pythonic f s dash helm avy helm-core async auto-complete popup vimrc-mode dactyl-mode zig-mode noflet ensime sbt-mode scala-mode glsl-mode yapfify yaml-mode web-mode web-beautify unfill toml-mode tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer pos-tip pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mwim mmm-mode minitest markdown-toc magit-gitflow macrostep livid-mode skewer-mode simple-httpd live-py-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc hy-mode helm-pydoc helm-gitignore helm-css-scss helm-company helm-c-yasnippet haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode elisp-slime-nav cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-anaconda coffee-mode clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode chruby cargo markdown-mode rust-mode bundler inf-ruby auto-yasnippet yasnippet auto-compile ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox packed org-plus-contrib org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol anaconda-mode alchemist aggressive-indent ag adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))
+   '(safe-local-variable-values
+     '((cider-shadow-cljs-default-options . "app")
+       (cider-jack-in-default . "clojure-cli")
+       (typescript-backend . tide)
+       (typescript-backend . lsp)
+       (javascript-backend . tide)
+       (javascript-backend . tern)
+       (javascript-backend . lsp))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
