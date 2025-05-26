@@ -60,6 +60,7 @@ alias gbb='git bisect bad'
 alias gf='git fetch'
 alias gl='git log'
 alias gm='git merge'
+alias gmm='git merge master'
 alias gp='git push'
 alias gpuom='git push -u origin master'
 alias grm='git rebase -i master'
@@ -67,6 +68,9 @@ alias grc='git rebase --continue'
 alias gs='git status'
 alias gss='git stash save'
 alias gsp='git stash pop'
+alias griom='git rebase -i origin/master'
+
+alias lf=lfrun
 
 git_rebase_origin () {
     branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || branch_name="(unnamed branch)"
@@ -76,7 +80,8 @@ git_rebase_origin () {
     fi
 }
 
-alias gfr='git fetch && git_rebase_origin'
+#alias gfr='git fetch && git_rebase_origin'
+alias gfr='git pull'
 
 #****************************************
 # The following lines were added by compinstall
@@ -105,8 +110,8 @@ setopt AUTO_CD
 
 
 #keep history file between sessions
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.history
 setopt APPEND_HISTORY
 #for sharing history between zsh processes
@@ -326,8 +331,6 @@ $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 # END PROMPT
 
 setprompt
-
-#randomxterm
 
 #f you want to enable Portage completions and Gentoo prompt,
 # emerge app-shells/zsh-completion and add
