@@ -95,6 +95,7 @@ set number
 "store swap files centrally
 set directory=~/.vim/tmp
 
+set wildignore+=*/cljd-out/*
 set wildignore+=*/tmp/*,*/venv/*,*/node_modules/*,*/bower_packages/*,*/_site/*
 "*/data/*
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.class,*.dex,*.apk,*/build/*     " MacOSX/Linux
@@ -107,7 +108,7 @@ set wildignore+=*.o,*.so,*.class,*.dex,*.apk,*.dll,*.pyc,*.xib
 set wildignore+=*.zip,*.mdb,*.sqlite
 set wildignore+=*.png,*.jpg,*.pdf,*.xls,*.xlsx
 
-let g:ctrlp_root_markers =  ['.fiplr-root']
+let g:ctrlp_root_markers =  ['.projectile']
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](node_modules|build|target|dist)|(\.(swp|ico|git|svn))$',
   \ 'file': '\v(tags)|\.(exe|so|dll)$',
@@ -156,7 +157,7 @@ map gf <C-W>f
 function! FindProjectRoot(buffer) abort
     for l:path in ale#path#Upwards(expand('#' . a:buffer . ':p:h'))
         if isdirectory(l:path . '/.git')
-        \|| filereadable(l:path . '/.fiplr-root')
+        \|| filereadable(l:path . '/.projectile')
             return l:path
         endif
     endfor
@@ -353,7 +354,17 @@ let g:prettier#exec_cmd_async = 1
 nmap <C-b> :silent exec "!dkBuild"<CR>
 
 " Ale / Syntastic
-map <S-t> :ALEToggle<CR>
+"map <S-t> :ALEToggle<CR>
+function! CocToggle()
+    if g:coc_enabled
+        CocDisable
+    else
+        CocEnable
+    endif
+endfunction
+command! CocToggle :call CocToggle()
+map <S-t> :CocToggle<CR>
+map <S-F6> <Plug>(coc-rename)
 
 map <C-a> :lopen<CR>
 map <C-x> :lclose<CR>
