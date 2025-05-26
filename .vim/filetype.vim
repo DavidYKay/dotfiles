@@ -26,6 +26,7 @@ au BufRead,BufNewFile *.sc set filetype=glsl
 au BufRead,BufNewFile *.dtm set filetype=clojure
 au BufRead,BufNewFile *.cljs set filetype=clojure
 au BufRead,BufNewFile *.cljc set filetype=clojure
+au BufRead,BufNewFile *.cljd set filetype=clojure
 au BufRead,BufNewFile *.edn set filetype=clojure
 au BufRead,BufNewFile .lein-env set filetype=clojure
 au BufRead,BufNewFile *.pxi set filetype=clojure
