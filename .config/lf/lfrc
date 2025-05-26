@@ -22,6 +22,7 @@ map a push %mkdir<space>
 
 #map Mf %lf-mkfile
 map F %lf-mkfile
+map . set hidden!
 
 # map dd delete
 # map dD push :remove
