@@ -356,30 +356,63 @@ eval "$(pyenv virtualenv-init -)"
 
 
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
-### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export PYTHONPATH=$PYTHONPATH:./lib
 
-#export GOPATH=~/Tools/go/lib
-#export GOROOT=~/Tools/go
-#export PATH="$PATH:$GOROOT/bin"
-
-export GOROOT=/usr/lib/go-1.10
+export GOROOT=/usr/lib/go
 export GOPATH=~/Tools/go/
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
-# env-zsh
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export PATH="/opt/cuda/bin:$PATH"
+export PATH="$HOME/Tools/crystal/crystal/bin:$PATH"
+
+# env-zsh - Enhanced .env file loading
 autoload -U add-zsh-hook
+
+# Store loaded env vars to unset them when leaving directory
+typeset -A DOTENV_VARS
+
 load-local-conf() {
-     # check file exists, is regular file and is readable:
-     if [[ -f .env && -r .env ]]; then
-       source .env
-     fi
+    # Unset previously loaded env vars if we're leaving a directory with .env
+    if [[ -n "${DOTENV_VARS[@]}" ]]; then
+        for var in "${(k)DOTENV_VARS[@]}"; do
+            unset "$var"
+        done
+        DOTENV_VARS=()
+    fi
+
+    # Check if .env file exists, is regular file and is readable
+    if [[ -f .env && -r .env ]]; then
+        # Parse .env file and track loaded variables
+        while IFS='=' read -r key value; do
+            # Skip comments and empty lines
+            [[ "$key" =~ ^[[:space:]]*# ]] && continue
+            [[ -z "$key" ]] && continue
+
+            # Remove leading/trailing whitespace
+            key="${key//[[:space:]]/}"
+
+            # Export the variable and track it
+            if [[ -n "$key" ]]; then
+                export "$key=$value"
+                DOTENV_VARS[$key]=1
+            fi
+        done < .env
+
+        echo "✓ Loaded .env from $(pwd)"
+    fi
 }
+
+# Load .env when entering a directory
 add-zsh-hook chpwd load-local-conf
 
-export NVM_DIR="/Users/dk/.nvm"
+# Also load .env in current directory when shell starts
+load-local-conf
+
+export NVM_DIR="/home/dk/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
