@@ -294,8 +294,9 @@ au FileType clojure set iskeyword-=.
    "\ vimfiles."/lib/*"
    "\],
    "\ sep)
-   "
-   "
+
+let g:clojure_fuzzy_indent = 1
+let g:clojure_fuzzy_indent_patterns = ['^<<']
 
 "********************************
 " Flutter

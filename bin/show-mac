@@ -1,0 +1,2 @@
+#!/bin/sh
+macchanger -s wlp2s0

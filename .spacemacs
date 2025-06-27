@@ -58,7 +58,8 @@ values."
      ;;debug
      dart
      emacs-lisp
-     go
+     (go :variables go-backend 'lsp
+                    go-tab-width 2)
      gpu
      html
      javascript
@@ -70,6 +71,8 @@ values."
      python
      protobuf
      rust
+    (zig :variables
+         zls-backend 'lsp)
      ;; shaders
      terraform
      tree-sitter
@@ -100,6 +103,7 @@ values."
    dotspacemacs-additional-packages '(
                                       ag
                                       (odin-mode :location (recipe :fetcher github :repo "mattt-b/odin-mode"))
+                                      flatbuffers-mode
                                       ;; (c3-ts-mode :location (recipe :fetcher github :repo "c3lang/c3-ts-mode"))
                                       lsp-mode
                                       v-mode
