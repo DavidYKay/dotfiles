@@ -392,6 +392,9 @@ you should place your code here."
                            (setq tab-width 2)
                            (setq indent-tabs-mode nil)))
 
+  ;; Disable aggressive-indent-mode for Clojure files
+  (add-hook 'clojure-mode-hook (lambda () (aggressive-indent-mode -1)))
+
   (require 'lsp-mode)
   (setq-default lsp-auto-guess-root t) ;; if you work with Projectile/project.el this will help find the ols.json file.
   (defvar lsp-language-id-configuration '((odin-mode . "odin")

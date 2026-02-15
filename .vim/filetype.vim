@@ -48,3 +48,6 @@ au BufRead,BufNewFile *.any set filetype=glsl
 au BufRead,BufNewFile *.bazel set filetype=python
 au BufRead,BufNewFile *.fs set filetype=fsharp
 au BufRead,BufNewFile *.xaml.fs set filetype=fsharp
+
+au BufRead,BufNewFile *.ejs set filetype=html
+au BufRead,BufNewFile *.selmer set filetype=html

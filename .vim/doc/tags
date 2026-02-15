@@ -92,7 +92,6 @@ Cdelvar	pyclewn.txt	/*Cdelvar*
 Cdetach	pyclewn.txt	/*Cdetach*
 Cfoldvar	pyclewn.txt	/*Cfoldvar*
 Cinterrupt	pyclewn.txt	/*Cinterrupt*
-Cmapkeys	pyclewn.txt	/*Cmapkeys*
 Cquit	pyclewn.txt	/*Cquit*
 Csetfmtvar	pyclewn.txt	/*Csetfmtvar*
 Csymcompletion	pyclewn.txt	/*Csymcompletion*
@@ -420,7 +419,6 @@ matchit.vim	matchit.txt	/*matchit.vim*
 o_[%	matchit.txt	/*o_[%*
 o_]%	matchit.txt	/*o_]%*
 o_g%	matchit.txt	/*o_g%*
-pdb-keys	pyclewn.txt	/*pdb-keys*
 pdb-pdbrc	pyclewn.txt	/*pdb-pdbrc*
 project	project.txt	/*project*
 project-adding-mappings	project.txt	/*project-adding-mappings*

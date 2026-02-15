@@ -6,21 +6,25 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
+" Plug 'kovisoft/paredit'
 Plug 'ervandew/supertab'
 " Plug 'SirVer/ultisnips'
 
 " Plug 'https://github.com/romainl/vim-qf.git'
-Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
 
 Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
       \}
-
 Plug 'drewtempelmeyer/palenight.vim'
 " Relative line numbers
 " Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'Airbus5717/c3.vim'
+Plug 'Joorem/vim-haproxy'
+Plug 'zchee/vim-flatbuffers'
+Plug 'ollykel/v-vim'
+Plug 'jlcrochet/vim-crystal'
+Plug 'hashivim/vim-terraform'
 Plug 'beyondmarc/hlsl.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dart-lang/dart-vim-plugin'
@@ -29,13 +33,16 @@ Plug 'hdiniz/vim-gradle'
 Plug 'jameslyden/vim-arduino'
 Plug 'keith/swift.vim'
 Plug 'hellerve/carp-vim'
-Plug 'HerringtonDarkholme/yats.vim'
+Plug 'HerringtonDarkholme/yats.vim', { 'branch': 'main'}
+Plug 'evanleck/vim-svelte'
 Plug 'morhetz/gruvbox'
 
 " Plug 'thosakwe/vim-flutter'
 " Plug 'hankchiutw/flutter-reload.vim'
 
+" LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'DavidYKay/ale', { 'branch': 'feature/d-meson' }
 
 Plug 'pangloss/vim-javascript'
 Plug 'petRUShka/vim-opencl'
@@ -47,14 +54,16 @@ Plug 'preservim/tagbar'
 "   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'yaml', 'html'] }
 Plug 'junegunn/vim-easy-align'
 
-
+Plug 'marketersuman/vim-mql5'
 Plug 'rodjek/vim-puppet'
+Plug '0rn/nim_syntax.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'Tetralux/odin.vim'
 Plug 'tikhomirov/vim-glsl'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'guns/vim-sexp'
 Plug 'tpope/vim-markdown'
 Plug 'udalov/kotlin-vim'
 " Plug 'xolox/vim-easytags'
@@ -103,6 +112,7 @@ set wildignore+=*/xcuserdata/*,*/packages/*
 set wildignore+=*/bin/*,*/obj/*,*/target/*,*/out/*,*/ui-out/*,*/builddir/*
 set wildignore+=*/dist/*,*/Pods/*
 set wildignore+=*/deps/*
+set wildignore+=*/worktrees/*
 set wildignore+=*.swp,#*
 set wildignore+=*.o,*.so,*.class,*.dex,*.apk,*.dll,*.pyc,*.xib
 set wildignore+=*.zip,*.mdb,*.sqlite
@@ -276,14 +286,6 @@ let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:functi
 au FileType clojure set iskeyword=@,48-57,_,191-255
 au FileType clojure set iskeyword-=.
 
-" let g:vimclojure#HighlightBuiltins = 1
-" let g:vimclojure#ParenRainbow = 1
-
-" this should only be necessary if you don't have the ng client in your PATH
-" let vimclojure#NailgunClient = "$HOME/bin/ng"
-" let vimclojure#WantNailgun = 1
-" let vimclojure#FuzzyIndent = 1
-
 "let classpath = join(
    "\[".",
    "\ "src", "src/main/clojure", "src/main/resources",
@@ -298,15 +300,24 @@ au FileType clojure set iskeyword-=.
 let g:clojure_fuzzy_indent = 1
 let g:clojure_fuzzy_indent_patterns = ['^<<']
 
+let g:sexp_enable_insert_mode_mappings = 0
+
 "********************************
 " Flutter
 "********************************
+
+let g:dart_analyzer_inlay_hints = 0
 
 function! FlutterReload() abort
 	silent execute '!kill -s USR1 "$(pgrep -f flutter_tools.snapshot\ run)" &> /dev/null'
 endfunction
 
+function! FlutterRestart() abort
+	silent execute '!kill -s USR2 "$(pgrep -f flutter_tools.snapshot\ run)" &> /dev/null'
+endfunction
+
 map <C-n> :.call FlutterReload()<CR>
+map <C-s-r> :.call FlutterRestart()<CR>
 
 "********************************
 "PATHOGEN
@@ -375,6 +386,7 @@ map <C-k> :lprev<CR>
 map <C-space> :r !xclip -o<CR>
 imap <C-space> <ESC>:r !xclip -o<CR>
 
+nmap <S-f> :CocDiagnostics<CR>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
@@ -424,3 +436,8 @@ nmap <silent> <C-F2> :source %<CR>
 xmap ga <Plug>(EasyAlign)
 "" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+"********************************
+"Dirty Hack
+"********************************
+" :let $PATH=$PATH:/home/dk/bin

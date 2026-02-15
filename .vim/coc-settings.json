@@ -1,9 +1,22 @@
 {
+  "diagnostic.level": "error",
   "languageserver": {
+    "dart": {
+      "initializationOptions": {
+        "enabledFeatures": {
+          "inlayHint": false
+        }
+      }
+    },
     "odin": {
-      "command": "/usr/bin/ols",
+      "command": "/home/dk/Tools/odin/ols/ols",
       "filetypes": ["odin"],
       "rootPatterns": ["ols.json"]
+    },
+    "v": {
+      "command": "/usr/local/bin/v-analyzer",
+      "filetypes": ["v"],
+      "rootPatterns": ["Makefile"]
     },
     "beef": {
       "command": "/home/dk/Tools/beef/Beef/IDE/dist/BeefLsp_d",

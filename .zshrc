@@ -1,10 +1,25 @@
 #!/bin/zsh
 set -o vi
 
+# export LC_TIME="en_GB.UTF-8"
+
 # System
+
+export PATH=/usr/bin:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin:/usr/local/opt/coreutils/libexec/gnubin:~/Tools/ssl/cfssl/bin/:$PATH
+
+export PATH=/usr/bin:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin:/usr/local/opt/coreutils/libexec/gnubin:~/Tools/ssl/cfssl/bin/:~/Tools/python/miniconda/bin/:$PATH
+
+export KUBECONFIG=~/workspace/current/infra/secrets/k3s.yaml
+
+# Bun JS
+export PATH=~/.bun/bin/:$PATH
+export PATH=~/.npm-global/bin/:$PATH
+
 #source "/etc/environment"
 
-export PATH=/usr/bin:~/.cabal/bin:~/Tools/android/ndk:~/Tools/android/sdk/platform-tools:~/Tools/android/sdk/tools:~/Tools/appengine/google_appengine:~/Tools/appengine/java/latest/bin:~/Tools/appengine/python/latest:~/bin:~/bin/genymotion:~/Tools/java/gradle/bin:~/Tools/java/maven/maven/bin:/usr/local/cuda/bin/:~/Tools/db/datomic/latest/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH
+# Dart Cache
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+export CHROME_EXECUTABLE=/usr/bin/chromium-browser
 
 #OCTAVE
 #export PATH=$PATH:/Applications/Octave.app/Contents/Resources/bin
@@ -18,7 +33,7 @@ export EDITOR=/usr/bin/vim
 
 #export ANDROID_HOME=~/Tools/android/sdk
 export ANDROID_HOME=~/Library/Android/sdk
-export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH 
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -194,13 +209,13 @@ function precmd {
 
     ###
     # Truncate the path if it's too long.
-    
+
     PR_FILLBAR=""
     PR_PWDLEN=""
-    
+
     local promptsize=${#${(%):---(%n@%m:%l)---()--}}
     local pwdsize=${#${(%):-%~}}
-    
+
     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
 	    ((PR_PWDLEN=$TERMWIDTH - $promptsize))
     else
@@ -252,7 +267,7 @@ setprompt () {
 
     ###
     # See if we can use extended characters to look nicer.
-    
+
     typeset -A altchar
     set -A altchar ${(s..)terminfo[acsc]}
     PR_SET_CHARSET="%{$terminfo[enacs]%}"
@@ -264,10 +279,10 @@ setprompt () {
     PR_LRCORNER=${altchar[j]:--}
     PR_URCORNER=${altchar[k]:--}
 
-    
+
     ###
     # Decide if we need to set titlebar text.
-    
+
     case $TERM in
 	xterm*)
 	    PR_TITLEBAR=$'%{\e]0;%(!.-=*[ROOT]*=- | .)%n@%m:%~ | ${COLUMNS}x${LINES} | %y\a%}'
@@ -279,8 +294,8 @@ setprompt () {
 	    PR_TITLEBAR=''
 	    ;;
     esac
-    
-    
+
+
     ###
     # Decide whether to set a screen title
     if [[ "$TERM" == "screen" ]]; then
@@ -288,11 +303,11 @@ setprompt () {
     else
 	PR_STITLE=''
     fi
-    
-    
+
+
     ###
     # APM detection
-    
+
     if which ibam > /dev/null; then
 	PR_APM='$PR_RED${${PR_APM_RESULT[(f)1]}[(w)-2]}%%(${${PR_APM_RESULT[(f)3]}[(w)-1]})$PR_LIGHT_BLUE:'
     elif which apm > /dev/null; then
@@ -300,8 +315,8 @@ setprompt () {
     else
 	PR_APM=''
     fi
-    
-    
+
+
     ###
     # Finally, the prompt.
 
@@ -350,10 +365,12 @@ export PATH="$HOME/.multirust/toolchains/stable/cargo/bin:$PATH"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # PyEnv
-export PATH="/home/dk/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# export PATH="/home/dk/.pyenv/bin:$PATH"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
+# MiniConda
+conda config --set auto_activate_base false
 
 export PATH="~/Tools/appengine/java/current/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -402,7 +419,7 @@ load-local-conf() {
             fi
         done < .env
 
-        echo "✓ Loaded .env from $(pwd)"
+        #echo "✓ Loaded .env from $(pwd)"
     fi
 }
 
@@ -420,3 +437,17 @@ export SDKMAN_DIR="/home/dk/.sdkman"
 [[ -s "/home/dk/.sdkman/bin/sdkman-init.sh" ]] && source "/home/dk/.sdkman/bin/sdkman-init.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ -e /home/dk/.nix-profile/etc/profile.d/nix.sh ]; then . /home/dk/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# bun completions
+[ -s "/home/dk/.bun/_bun" ] && source "/home/dk/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH=$HOME/.local/bin:$PATH
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# opencode
+export PATH=/home/dk/.opencode/bin:$PATH

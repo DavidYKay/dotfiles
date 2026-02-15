@@ -42,12 +42,28 @@ elseif has('unix')
             "set guifont=Source\ Code\ Pro\ 14
             "set guifont=Source\ Code\ Pro\ 16
         else
-            "set guifont=Liberation\ Mono\ 10.2
-            set guifont=Liberation\ Mono\ 10.6
-            "set guifont=Liberation\ Mono\ 11
-            "set guifont=Source\ Code\ Pro\ 9.8
-            "set guifont=ProggyCleanTT\ 12
-            "set guifont=ProggyCleanTT\ 14
+            if hostname == "SteelKong"
+                "set guifont=Liberation\ Mono\ 9.5
+                "set guifont=Liberation\ Mono\ 10
+                "set guifont=Liberation\ Mono\ 15.5
+                "set guifont=Liberation\ Mono\ 16
+                "set guifont=Fira\ Code\ Nerd\ Font\ 14
+                set guifont=Fira\ Code\ Nerd\ Font\ 15
+                "set guifont=Fira\ Code\ Nerd\ Font\ 16
+                "set guifont=Fira\ Code\ Nerd\ Font\ 20
+                "set guifont=Fira\ Code\ Nerd\ Font\ 30
+                "set guifont=Liberation\ Mono\ 25
+                "set guifont=Liberation\ Mono\ 30
+            else
+                "set guifont=Liberation\ Mono\ 10.2
+                "set guifont=Liberation\ Mono\ 10.6
+                "set guifont=Liberation\ Mono\ 10.6
+                set guifont=Liberation\ Mono\ 16
+                "set guifont=Liberation\ Mono\ 11
+                "set guifont=Source\ Code\ Pro\ 9.8
+                "set guifont=ProggyCleanTT\ 12
+                "set guifont=ProggyCleanTT\ 14
+            endif
         endif
     endif
 elseif has('mac')

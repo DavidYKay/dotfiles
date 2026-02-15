@@ -21,7 +21,8 @@ myLayout = tiled ||| Mirror tiled ||| spiral (6/7) ||| mosaic 2 [3,2] ||| Full
 
 myKeys =
      [ (mask ++ "M-" ++ [key], screenWorkspace scr >>= flip whenJust (windows . action))
-         | (key, scr)  <- zip "wer" [0,2,1] -- was [0..] *** change to match your screen order ***
+         | (key, scr)  <- zip "oewr" [0,2,1,3] -- was [0..] *** change to match your screen order ***
+         {-| (key, scr)  <- zip "oe" [0,1] -- was [0..] *** change to match your screen order ***-}
          , (action, mask) <- [ (W.view, "") , (W.shift, "S-")]
      ]
 
